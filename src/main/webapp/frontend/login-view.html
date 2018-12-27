@@ -1,0 +1,106 @@
+<link rel="import" href="bower_components/polymer/polymer.html">
+<link rel="import" href="bower_components/vaadin-tabs/src/vaadin-tabs.html">
+<link rel="import" href="bower_components/vaadin-tabs/src/vaadin-tab.html">
+<link rel="import" href="bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="bower_components/vaadin-text-field/src/vaadin-text-field.html">
+<link rel="import" href="bower_components/vaadin-text-field/src/vaadin-password-field.html">
+<link rel="import" href="bower_components/vaadin-combo-box/src/vaadin-combo-box.html">
+<link rel="import" href="bower_components/vaadin-ordered-layout/src/vaadin-vertical-layout.html">
+<link rel="import" href="bower_components/vaadin-button/src/vaadin-button.html">
+<link rel="import" href="bower_components/vaadin-ordered-layout/src/vaadin-horizontal-layout.html">
+
+<dom-module id="login-view">
+    <template>
+<style include="shared-styles">
+            :host {
+                display: flex;
+                flex-flow: column nowrap;
+                align-items: center;
+
+
+            }
+            .hori{
+                display: flex;
+                flex-flow: column nowrap;
+                align-items: center;
+            }
+            #container
+            {
+
+                width: 400px;
+                background-color: #f0f0f0;
+                box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            }
+            .tab{
+                width: 50%;
+                background-color: white;
+                border-right: 1px #f0f0f0 solid;
+            }
+            .tab-last{
+                width: 50%;
+                background-color: white;
+            }
+        </style>
+<vaadin-horizontal-layout theme="spacing">
+ <h1>Clinic </h1>
+</vaadin-horizontal-layout>
+<div id="container">
+ <div id="contein">
+  <vaadin-tabs selected="{{page}}">
+   <vaadin-tab selected class="tab">
+     Logowanie 
+   </vaadin-tab>
+   <vaadin-tab class="tab-last">
+     Rejestracja 
+   </vaadin-tab>
+  </vaadin-tabs>
+  <iron-pages selected="[[page]]">
+   <page>
+    <vaadin-vertical-layout theme="margin" style="align-items: center;">
+     <vaadin-text-field label="PESEL:" placeholder="" id="loginPeselField"></vaadin-text-field>
+     <vaadin-password-field label="Hasło:" placeholder="" value="" id="loginPassField"></vaadin-password-field>
+     <vaadin-combo-box label="Zaloguj jako:" id="loginComboBox"></vaadin-combo-box>
+     <vaadin-button theme="primary" id="loginButton" on-click="loginAction">
+       Zaloguj 
+     </vaadin-button>
+    </vaadin-vertical-layout>
+   </page>
+   <page>
+    <vaadin-vertical-layout theme="margin" style="align-items: center;">
+     <vaadin-text-field label="PESEL:" placeholder="" id="registerPeselField"></vaadin-text-field>
+     <vaadin-password-field label="Hasło:" placeholder="" value="" id="registerPassField"></vaadin-password-field>
+     <vaadin-text-field label="Imię:" placeholder="" id="registerNameField"></vaadin-text-field>
+     <vaadin-text-field label="Nazwisko:" placeholder="" id="registerLastNameField"></vaadin-text-field>
+     <vaadin-text-field label="Telefon:" placeholder="" id="registerPhoneField"></vaadin-text-field>
+     <vaadin-text-field label="E-mail:" placeholder="" id="registerEmailField"></vaadin-text-field>
+     <vaadin-text-field label="Adres zamieszkania:" placeholder="" id="registerAddressField"></vaadin-text-field>
+     <vaadin-horizontal-layout theme="spacing">
+      <vaadin-button theme="primary" id="registerButton" on-click="register">
+        Zarejstruj 
+      </vaadin-button>
+      <vaadin-button id="registerClearButton">
+        Wyczyść pola 
+      </vaadin-button>
+     </vaadin-horizontal-layout>
+    </vaadin-vertical-layout>
+   </page>
+  </iron-pages>
+ </div>
+</div>
+</template>
+
+    <script>
+        class LoginView extends Polymer.Element {
+            static get is() {
+                return 'login-view';
+            }
+
+            static get properties() {
+                return {
+                    // Declare your properties here.
+                };
+            }
+        }
+        customElements.define(LoginView.is, LoginView);
+    </script>
+</dom-module>

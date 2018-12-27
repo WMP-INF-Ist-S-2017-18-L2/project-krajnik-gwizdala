@@ -1,0 +1,123 @@
+<link rel="import" href="bower_components/polymer/polymer.html">
+<link rel="import" href="bower_components/vaadin-tabs/src/vaadin-tabs.html">
+<link rel="import" href="bower_components/vaadin-tabs/src/vaadin-tab.html">
+<link rel="import" href="bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="bower_components/vaadin-grid/src/vaadin-grid.html">
+<link rel="import" href="bower_components/vaadin-grid/src/vaadin-grid-column.html">
+
+<dom-module id="patient-view">
+    <template>
+<style include="shared-styles">
+            :host {
+                display: block;
+            }
+            #menu-div{
+                margin-left: 0;
+                position: absolute;
+                float: left;
+                height: 100%;
+                width: 15%;
+                background-color: #f0f0f0;
+            }
+            #pages{
+                position: relative;
+                margin-left: 15%;
+            }
+            #gridpage1
+            {
+                width: 60%;
+            }
+            #gridpage2{
+                width: 30%;
+            }
+        </style>
+<div id="menu-div">
+ <label>Label</label>
+</div>
+<div id="pages">
+ <vaadin-tabs selected="{{page}}">
+  <vaadin-tab>
+    Informacje 
+  </vaadin-tab>
+  <vaadin-tab>
+    Umów wizytę 
+  </vaadin-tab>
+  <vaadin-tab>
+    Zrealizuj receptę 
+  </vaadin-tab>
+ </vaadin-tabs>
+ <iron-pages selected="[[page]]">
+  <page>
+   <h4>Wizyty </h4>
+   <vaadin-grid items="[[items]]">
+    <vaadin-grid-column width="50px" flex-grow="0">
+     <template class="header">
+       Lp. 
+     </template>
+     <template>
+       [[index]] 
+     </template>
+     <template class="footer">
+       Lp. 
+     </template>
+    </vaadin-grid-column>
+    <vaadin-grid-column>
+     <template class="header">
+       Data 
+     </template>
+     <template>
+       [[item.data]] 
+     </template>
+     <template class="footer">
+       Data 
+     </template>
+    </vaadin-grid-column>
+    <vaadin-grid-column>
+     <template class="header">
+       Lekarz 
+     </template>
+     <template>
+       [[item.lekarz]] 
+     </template>
+     <template class="footer">
+       Lekarz 
+     </template>
+    </vaadin-grid-column>
+    <vaadin-grid-column>
+     <template class="header">
+       Opis 
+     </template>
+     <template>
+       [[item.opis]] 
+     </template>
+     <template class="footer">
+       Opis 
+     </template>
+    </vaadin-grid-column>
+   </vaadin-grid>
+  </page>
+  <page>
+   <h3>Page 2</h3>Hi All 
+  </page>
+  <page>
+   <h3>Page 3</h3>Good Morning 
+  </page>
+ </iron-pages>
+</div>
+</template>
+
+    <script>
+        class PatientView extends Polymer.Element {
+            static get is() {
+                return 'patient-view';
+            }
+
+            static get properties() {
+                return {
+                    // Declare your properties here.
+                };
+            }
+        }
+        customElements.define(PatientView.is, PatientView);
+    </script>
+</dom-module>

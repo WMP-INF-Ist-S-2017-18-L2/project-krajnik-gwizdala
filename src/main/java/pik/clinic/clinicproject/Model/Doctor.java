@@ -8,6 +8,7 @@ public class Doctor {
     @Id
     @GeneratedValue
     private Long id;
+    private String login;
     private String firstName;
     private String lastName;
     private String specialization;
@@ -28,6 +29,14 @@ public class Doctor {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     public String getFirstName() {

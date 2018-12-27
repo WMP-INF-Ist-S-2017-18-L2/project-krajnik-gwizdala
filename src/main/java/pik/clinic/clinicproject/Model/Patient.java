@@ -107,5 +107,6 @@ public class Patient {
 
     public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
+
     }
 }
