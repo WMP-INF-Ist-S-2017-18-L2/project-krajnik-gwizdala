@@ -1,0 +1,132 @@
+<link rel="import" href="bower_components/polymer/polymer.html">
+<link rel="import" href="bower_components/vaadin-ordered-layout/src/vaadin-horizontal-layout.html">
+<link rel="import" href="bower_components/vaadin-tabs/src/vaadin-tabs.html">
+<link rel="import" href="bower_components/vaadin-tabs/src/vaadin-tab.html">
+<link rel="import" href="bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="bower_components/vaadin-form-layout/src/vaadin-form-layout.html">
+<link rel="import" href="bower_components/vaadin-text-field/src/vaadin-password-field.html">
+<link rel="import" href="bower_components/vaadin-button/src/vaadin-button.html">
+<link rel="import" href="bower_components/vaadin-text-field/src/vaadin-text-field.html">
+<link rel="import" href="bower_components/vaadin-date-picker/src/vaadin-date-picker.html">
+<link rel="import" href="bower_components/vaadin-combo-box/src/vaadin-combo-box.html">
+
+<dom-module id="login-site">
+    <template>
+<style include="shared-styles">
+    :host {
+        display: flex;
+        flex-flow: column nowrap;
+        align-items: center;
+
+
+    }
+    .hori{
+        display: flex;
+        flex-flow: column nowrap;
+        align-items: center;
+    }
+ #container
+ {
+
+  width: 400px;
+  background-color: #f0f0f0;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+ }
+ .tab{
+  width: 50%;
+  background-color: white;
+  border-right: 1px #f0f0f0 solid;
+ }
+ .tab-last{
+  width: 50%;
+  background-color: white;
+ }
+
+
+
+        </style>
+<vaadin-horizontal-layout theme="spacing">
+ <h1>walkIN </h1>
+</vaadin-horizontal-layout>
+<div id="container">
+ <div id="contein">
+  <vaadin-tabs selected="{{page}}" theme="spacing">
+   <vaadin-tab selected class="tab">
+     Logowanie 
+   </vaadin-tab>
+   <vaadin-tab class="tab-last">
+     Rejestracja 
+   </vaadin-tab>
+  </vaadin-tabs>
+  <iron-pages selected="[[page]]">
+   <page>
+    <vaadin-form-layout>
+     <vaadin-horizontal-layout theme="margin" class="hori" colspan="2">
+      <vaadin-text-field label="PESEL" placeholder="Placeholder" id="peselField"></vaadin-text-field>
+     </vaadin-horizontal-layout>
+     <vaadin-horizontal-layout theme="margin" class="hori" colspan="2">
+      <vaadin-password-field label="Hasło" placeholder="Enter password" value="secret1" colspan="" id="passwordField"></vaadin-password-field>
+     </vaadin-horizontal-layout>
+     <vaadin-horizontal-layout theme="margin" class="hori" colspan="2">
+      <vaadin-combo-box id="loginComboBox" label="Zaloguj jako"></vaadin-combo-box>
+     </vaadin-horizontal-layout>
+     <vaadin-horizontal-layout theme="margin" class="hori" colspan="2">
+      <vaadin-button theme="primary" id="loginButton" on-click="login">
+        Zaloguj 
+      </vaadin-button>
+     </vaadin-horizontal-layout>
+    </vaadin-form-layout>
+   </page>
+   <page>
+    <vaadin-form-layout>
+     <vaadin-horizontal-layout theme="margin" class="hori" colspan="2">
+      <vaadin-text-field label="PESEL" placeholder="Placeholder" id="registerPeselField"></vaadin-text-field>
+     </vaadin-horizontal-layout>
+     <vaadin-horizontal-layout theme="margin" class="hori" colspan="2">
+      <vaadin-password-field label="Hasło" placeholder="Enter password" value="secret1" colspan="" id="registerPasswordField"></vaadin-password-field>
+     </vaadin-horizontal-layout>
+     <vaadin-horizontal-layout theme="margin" class="hori" colspan="2">
+      <vaadin-text-field label="Imię" placeholder="Placeholder" id="registerNameField"></vaadin-text-field>
+     </vaadin-horizontal-layout>
+     <vaadin-horizontal-layout theme="margin" class="hori" colspan="2">
+      <vaadin-text-field label="Nazwisko" placeholder="Placeholder" id="registerLastNameField"></vaadin-text-field>
+     </vaadin-horizontal-layout>
+     <vaadin-horizontal-layout theme="margin" class="hori" colspan="2">
+      <vaadin-text-field label="Email" placeholder="Placeholder" id="registerEmailField"></vaadin-text-field>
+     </vaadin-horizontal-layout>
+     <vaadin-horizontal-layout class="hori" theme="margin" colspan="2">
+      <vaadin-text-field id="registerAddressField" label="Adres"></vaadin-text-field>
+     </vaadin-horizontal-layout>
+     <vaadin-horizontal-layout class="hori" theme="margin" colspan="2">
+      <vaadin-text-field id="registerPhoneField" label="Numer telefonu"></vaadin-text-field>
+     </vaadin-horizontal-layout>
+     <vaadin-horizontal-layout theme="margin" class="hori" colspan="2">
+      <vaadin-date-picker label="Data urodzenia" placeholder="Pick a date" id="birthDatePicker"></vaadin-date-picker>
+     </vaadin-horizontal-layout>
+     <vaadin-horizontal-layout theme="margin" class="hori" colspan="2">
+      <vaadin-button theme="primary" id="registerButton" on-click="register">
+       Zarejestruj
+      </vaadin-button>
+     </vaadin-horizontal-layout>
+    </vaadin-form-layout>
+   </page>
+  </iron-pages>
+ </div>
+</div>
+</template>
+
+    <script>
+        class LoginSite extends Polymer.Element {
+            static get is() {
+                return 'login-site';
+            }
+
+            static get properties() {
+                return {
+                    // Declare your properties here.
+                };
+            }
+        }
+        customElements.define(LoginSite.is, LoginSite);
+    </script>
+</dom-module>
