@@ -1,5 +1,7 @@
 package pik.clinic.clinicproject.View;
 
+import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.templatemodel.TemplateModel;
 import com.vaadin.flow.component.Tag;
@@ -16,6 +18,9 @@ import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
 @Tag("patient-view")
 @HtmlImport("patient-view.html")
 public class PatientView extends PolymerTemplate<PatientView.PatientViewModel> {
+
+    @Id("nameLabel")
+    private Label nameLabel;
 
     /**
      * Creates a new PatientView.
