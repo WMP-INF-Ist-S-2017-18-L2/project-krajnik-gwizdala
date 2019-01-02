@@ -11,4 +11,5 @@ public interface VisitRepository extends JpaRepository<Visit, Long> {
 
     List<Visit> findByPatient(Patient p);
 
+
 }

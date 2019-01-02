@@ -2,6 +2,7 @@ package pik.clinic.clinicproject.View;
 
 
 import com.vaadin.flow.component.Tag;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dependency.HtmlImport;
@@ -24,6 +25,7 @@ import pik.clinic.clinicproject.Repositories.PatientRepository;
 import pik.clinic.clinicproject.Repositories.VisitRepository;
 
 import javax.annotation.PostConstruct;
+import java.util.List;
 
 /**
  * A Designer generated component for the admin-view.html template.
@@ -42,6 +44,8 @@ public class AdminView extends PolymerTemplate<AdminView.AdminViewModel> {
     DoctorRepository doctorRepository;
     @Autowired
     VisitRepository visitRepository;
+
+    Visit currentSelectedVisit;
 
     TemplateRenderer<Patient> renderer = TemplateRenderer.<Patient>of("");
     TemplateRenderer<Doctor> rendererDoc = TemplateRenderer.<Doctor>of("");
@@ -77,10 +81,38 @@ public class AdminView extends PolymerTemplate<AdminView.AdminViewModel> {
     private TextField registerNameField;
     @Id("patGrid")
     private Grid<Patient> patGrid;
+    @Id("vaadinButton")
+    private Button vaadinButton;
+
     /**************************************PATIENT******************/
 
     public AdminView() {
         // You can initialise any data required for the connected UI components here.
+        visitGrid.addSelectionListener(item -> {
+            item.getFirstSelectedItem().ifPresent(selectedItem -> {
+                currentSelectedVisit = selectedItem;
+
+                if (currentSelectedVisit != null) {
+                    vaadinButton.setEnabled(true);
+                } else {
+                    vaadinButton.setEnabled(false);
+                }
+            });
+        });
+
+        vaadinButton.addClickListener(buttonClickEvent -> {
+            //vaadinButton.setEnabled(false);
+            List<Visit> visitList = visitRepository.findAll();
+
+            for(Visit visit : visitList) {
+                if(visit.getId() == (visitGrid.getSelectionModel().getFirstSelectedItem().get().getId())) {
+                    visitRepository.deleteById(visit.getId());
+                }
+            }
+
+
+            visitGrid.setItems(visitRepository.findAll());
+        });
 
     }
 
@@ -92,6 +124,7 @@ public class AdminView extends PolymerTemplate<AdminView.AdminViewModel> {
         doctors.setItemLabelGenerator(Doctor::getFirstName);
         doctors.setItems(doctorRepository.findAll());
         doctors.setRenderer(rendererDoc.withProperty("doctorName", Doctor::toString));
+        vaadinButton.setEnabled(false);
     }
 
     @EventHandler
@@ -103,6 +136,7 @@ public class AdminView extends PolymerTemplate<AdminView.AdminViewModel> {
         v.setPatient(patients.getValue());
         v.setDateOfVisit(visitDate.getValue());
         visitRepository.save(v);
+        visitGrid.setItems(visitRepository.findAll());
     }
 
     @PostConstruct
@@ -136,6 +170,8 @@ public class AdminView extends PolymerTemplate<AdminView.AdminViewModel> {
         visitGrid.addColumn(rendererVisit.withProperty("lekarz", Visit::getDoctor));
         visitGrid.addColumn(rendererVisit.withProperty("pacjent", Visit::getPatient));
     }
+
+
 
     /**
      * Creates a new AdminView.
