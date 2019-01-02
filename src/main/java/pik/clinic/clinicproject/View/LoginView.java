@@ -1,5 +1,6 @@
 package pik.clinic.clinicproject.View;
 
+
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.polymertemplate.EventHandler;
@@ -15,8 +16,8 @@ import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import pik.clinic.clinicproject.Model.Patient;
 import pik.clinic.clinicproject.Repositories.PatientRepository;
-
-import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 /**
  * A Designer generated component for the login-view.html template.
@@ -25,7 +26,7 @@ import java.util.List;
  * does not overwrite or otherwise change this file.
  */
 @PageTitle("Klinika MediClinic")
-@Route("login")
+@Route(value = "login")
 @Tag("login-view")
 @HtmlImport("login-view.html")
 public class LoginView extends PolymerTemplate<LoginView.LoginViewModel> {
@@ -66,7 +67,7 @@ public class LoginView extends PolymerTemplate<LoginView.LoginViewModel> {
     /**
      * Creates a new LoginView.
      */
-    public LoginView() {
+    public LoginView(HttpServletRequest request) throws Exception {
         // You can initialise any data required for the connected UI components here.
         loginComboBox.setItems("Pacjent","Doktor");
         //peselField.label change value
@@ -79,6 +80,26 @@ public class LoginView extends PolymerTemplate<LoginView.LoginViewModel> {
             {
                 loginPeselField.setLabel("Identyfikator");
 
+            }
+
+        });
+
+        loginButton.addClickListener(event -> {
+            try{
+                Patient p1 = patientRepository.findBypesel(Long.parseLong(loginPeselField.getValue()));
+                if(p1.getPassword().equals(loginPassField.getValue()))
+                {
+                    HttpSession session = request.getSession();
+                    session.setAttribute("patient",p1);
+                    loginButton.getUI().ifPresent(ui -> ui.navigate("patient-view"));
+                }
+                else
+                {
+                    System.out.println("Nieprawidłowe hasło");
+                }
+            }catch (NullPointerException e) {
+                System.err.println(e.getMessage());
+                System.out.println("Nie istnieje taki użytkownik");
             }
 
         });
@@ -96,31 +117,7 @@ public class LoginView extends PolymerTemplate<LoginView.LoginViewModel> {
         p.setAddress(registerAddressField.getValue());
         patientRepository.save(p);
     }
-    @EventHandler
-    private void loginAction(){
 
-
-        try{
-            Patient p1 = patientRepository.findBypesel(Long.parseLong(loginPeselField.getValue()));
-            System.out.println(p1.getPesel());
-            System.out.println(p1.getPassword());
-            if(p1.getPassword().equals(loginPassField.getValue()))
-            {
-                loginButton.getUI().ifPresent(ui -> ui.navigate("patient-view"));
-                System.out.println("true");
-            }
-            else
-            {
-                System.out.println("Nieprawidłowe hasło");
-            }
-        }catch (NullPointerException e) {
-            System.err.println(e.getMessage());
-            System.out.println("Nie istnieje taki użytkownik");
-        }
-
-
-
-    }
 
     /**
      * This model binds properties between LoginView and login-view.html

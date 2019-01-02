@@ -7,6 +7,8 @@ import com.vaadin.flow.templatemodel.TemplateModel;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
+import pik.clinic.clinicproject.Model.Patient;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * A Designer generated component for the patient-view.html template.
@@ -17,17 +19,26 @@ import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
 @Route("patient-view")
 @Tag("patient-view")
 @HtmlImport("patient-view.html")
-public class PatientView extends PolymerTemplate<PatientView.PatientViewModel> {
+public class PatientView extends PolymerTemplate<PatientView.PatientViewModel>   {
 
     @Id("nameLabel")
     private Label nameLabel;
+    @Id("peselLabel")
+    private Label peselLabel;
+    @Id("addresLabel")
+    private Label addresLabel;
 
     /**
      * Creates a new PatientView.
      */
-    public PatientView() {
+    public PatientView(HttpServletRequest request) throws Exception{
         // You can initialise any data required for the connected UI components here.
+       Patient p = (Patient) request.getSession().getAttribute("patient");
+       nameLabel.setText(p.getFirstName());
+       peselLabel.setText(String.valueOf(p.getPesel()));
+       addresLabel.setText(p.getAddress());
     }
+
 
     /**
      * This model binds properties between PatientView and patient-view.html

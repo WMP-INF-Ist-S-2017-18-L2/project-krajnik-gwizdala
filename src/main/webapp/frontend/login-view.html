@@ -57,10 +57,12 @@
   <iron-pages selected="[[page]]">
    <page>
     <vaadin-vertical-layout theme="margin" style="align-items: center;">
-     <vaadin-text-field label="PESEL:" placeholder="" id="loginPeselField"></vaadin-text-field>
+     <vaadin-text-field label="PESEL:" placeholder="" id="loginPeselField">
+       "97101001906"
+     </vaadin-text-field>
      <vaadin-password-field label="Hasło:" placeholder="" value="" id="loginPassField"></vaadin-password-field>
      <vaadin-combo-box label="Zaloguj jako:" id="loginComboBox"></vaadin-combo-box>
-     <vaadin-button theme="primary" id="loginButton" on-click="loginAction">
+     <vaadin-button theme="primary" id="loginButton" on-click="">
        Zaloguj 
      </vaadin-button>
     </vaadin-vertical-layout>
