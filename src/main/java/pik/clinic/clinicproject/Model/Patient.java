@@ -1,5 +1,8 @@
 package pik.clinic.clinicproject.Model;
 
+import com.vaadin.flow.component.JsonSerializable;
+import elemental.json.JsonObject;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -8,7 +11,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Entity
-public class Patient {
+public class Patient implements JsonSerializable {
 
     @Id
     @GeneratedValue
@@ -108,5 +111,20 @@ public class Patient {
     public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
 
+    }
+
+    @Override
+    public String toString() {
+        return firstName + " " + lastName;
+    }
+
+    @Override
+    public JsonObject toJson() {
+        return null;
+    }
+
+    @Override
+    public JsonSerializable readJson(JsonObject jsonObject) {
+        return null;
     }
 }
