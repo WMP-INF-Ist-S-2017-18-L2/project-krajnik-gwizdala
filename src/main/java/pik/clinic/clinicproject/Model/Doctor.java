@@ -12,6 +12,7 @@ public class Doctor {
     private String firstName;
     private String lastName;
     private String specialization;
+    private String password;
 
     @OneToMany
     private List<Visit> visits;
@@ -21,6 +22,14 @@ public class Doctor {
     private Department department;
 
     public Doctor() {
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public Long getId() {

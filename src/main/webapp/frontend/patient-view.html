@@ -4,6 +4,7 @@
 <link rel="import" href="bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="bower_components/vaadin-grid/src/vaadin-grid.html">
 <link rel="import" href="bower_components/vaadin-grid/src/vaadin-grid-column.html">
+<link rel="import" href="bower_components/vaadin-button/src/vaadin-button.html">
 
 <dom-module id="patient-view">
     <template>
@@ -35,6 +36,9 @@
  <label id="nameLabel"></label>
  <label id="peselLabel"></label>
  <label id="addresLabel">Label</label>
+ <vaadin-button theme="tertiary" id="logout">
+  Wyloguj
+ </vaadin-button>
 </div>
 <div id="pages">
  <vaadin-tabs selected="{{page}}">
