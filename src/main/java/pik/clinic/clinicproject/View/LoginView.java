@@ -14,7 +14,9 @@ import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import pik.clinic.clinicproject.Model.Doctor;
 import pik.clinic.clinicproject.Model.Patient;
+import pik.clinic.clinicproject.Repositories.DoctorRepository;
 import pik.clinic.clinicproject.Repositories.PatientRepository;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -33,6 +35,8 @@ public class LoginView extends PolymerTemplate<LoginView.LoginViewModel> {
 
     @Autowired
     PatientRepository patientRepository;
+    @Autowired
+    DoctorRepository doctorRepository;
 
     @Id("loginButton")
     private Button loginButton;
@@ -43,6 +47,7 @@ public class LoginView extends PolymerTemplate<LoginView.LoginViewModel> {
     /**
     REGISTER
      */
+
     @Id("registerPeselField")
     private TextField registerPeselField;
     @Id("registerPassField")
@@ -85,23 +90,44 @@ public class LoginView extends PolymerTemplate<LoginView.LoginViewModel> {
         });
 
         loginButton.addClickListener(event -> {
-            try{
-                Patient p1 = patientRepository.findBypesel(Long.parseLong(loginPeselField.getValue()));
-                if(p1.getPassword().equals(loginPassField.getValue()))
-                {
-                    HttpSession session = request.getSession();
-                    session.setAttribute("patient",p1);
-                    loginButton.getUI().ifPresent(ui -> ui.navigate("patient-view"));
+            if(loginComboBox.getValue().equals("Pacjent"))
+            {
+                try{
+                    Patient p1 = patientRepository.findBypesel(Long.parseLong(loginPeselField.getValue()));
+                    if(p1.getPassword().equals(loginPassField.getValue()))
+                    {
+                        HttpSession session = request.getSession();
+                        session.setAttribute("patient",p1);
+                        loginButton.getUI().ifPresent(ui -> ui.navigate("patient-view"));
+                    }
+                    else
+                    {
+                        System.out.println("Nieprawidłowe hasło");
+                    }
+                }catch (NullPointerException e) {
+                    System.err.println(e.getMessage());
+                    System.out.println("Nie istnieje taki użytkownik");
                 }
-                else
-                {
-                    System.out.println("Nieprawidłowe hasło");
-                }
-            }catch (NullPointerException e) {
-                System.err.println(e.getMessage());
-                System.out.println("Nie istnieje taki użytkownik");
             }
+            else if(loginComboBox.getValue().equals("Doktor")) {
+                try {
+                    Doctor d = doctorRepository.findBylogin(loginPeselField.getValue());
+                    if(d.getPassword().equals(loginPassField.getValue()))
+                    {
+                        HttpSession session = request.getSession();
+                        session.setAttribute("doctor",d);
+                        loginButton.getUI().ifPresent(ui -> ui.navigate("doctor-view"));
+                    }
+                    else
+                    {
+                        System.out.println("Nieprawidłowe hasło");
+                    }
+                } catch (NullPointerException e) {
+                    System.err.println(e.getMessage());
+                    System.out.println("Nie istnieje taki użytkownik");
+                }
 
+            }
         });
     }
 
