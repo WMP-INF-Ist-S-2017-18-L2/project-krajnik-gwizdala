@@ -2,6 +2,7 @@ package pik.clinic.clinicproject.View;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.templatemodel.TemplateModel;
@@ -37,19 +38,21 @@ public class PatientView extends PolymerTemplate<PatientView.PatientViewModel>  
      */
     public PatientView(HttpServletRequest request) throws Exception{
         // You can initialise any data required for the connected UI components here.
-        HttpSession session = request.getSession(false);
-
-
-
+         HttpSession session = request.getSession();
             Patient p = (Patient) request.getSession().getAttribute("patient");
-            nameLabel.setText(p.getFirstName());
-            peselLabel.setText(String.valueOf(p.getPesel()));
+            peselLabel.setText("PESEL:" + p.getPesel());
+            nameLabel.setText( p.getFirstName() +" "+ p.getLastName());
+
             addresLabel.setText(p.getAddress());
-            logout.addClickListener(event -> {
+
+        /**
+         * Logout action
+         */
+        logout.addClickListener(event -> {
 
                 session.invalidate();
                 getUI().ifPresent(ui -> ui.navigate("login"));
-
+                Notification.show("Wylogowano");
 
             });
 

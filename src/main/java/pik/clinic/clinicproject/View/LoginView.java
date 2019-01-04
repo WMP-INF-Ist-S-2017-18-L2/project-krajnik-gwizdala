@@ -3,6 +3,7 @@ package pik.clinic.clinicproject.View;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.polymertemplate.EventHandler;
 import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.component.textfield.PasswordField;
@@ -27,11 +28,11 @@ import javax.servlet.http.HttpSession;
  * Designer will add and remove fields with @Id mappings but
  * does not overwrite or otherwise change this file.
  */
-@PageTitle("Klinika MediClinic")
+@PageTitle("Przychodnia MediClinic")
 @Route(value = "login")
 @Tag("login-view")
 @HtmlImport("login-view.html")
-public class LoginView extends PolymerTemplate<LoginView.LoginViewModel> {
+public class LoginView extends PolymerTemplate<LoginView.LoginViewModel>  {
 
     @Autowired
     PatientRepository patientRepository;
@@ -72,7 +73,7 @@ public class LoginView extends PolymerTemplate<LoginView.LoginViewModel> {
     /**
      * Creates a new LoginView.
      */
-    public LoginView(HttpServletRequest request) throws Exception {
+    public LoginView(HttpServletRequest request) {
         // You can initialise any data required for the connected UI components here.
         loginComboBox.setItems("Pacjent","Doktor");
         //peselField.label change value
@@ -88,7 +89,6 @@ public class LoginView extends PolymerTemplate<LoginView.LoginViewModel> {
             }
 
         });
-
         loginButton.addClickListener(event -> {
             if(loginComboBox.getValue().equals("Pacjent"))
             {
@@ -102,11 +102,10 @@ public class LoginView extends PolymerTemplate<LoginView.LoginViewModel> {
                     }
                     else
                     {
-                        System.out.println("Nieprawidłowe hasło");
+                        Notification.show("Nieprawidłowy pesel lub hasło!");
                     }
                 }catch (NullPointerException e) {
-                    System.err.println(e.getMessage());
-                    System.out.println("Nie istnieje taki użytkownik");
+                    Notification.show("Nieprawidłowy pesel lub hasło!");
                 }
             }
             else if(loginComboBox.getValue().equals("Doktor")) {

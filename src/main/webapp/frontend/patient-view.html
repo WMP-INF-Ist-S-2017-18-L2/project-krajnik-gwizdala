@@ -5,6 +5,7 @@
 <link rel="import" href="bower_components/vaadin-grid/src/vaadin-grid.html">
 <link rel="import" href="bower_components/vaadin-grid/src/vaadin-grid-column.html">
 <link rel="import" href="bower_components/vaadin-button/src/vaadin-button.html">
+<link rel="import" href="bower_components/vaadin-ordered-layout/src/vaadin-horizontal-layout.html">
 
 <dom-module id="patient-view">
     <template>
@@ -23,6 +24,7 @@
             #pages{
                 position: relative;
                 margin-left: 20%;
+
             }
             #gridpage1
             {
@@ -31,14 +33,25 @@
             #gridpage2{
                 width: 30%;
             }
+            #gridinfo{
+                margin: 10%;
+            }
         </style>
-<div id="menu-div">
- <label id="nameLabel"></label>
- <label id="peselLabel"></label>
- <label id="addresLabel">Label</label>
- <vaadin-button theme="tertiary" id="logout">
-  Wyloguj
- </vaadin-button>
+<div id="menu-div" style="align-items: center">
+ <vaadin-horizontal-layout theme="margin">
+  <label id="peselLabel"></label>
+ </vaadin-horizontal-layout>
+ <vaadin-horizontal-layout theme="margin">
+  <label id="nameLabel"></label>
+ </vaadin-horizontal-layout>
+ <vaadin-horizontal-layout theme="margin">
+  <label id="addresLabel"></label>
+ </vaadin-horizontal-layout>
+ <vaadin-horizontal-layout theme="margin">
+  <vaadin-button theme="tertiary" id="logout">
+    Wyloguj 
+  </vaadin-button>
+ </vaadin-horizontal-layout>
 </div>
 <div id="pages">
  <vaadin-tabs selected="{{page}}">
@@ -55,7 +68,7 @@
  <iron-pages selected="[[page]]">
   <page>
    <h4>Wizyty </h4>
-   <vaadin-grid items="[[items]]">
+   <vaadin-grid items="[[items]]" id="gridinfo">
     <vaadin-grid-column width="50px" flex-grow="0">
      <template class="header">
        Lp. 
