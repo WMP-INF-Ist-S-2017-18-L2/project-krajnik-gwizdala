@@ -14,7 +14,7 @@ import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
  */
 @Route("doctor-view")
 @Tag("doctor-view")
-@HtmlImport("doctor-view.html")
+@HtmlImport("views/doctor-view.html")
 public class DoctorView extends PolymerTemplate<DoctorView.DoctorViewModel> {
 
     /**

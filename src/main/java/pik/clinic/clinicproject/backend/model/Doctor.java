@@ -1,7 +1,6 @@
-package pik.clinic.clinicproject.Model;
+package pik.clinic.clinicproject.backend.model;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity

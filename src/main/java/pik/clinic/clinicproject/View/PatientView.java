@@ -1,17 +1,19 @@
 package pik.clinic.clinicproject.View;
 
+
+import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.applayout.AppLayoutMenuItem;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.html.Label;
-import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.polymertemplate.Id;
-import com.vaadin.flow.router.Route;
+import com.vaadin.flow.router.*;
+
 import com.vaadin.flow.templatemodel.TemplateModel;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
-import pik.clinic.clinicproject.Model.Patient;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import pik.clinic.clinicproject.backend.security.SecurityUtils;
+
 
 /**
  * A Designer generated component for the patient-view.html template.
@@ -19,50 +21,34 @@ import javax.servlet.http.HttpSession;
  * Designer will add and remove fields with @Id mappings but
  * does not overwrite or otherwise change this file.
  */
-@Route("patient-view")
-@Tag("patient-view")
-@HtmlImport("patient-view.html")
-public class PatientView extends PolymerTemplate<PatientView.PatientViewModel>   {
 
-    @Id("nameLabel")
-    private Label nameLabel;
-    @Id("peselLabel")
-    private Label peselLabel;
-    @Id("addresLabel")
-    private Label addresLabel;
+@Route(value = "patient-view", layout = MainView.class)
+@PageTitle("MediClinic - Panel Pacjenta")
+@Tag("patient-view")
+@HtmlImport("views/patient-view.html")
+public class PatientView extends PolymerTemplate<PatientView.PatientViewModel>  {
+
+
     @Id("logout")
     private Button logout;
 
     /**
      * Creates a new PatientView.
      */
-    public PatientView(HttpServletRequest request) throws Exception{
-        // You can initialise any data required for the connected UI components here.
-         HttpSession session = request.getSession();
-            Patient p = (Patient) request.getSession().getAttribute("patient");
-            peselLabel.setText("PESEL:" + p.getPesel());
-            nameLabel.setText( p.getFirstName() +" "+ p.getLastName());
-
-            addresLabel.setText(p.getAddress());
-
-        /**
-         * Logout action
-         */
-        logout.addClickListener(event -> {
-
-                session.invalidate();
-                getUI().ifPresent(ui -> ui.navigate("login"));
-                Notification.show("Wylogowano");
-
-            });
+    public PatientView()  {
 
 
+        if(SecurityUtils.isUserLoggedIn())
+        {
 
+                logout.addClickListener(buttonClickEvent -> {
+                    UI.getCurrent().getPage().executeJavaScript("location.assign('logout')");
+                });
 
-
+        }
 
     }
-//
+
 
     /**
      * This model binds properties between PatientView and patient-view.html

@@ -1,4 +1,4 @@
-package pik.clinic.clinicproject.Model;
+package pik.clinic.clinicproject.backend.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,17 +16,28 @@ public class Patient {
     private String firstName;
     private String lastName;
     private String password;
-    private Long pesel;
+    private String pesel;
     private String phoneNumber;
     private String address;
     private String email;
     private LocalDate birthDate;
+    private String role;
+
+
 
 
     @OneToMany(mappedBy = "patient")
     private List<Visit> visits;
 
     public Patient() {
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public Long getId() {
@@ -61,11 +72,11 @@ public class Patient {
         this.password = password;
     }
 
-    public Long getPesel() {
+    public String getPesel() {
         return pesel;
     }
 
-    public void setPesel(Long pesel) {
+    public void setPesel(String pesel) {
         this.pesel = pesel;
     }
 

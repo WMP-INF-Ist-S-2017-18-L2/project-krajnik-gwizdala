@@ -1,4 +1,4 @@
-package pik.clinic.clinicproject.Model;
+package pik.clinic.clinicproject.backend.model;
 
 import javax.persistence.*;
 import java.time.LocalDate;
