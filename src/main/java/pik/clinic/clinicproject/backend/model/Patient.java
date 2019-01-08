@@ -23,9 +23,6 @@ public class Patient {
     private LocalDate birthDate;
     private String role;
 
-
-
-
     @OneToMany(mappedBy = "patient")
     private List<Visit> visits;
 

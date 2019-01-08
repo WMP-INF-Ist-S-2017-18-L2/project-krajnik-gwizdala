@@ -71,8 +71,12 @@
  <iron-pages selected="[[page]]">
   <page>
    <h4>Wizyty </h4>
-   <vaadin-combo-box id="patients"></vaadin-combo-box>
-   <vaadin-combo-box id="doctors"></vaadin-combo-box>
+   <vaadin-combo-box id="patients">
+       <template>[[patientName]]</template>
+   </vaadin-combo-box>
+   <vaadin-combo-box id="doctors">
+       <template>[[doctorName]]</template>
+   </vaadin-combo-box>
    <vaadin-date-picker id="visitDate"></vaadin-date-picker>
    <vaadin-text-field id="summary"></vaadin-text-field>
    <vaadin-grid items="[[items]]" id="gridinfo">
