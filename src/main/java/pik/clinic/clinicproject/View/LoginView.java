@@ -22,7 +22,7 @@ import pik.clinic.clinicproject.backend.repositories.PatientRepository;
  */
 @Route("login")
 @Tag("login-view")
-@HtmlImport("views/login-view.html")
+@HtmlImport("login-view.html")
 public class LoginView extends PolymerTemplate<LoginView.LoginViewModel> {
 
     @Autowired
