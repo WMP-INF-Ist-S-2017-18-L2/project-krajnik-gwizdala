@@ -1,10 +1,12 @@
 package pik.clinic.clinicproject.View;
 
+import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.templatemodel.TemplateModel;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
+import pik.clinic.clinicproject.backend.model.Patient;
 
 /**
  * A Designer generated component for the doctor-view.html template.

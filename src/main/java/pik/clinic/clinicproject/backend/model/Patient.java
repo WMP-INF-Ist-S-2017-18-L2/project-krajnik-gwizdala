@@ -1,18 +1,18 @@
 package pik.clinic.clinicproject.backend.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import com.vaadin.flow.component.JsonSerializable;
+import elemental.json.JsonObject;
+
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 
 @Entity
-public class Patient {
+public class Patient extends AbstarctUser implements JsonSerializable {
 
     @Id
     @GeneratedValue
-    private Long id;
+    private int id;
     private String firstName;
     private String lastName;
     private String password;
@@ -37,11 +37,11 @@ public class Patient {
         this.role = role;
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -116,5 +116,20 @@ public class Patient {
     public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
 
+    }
+
+    @Override
+    public String toString() {
+        return firstName + " " + lastName;
+    }
+
+    @Override
+    public JsonObject toJson() {
+        return null;
+    }
+
+    @Override
+    public JsonSerializable readJson(JsonObject jsonObject) {
+        return null;
     }
 }

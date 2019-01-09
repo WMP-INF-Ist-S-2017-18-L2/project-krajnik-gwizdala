@@ -4,11 +4,11 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-public class Doctor {
+public class Doctor extends AbstarctUser {
     @Id
     @GeneratedValue
-    private Long id;
-    private String login;
+    private int id;
+    private String email;
     private String firstName;
     private String lastName;
     private String specialization;
@@ -32,20 +32,24 @@ public class Doctor {
         this.password = password;
     }
 
-    public Long getId() {
+    @Override
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    @Override
+    public void setId(int id) {
         this.id = id;
     }
 
-    public String getLogin() {
-        return login;
+    @Override
+    public String getEmail() {
+        return email;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    @Override
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getFirstName() {

@@ -1,6 +1,7 @@
 package pik.clinic.clinicproject.View;
 
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
@@ -30,22 +31,24 @@ public class LoginView extends PolymerTemplate<LoginView.LoginViewModel> {
     @Autowired
     PasswordEncoder passwordEncoder;
 
+
+    @Id("remailField")
+    private TextField remailField;
+    @Id("rpasswordFIeld")
+    private PasswordField rpasswordFIeld;
+    @Id("rFirstNameField")
+    private TextField rFirstNameField;
+    @Id("rLastNameField")
+    private TextField rLastNameField;
+    @Id("rPhoneField")
+    private TextField rPhoneField;
+    @Id("rpeselField")
+    private TextField rpeselField;
+    @Id("rAdressField")
+    private TextField rAdressField;
     @Id("registerButton")
     private Button registerButton;
-    @Id("registerPeselField")
-    private TextField registerPeselField;
-    @Id("registerPassField")
-    private PasswordField registerPassField;
-    @Id("registerNameField")
-    private TextField registerNameField;
-    @Id("registerLastNameField")
-    private TextField registerLastNameField;
-    @Id("registerPhoneField")
-    private TextField registerPhoneField;
-    @Id("registerEmailField")
-    private TextField registerEmailField;
-    @Id("registerAddressField")
-    private TextField registerAddressField;
+
 
     /**
      * Creates a new LoginView.
@@ -54,16 +57,16 @@ public class LoginView extends PolymerTemplate<LoginView.LoginViewModel> {
         // You can initialise any data required for the connected UI components here.
         registerButton.addClickListener(buttonClickEvent -> {
             Patient p = new Patient();
-            p.setPesel(registerPeselField.getValue());
-            p.setPassword(passwordEncoder.encode(registerPassField.getValue()));
-            p.setFirstName(registerNameField.getValue());
-            p.setLastName(registerLastNameField.getValue());
-            p.setPhoneNumber(registerPhoneField.getValue());
-            p.setEmail(registerEmailField.getValue());
-            p.setAddress(registerAddressField.getValue());
-            p.setRole("admin");
+            p.setEmail(remailField.getValue());
+            p.setPassword(passwordEncoder.encode(rpasswordFIeld.getValue()));
+            p.setFirstName(rFirstNameField.getValue());
+            p.setLastName(rLastNameField.getValue());
+            p.setPhoneNumber(rPhoneField.getValue());
+            p.setPesel(rpeselField.getValue());
+            p.setAddress(rAdressField.getValue());
+            p.setRole("patient");
             patientRepository.save(p);
-            System.out.println("Zarejetrowano");
+            Notification.show("Pomślnie zarejestrowano!");
         });
     }
 

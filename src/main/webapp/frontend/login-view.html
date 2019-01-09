@@ -1,65 +1,78 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
-<link rel="import" href="../bower_components/vaadin-tabs/src/vaadin-tabs.html">
-<link rel="import" href="../bower_components/vaadin-tabs/src/vaadin-tab.html">
-<link rel="import" href="../bower_components/iron-pages/iron-pages.html">
-<link rel="import" href="../bower_components/vaadin-ordered-layout/src/vaadin-horizontal-layout.html">
-<link rel="import" href="../bower_components/vaadin-ordered-layout/src/vaadin-vertical-layout.html">
-<link rel="import" href="../bower_components/iron-form/iron-form.html">
-<link rel="import" href="../bower_components/vaadin-text-field/src/vaadin-text-field.html">
-<link rel="import" href="../bower_components/vaadin-text-field/src/vaadin-password-field.html">
-<link rel="import" href="../bower_components/vaadin-button/src/vaadin-button.html">
+<link rel="import" href="bower_components/vaadin-ordered-layout/src/vaadin-vertical-layout.html">
+<link rel="import" href="bower_components/vaadin-tabs/src/vaadin-tabs.html">
+<link rel="import" href="bower_components/vaadin-tabs/src/vaadin-tab.html">
+<link rel="import" href="bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="bower_components/iron-form/iron-form.html">
+<link rel="import" href="bower_components/vaadin-text-field/src/vaadin-text-field.html">
+<link rel="import" href="bower_components/vaadin-text-field/src/vaadin-password-field.html">
+<link rel="import" href="bower_components/vaadin-button/src/vaadin-button.html">
 
 <dom-module id="login-view">
     <template>
 <style include="shared-styles">
-            :host {
-                display: block;
-            }
+ :host {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+ }
+ #container
+ {
+  width: 400px;
+  background-color: #f0f0f0;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+ }
+ .tab{
+  width: 50%;
+  background-color: white;
+  border-right: 1px #f0f0f0 solid;
+ }
+ .tab-last{
+  width: 50%;
+  background-color: white;
+ }
         </style>
-<vaadin-horizontal-layout theme="spacing" style="width: 100%; height: 100%;">
+<vaadin-vertical-layout theme="margin">
  <h1>MedClinic</h1>
-</vaadin-horizontal-layout>
+</vaadin-vertical-layout>
 <div id="container">
- <div id="contain">
+ <div>
   <vaadin-tabs selected="{{page}}">
-   <vaadin-tab>
-     Page 1 
+   <vaadin-tab selected class="tab">
+     Zaloguj 
    </vaadin-tab>
-   <vaadin-tab>
-     Page 2 
+   <vaadin-tab class="tab-last">
+     Rejestracja 
    </vaadin-tab>
   </vaadin-tabs>
   <iron-pages selected="[[page]]">
    <page>
-    <vaadin-vertical-layout theme="margin">
-     <iron-form class="login" id="form" allow-redirect>
-      <form method="post" action="/login">
-       <vaadin-text-field id="username" name="username" label="PESEL" autofocus required></vaadin-text-field>
-       <vaadin-password-field id="password" name="password" label="Hasło" required></vaadin-password-field>
-       <vaadin-button theme="primary" class="login__button" on-tap="login">
-         Primary 
-       </vaadin-button>
+    <vaadin-vertical-layout theme="margin" style="align-items: center;">
+     <iron-form id="form" class="login" allow-redirect>
+      <form method="post" action="/login" style="align-items: center;">
+       <vaadin-vertical-layout theme="margin">
+        <vaadin-text-field id="username" name="username" label="E-mail" autofocus required invalid></vaadin-text-field>
+        <vaadin-password-field label="Hasło" id="password" name="password" required></vaadin-password-field>
+        <vaadin-button theme="primary" class="login_button" on-tap="login">
+          Zaloguj 
+        </vaadin-button>
+       </vaadin-vertical-layout>
       </form>
      </iron-form>
     </vaadin-vertical-layout>
    </page>
    <page>
-    <vaadin-vertical-layout theme="margin" style="align-items: center;">
-     <vaadin-text-field label="PESEL:" placeholder="" id="registerPeselField"></vaadin-text-field>
-     <vaadin-password-field label="Hasło:" placeholder="" value="" id="registerPassField"></vaadin-password-field>
-     <vaadin-text-field label="Imię:" placeholder="" id="registerNameField"></vaadin-text-field>
-     <vaadin-text-field label="Nazwisko:" placeholder="" id="registerLastNameField"></vaadin-text-field>
-     <vaadin-text-field label="Telefon:" placeholder="" id="registerPhoneField"></vaadin-text-field>
-     <vaadin-text-field label="E-mail:" placeholder="" id="registerEmailField"></vaadin-text-field>
-     <vaadin-text-field label="Adres zamieszkania:" placeholder="" id="registerAddressField"></vaadin-text-field>
-     <vaadin-horizontal-layout theme="spacing">
-      <vaadin-button theme="primary" id="registerButton" " content="Zarejstruj">
-        Zarejstruj 
-      </vaadin-button>
-      <vaadin-button id="registerClearButton">
-        Wyczyść pola 
-      </vaadin-button>
-     </vaadin-horizontal-layout>
+    <vaadin-vertical-layout theme="margin">
+     <vaadin-text-field label="E-mail" placeholder="" id="remailField"></vaadin-text-field>
+     <vaadin-password-field label="Hasło" placeholder="" value="" id="rpasswordFIeld"></vaadin-password-field>
+     <vaadin-text-field label="Imię" placeholder="" id="rFirstNameField"></vaadin-text-field>
+     <vaadin-text-field label="Nazwisko" placeholder="" id="rLastNameField"></vaadin-text-field>
+     <vaadin-text-field label="Numer telefonu" placeholder="" id="rPhoneField"></vaadin-text-field>
+     <vaadin-text-field label="Pesel" placeholder="" id="rpeselField"></vaadin-text-field>
+     <vaadin-text-field label="Adres zamieszkania" placeholder="" id="rAdressField"></vaadin-text-field>
+     <vaadin-button theme="primary" id="registerButton">
+      Zarejestruj
+     </vaadin-button>
     </vaadin-vertical-layout>
    </page>
   </iron-pages>

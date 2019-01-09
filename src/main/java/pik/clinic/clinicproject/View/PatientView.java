@@ -41,7 +41,9 @@ public class PatientView extends PolymerTemplate<PatientView.PatientViewModel> {
 
     @Autowired
     VisitRepository visitRepository;
+    @Autowired
     PatientRepository patientRepository;
+    @Autowired
     DoctorRepository doctorRepository;
 
     @Id("nameLabel")
@@ -64,8 +66,14 @@ public class PatientView extends PolymerTemplate<PatientView.PatientViewModel> {
     /**
      * Creates a new PatientView.
      */
-    public PatientView() {
-        // You can initialise any data required for the connected UI components here.
+    public PatientView() throws Exception {
+     /*   // You can initialise any data required for the connected UI components here.
+        patients.setItemLabelGenerator(Patient::getFirstName);
+        patients.setItems(patientRepository.findAll());
+        patients.setRenderer(renderer.withProperty("patientName", Patient::toString));
+        doctors.setItemLabelGenerator(Doctor::getFirstName);
+        doctors.setItems(doctorRepository.findAll());
+        doctors.setRenderer(rendererDoc.withProperty("doctorName", Doctor::toString));*/
     }
 
     @PostConstruct
