@@ -105,7 +105,7 @@ public class LoginView extends PolymerTemplate<LoginView.LoginViewModel> {
 
         });
     }
-
+    }
 
     /**
      * This model binds properties between LoginView and login-view.html

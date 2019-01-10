@@ -31,14 +31,6 @@ public class Doctor implements JsonSerializable {
     public Doctor() {
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public Long getId() {
         return id;
     }
@@ -77,6 +69,14 @@ public class Doctor implements JsonSerializable {
 
     public void setSpecialization(String specialization) {
         this.specialization = specialization;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public List<Visit> getVisits() {
