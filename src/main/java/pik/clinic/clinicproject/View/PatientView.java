@@ -83,8 +83,6 @@ public class PatientView extends PolymerTemplate<PatientView.PatientViewModel> {
      */
     public PatientView() throws UsernameNotFoundException, NullPointerException {
 
-        Patient p = patientRepository.findByEmailIgnoreCase("admin@admin.com");
-        peselLabel.setText(p.getFirstName());
 
 
         logout.addClickListener(buttonClickEvent -> {

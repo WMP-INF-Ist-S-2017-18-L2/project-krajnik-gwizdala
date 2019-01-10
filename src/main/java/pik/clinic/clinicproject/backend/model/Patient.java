@@ -23,9 +23,7 @@ public class Patient implements JsonSerializable {
     private String firstName;
     private String lastName;
     private String password;
-
     private String pesel;
-
     private String phoneNumber;
     private String address;
     private String email;

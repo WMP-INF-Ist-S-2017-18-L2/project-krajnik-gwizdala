@@ -37,6 +37,7 @@ public class LoginView extends PolymerTemplate<LoginView.LoginViewModel> {
     PasswordEncoder passwordEncoder;
     @Autowired
     VisitRepository visitRepository;
+
     TemplateRenderer<Visit> renderer = TemplateRenderer.<Visit>of("");
     @Id("remailField")
     private TextField remailField;
@@ -54,33 +55,10 @@ public class LoginView extends PolymerTemplate<LoginView.LoginViewModel> {
     private TextField rAdressField;
     @Id("registerButton")
     private Button registerButton;
-    @Id("loginButton")
-    private Button loginButton;
-    @Id("loginPeselField")
-    private TextField loginPeselField;
-    @Id("loginComboBox")
-    private ComboBox<String> loginComboBox;
+
     /**
      * REGISTER
      */
-    @Id("registerPeselField")
-    private TextField registerPeselField;
-    @Id("registerPassField")
-    private PasswordField registerPassField;
-    @Id("registerNameField")
-    private TextField registerNameField;
-    @Id("registerLastNameField")
-    private TextField registerLastNameField;
-    @Id("registerPhoneField")
-    private TextField registerPhoneField;
-    @Id("registerAddressField")
-    private TextField registerAddressField;
-    @Id("registerEmailField")
-    private TextField registerEmailField;
-    @Id("registerClearButton")
-    private Button registerClearButton;
-    @Id("loginPassField")
-    private PasswordField loginPassField;
 
 
     /**
@@ -101,11 +79,9 @@ public class LoginView extends PolymerTemplate<LoginView.LoginViewModel> {
             p.setRole("admin");
             patientRepository.save(p);
             Notification.show("Pomślnie zarejestrowano!");
-
-
         });
     }
-    }
+
 
     /**
      * This model binds properties between LoginView and login-view.html
