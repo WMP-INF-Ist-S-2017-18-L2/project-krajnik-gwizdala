@@ -15,10 +15,10 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.templatemodel.TemplateModel;
 import org.springframework.beans.factory.annotation.Autowired;
-import pik.clinic.clinicproject.Model.Patient;
-import pik.clinic.clinicproject.Model.Visit;
-import pik.clinic.clinicproject.Repositories.PatientRepository;
-import pik.clinic.clinicproject.Repositories.VisitRepository;
+import pik.clinic.clinicproject.backend.model.Patient;
+import pik.clinic.clinicproject.backend.model.Visit;
+import pik.clinic.clinicproject.backend.repositories.PatientRepository;
+import pik.clinic.clinicproject.backend.repositories.VisitRepository;
 
 /**
  * A Designer generated component for the login-view.html template.

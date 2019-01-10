@@ -17,12 +17,12 @@ import com.vaadin.flow.data.renderer.TemplateRenderer;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.templatemodel.TemplateModel;
 import org.springframework.beans.factory.annotation.Autowired;
-import pik.clinic.clinicproject.Model.Doctor;
-import pik.clinic.clinicproject.Model.Patient;
-import pik.clinic.clinicproject.Model.Visit;
-import pik.clinic.clinicproject.Repositories.DoctorRepository;
-import pik.clinic.clinicproject.Repositories.PatientRepository;
-import pik.clinic.clinicproject.Repositories.VisitRepository;
+import pik.clinic.clinicproject.backend.model.Doctor;
+import pik.clinic.clinicproject.backend.model.Patient;
+import pik.clinic.clinicproject.backend.model.Visit;
+import pik.clinic.clinicproject.backend.repositories.DoctorRepository;
+import pik.clinic.clinicproject.backend.repositories.PatientRepository;
+import pik.clinic.clinicproject.backend.repositories.VisitRepository;
 
 import javax.annotation.PostConstruct;
 import java.util.List;

@@ -1,6 +1,6 @@
-package pik.clinic.clinicproject.Repositories;
+package pik.clinic.clinicproject.backend.repositories;
 
-import pik.clinic.clinicproject.Model.Patient;
+import pik.clinic.clinicproject.backend.model.Patient;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PatientRepository extends JpaRepository<Patient, Long> {
