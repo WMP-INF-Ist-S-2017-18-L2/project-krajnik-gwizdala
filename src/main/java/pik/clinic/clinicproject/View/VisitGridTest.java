@@ -10,7 +10,6 @@ import com.vaadin.flow.data.renderer.TemplateRenderer;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.templatemodel.TemplateModel;
 import org.springframework.beans.factory.annotation.Autowired;
-import pik.clinic.clinicproject.Model.CurrentPatient;
 import pik.clinic.clinicproject.Model.Visit;
 import pik.clinic.clinicproject.Repositories.VisitRepository;
 
