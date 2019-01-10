@@ -1,24 +1,31 @@
 package pik.clinic.clinicproject.backend.model;
 
+
+import com.vaadin.flow.component.JsonSerializable;
+import elemental.json.JsonObject;
+
+
 import javax.persistence.*;
 import java.util.List;
 
-@Entity
-public class Doctor {
+@Entity   
+public class Doctor implements JsonSerializable {
+
     @Id
     @GeneratedValue
-    private int id;
-    private String email;
+    private Long id;
+    private String login;
     private String firstName;
     private String lastName;
     private String specialization;
     private String password;
 
+
     @OneToMany
     private List<Visit> visits;
 
     @ManyToOne
-    @JoinColumn(name="department_id")
+    @JoinColumn(name = "department_id")
     private Department department;
 
     public Doctor() {
@@ -32,24 +39,28 @@ public class Doctor {
         this.password = password;
     }
 
-
-    public int getId() {
-        return id;
-    }
-
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-
     public String getEmail() {
         return email;
     }
 
-
     public void setEmail(String email) {
         this.email = email;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+
     }
 
     public String getFirstName() {
@@ -91,4 +102,21 @@ public class Doctor {
     public void setDepartment(Department department) {
         this.department = department;
     }
+
+
+    @Override
+    public String toString() {
+        return firstName + " " + lastName;
+    }
+
+    @Override
+    public JsonObject toJson() {
+        return null;
+    }
+
+    @Override
+    public JsonSerializable readJson(JsonObject jsonObject) {
+        return null;
+    }
+
 }
