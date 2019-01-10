@@ -39,13 +39,6 @@ public class Doctor implements JsonSerializable {
         this.password = password;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-
     public Long getId() {
         return id;
     }
@@ -60,7 +53,6 @@ public class Doctor implements JsonSerializable {
 
     public void setLogin(String login) {
         this.login = login;
-
     }
 
     public String getFirstName() {
@@ -102,7 +94,6 @@ public class Doctor implements JsonSerializable {
     public void setDepartment(Department department) {
         this.department = department;
     }
-
 
     @Override
     public String toString() {

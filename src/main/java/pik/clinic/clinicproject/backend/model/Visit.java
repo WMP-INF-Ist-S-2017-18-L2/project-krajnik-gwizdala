@@ -30,7 +30,6 @@ public class Visit {
         this.id = id;
     }
 
-
     public LocalDate getDateOfVisit() {
         return dateOfVisit;
     }
@@ -47,7 +46,6 @@ public class Visit {
         this.summary = summary;
     }
 
-
     public Patient getPatient() {
         return patient;
 
@@ -56,7 +54,6 @@ public class Visit {
     public void setPatient(Patient patient) {
         this.patient = patient;
     }
-
 
     public Doctor getDoctor() {
         return doctor;

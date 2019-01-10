@@ -152,7 +152,7 @@ public class AdminView extends PolymerTemplate<AdminView.AdminViewModel> {
         Patient p = new Patient();
         p.setFirstName(registerNameField.getValue());
         p.setLastName(registerLastNameField.getValue());
-        p.setPesel(Long.parseLong(registerPeselField.getValue()));
+        p.setPesel(registerPeselField.getValue());
         p.setPhoneNumber(registerPhoneField.getValue());
         p.setAddress(registerAddressField.getValue());
         p.setEmail(registerEmailField.getValue());

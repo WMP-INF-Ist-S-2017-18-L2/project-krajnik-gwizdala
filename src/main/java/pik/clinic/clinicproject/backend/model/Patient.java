@@ -3,14 +3,10 @@ package pik.clinic.clinicproject.backend.model;
 import com.vaadin.flow.component.JsonSerializable;
 import elemental.json.JsonObject;
 
-
-import javax.persistence.*;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-
 import java.time.LocalDate;
 import java.util.List;
 
@@ -23,9 +19,7 @@ public class Patient implements JsonSerializable {
     private String firstName;
     private String lastName;
     private String password;
-
     private String pesel;
-
     private String phoneNumber;
     private String address;
     private String email;
@@ -38,8 +32,8 @@ public class Patient implements JsonSerializable {
     private List<Visit> visits;
 
 
-
-    public Patient(){}
+    public Patient() {
+    }
 
     public String getRole() {
         return role;
@@ -47,7 +41,7 @@ public class Patient implements JsonSerializable {
 
     public void setRole(String role) {
         this.role = role;
-
+    }
 
     public Long getId() {
         return id;
@@ -81,13 +75,11 @@ public class Patient implements JsonSerializable {
         this.password = password;
     }
 
-
     public String getPesel() {
         return pesel;
     }
 
     public void setPesel(String pesel) {
-
         this.pesel = pesel;
     }
 
@@ -115,21 +107,20 @@ public class Patient implements JsonSerializable {
         this.email = email;
     }
 
-    public List<Visit> getVisits() {
-        return visits;
-    }
-
-    public void setVisits(List<Visit> visits) {
-        this.visits = visits;
-    }
-
     public LocalDate getBirthDate() {
         return birthDate;
     }
 
     public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
+    }
 
+    public List<Visit> getVisits() {
+        return visits;
+    }
+
+    public void setVisits(List<Visit> visits) {
+        this.visits = visits;
     }
 
     @Override
@@ -146,4 +137,6 @@ public class Patient implements JsonSerializable {
     public JsonSerializable readJson(JsonObject jsonObject) {
         return null;
     }
+
 }
+

@@ -2,31 +2,18 @@ package pik.clinic.clinicproject.View;
 
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.button.Button;
-
-import com.vaadin.flow.component.notification.Notification;
-
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dependency.HtmlImport;
-import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.polymertemplate.EventHandler;
-
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
-
-
 import com.vaadin.flow.data.renderer.TemplateRenderer;
-import com.vaadin.flow.router.PageTitle;
-
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.templatemodel.TemplateModel;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.security.crypto.password.PasswordEncoder;
-import pik.clinic.clinicproject.backend.model.Patient;
-import pik.clinic.clinicproject.backend.repositories.PatientRepository;
-
 import pik.clinic.clinicproject.backend.model.Patient;
 import pik.clinic.clinicproject.backend.model.Visit;
 import pik.clinic.clinicproject.backend.repositories.PatientRepository;
@@ -48,9 +35,9 @@ public class LoginView extends PolymerTemplate<LoginView.LoginViewModel> {
     PatientRepository patientRepository;
     @Autowired
     PasswordEncoder passwordEncoder;
-
-
-
+    @Autowired
+    VisitRepository visitRepository;
+    TemplateRenderer<Visit> renderer = TemplateRenderer.<Visit>of("");
     @Id("remailField")
     private TextField remailField;
     @Id("rpasswordFIeld")
@@ -67,12 +54,6 @@ public class LoginView extends PolymerTemplate<LoginView.LoginViewModel> {
     private TextField rAdressField;
     @Id("registerButton")
     private Button registerButton;
-
-    @Autowired
-    VisitRepository visitRepository;
-
-    TemplateRenderer<Visit> renderer = TemplateRenderer.<Visit>of("");
-
     @Id("loginButton")
     private Button loginButton;
     @Id("loginPeselField")
@@ -98,12 +79,8 @@ public class LoginView extends PolymerTemplate<LoginView.LoginViewModel> {
     private TextField registerEmailField;
     @Id("registerClearButton")
     private Button registerClearButton;
-    @Id("registerButton")
-    private Button registerButton;
     @Id("loginPassField")
     private PasswordField loginPassField;
-   
-
 
 
     /**
@@ -125,8 +102,8 @@ public class LoginView extends PolymerTemplate<LoginView.LoginViewModel> {
             patientRepository.save(p);
             Notification.show("Pomślnie zarejestrowano!");
 
-       
 
+        });
     }
 
 
@@ -137,3 +114,4 @@ public class LoginView extends PolymerTemplate<LoginView.LoginViewModel> {
         // Add setters and getters for template properties here.
     }
 }
+
