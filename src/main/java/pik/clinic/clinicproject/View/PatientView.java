@@ -1,6 +1,9 @@
 package pik.clinic.clinicproject.View;
 
 import com.vaadin.flow.component.Tag;
+
+import com.vaadin.flow.component.UI;
+
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
@@ -15,7 +18,13 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.renderer.TemplateRenderer;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.templatemodel.TemplateModel;
+
+import javassist.bytecode.stackmap.BasicBlock;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
 import pik.clinic.clinicproject.backend.model.Doctor;
 import pik.clinic.clinicproject.backend.model.Patient;
 import pik.clinic.clinicproject.backend.model.Visit;
@@ -23,12 +32,22 @@ import pik.clinic.clinicproject.backend.repositories.DoctorRepository;
 import pik.clinic.clinicproject.backend.repositories.PatientRepository;
 import pik.clinic.clinicproject.backend.repositories.VisitRepository;
 
+import pik.clinic.clinicproject.backend.security.CurrentPatient;
+import pik.clinic.clinicproject.backend.security.SecurityUtils;
+import sun.plugin.liveconnect.SecurityContextHelper;
+
+import javax.annotation.PostConstruct;
+import javax.servlet.ServletException;
+import java.io.IOException;
+
+
 import javax.annotation.PostConstruct;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Date;
 import java.util.Properties;
+
 
 /**
  * A Designer generated component for the patient-view.html template.
@@ -41,18 +60,7 @@ import java.util.Properties;
 @HtmlImport("patient-view.html")
 public class PatientView extends PolymerTemplate<PatientView.PatientViewModel> {
 
-    private static final String HOST = "smtp.gmail.com";
-    private static final int PORT = 465;
-    // Adres email osby która wysyła maila
-    private static final String FROM = "patro10@interia.pl";
-    // Hasło do konta osoby która wysyła maila
-    private static final String PASSWORD = "patryk";
-    // Adres email osoby do której wysyłany jest mail
-    private static final String TO = "stefekx9@gmail.com";
-    // Temat wiadomości
-    private static final String SUBJECT = "Hello World";
-    // Treść wiadomości
-    private static final String CONTENT = "To mój pierwszy mail wysłany za pomocą JavaMailAPI.";
+
 
     TemplateRenderer<Patient> renderer = TemplateRenderer.<Patient>of("");
     TemplateRenderer<Doctor> rendererDoc = TemplateRenderer.<Doctor>of("");
@@ -65,6 +73,7 @@ public class PatientView extends PolymerTemplate<PatientView.PatientViewModel> {
     @Autowired
     DoctorRepository doctorRepository;
 
+
     @Id("nameLabel")
     private Label nameLabel;
     @Id("gridinfo")
@@ -73,22 +82,70 @@ public class PatientView extends PolymerTemplate<PatientView.PatientViewModel> {
     private ComboBox<Patient> patients;
     @Id("doctors")
     private ComboBox<Doctor> doctors;
-    @Id("visitdate")
-    private DatePicker visitdate;
+
+    @Id("visitDate")
+    private DatePicker visitDate;
     @Id("summary")
     private TextField summary;
-    @Id("addVisit")
-    private Button addVisit;
-    /*@Id("peselLabel")
+    @Id("peselLabel")
     private Label peselLabel;
     @Id("addresLabel")
-    private Label addresLabel;*/
+    private Label addresLabel;
+    @Id("logout")
+    private Button logout;
+
+   
+    
 
     /**
      * Creates a new PatientView.
      */
-    public PatientView() {
-        // You can initialise any data required for the connected UI components here.
+    public PatientView()  throws UsernameNotFoundException, NullPointerException {
+
+        Patient p = patientRepository.findByEmailIgnoreCase("admin@admin.com");
+        peselLabel.setText(p.getFirstName());
+
+
+
+
+
+
+
+
+    logout.addClickListener(buttonClickEvent -> {
+        UI.getCurrent().getPage().executeJavaScript("location.assign('login?logout')");
+    });
+    }
+
+    @PostConstruct
+    public void combo() {
+        patients.setItemLabelGenerator(Patient::getFirstName);
+        patients.setItems(patientRepository.findAll());
+        patients.setRenderer(renderer.withProperty("patientName", Patient::toString));
+        doctors.setItemLabelGenerator(Doctor::getFirstName);
+        doctors.setItems(doctorRepository.findAll());
+        doctors.setRenderer(rendererDoc.withProperty("doctorName", Doctor::toString));
+        //vaadinButton.setEnabled(false);
+    }
+
+
+    @EventHandler
+    public void saveVisit() {
+        Notification.show("TEKST");
+        Visit v = new Visit();
+        v.setPatient(patients.getValue());
+        v.setDoctor(doctors.getValue()); //combobox doktora
+        v.setDateOfVisit(visitDate.getValue()); //wybor daty wizyty
+        v.setSummary(summary.getValue()); //pole na informacje dodatkowa
+        try {
+            if (doctors.getValue() != null && patients.getValue() != null && visitDate.getValue() != null) {
+                visitRepository.save(v);
+                gridinfo.setItems(visitRepository.findAll());
+            }
+        } catch (Exception e) {
+            Notification.show("Wypełnij wszystkie pola!", 5000, Notification.Position.MIDDLE);
+        }
+
     }
 
     @PostConstruct

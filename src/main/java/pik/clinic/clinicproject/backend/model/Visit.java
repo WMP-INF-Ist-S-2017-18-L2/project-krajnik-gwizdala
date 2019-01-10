@@ -30,8 +30,9 @@ public class Visit {
         this.id = id;
     }
 
-    public String getDateOfVisit() {
-        return String.valueOf(dateOfVisit);
+
+    public LocalDate getDateOfVisit() {
+        return dateOfVisit;
     }
 
     public void setDateOfVisit(LocalDate dateOfVisit) {
@@ -46,16 +47,20 @@ public class Visit {
         this.summary = summary;
     }
 
-    public String getPatient() {
-        return String.valueOf(patient);
+
+    public Patient getPatient() {
+        return patient;
+
     }
 
     public void setPatient(Patient patient) {
         this.patient = patient;
     }
 
-    public String getDoctor() {
-        return String.valueOf(doctor);
+
+    public Doctor getDoctor() {
+        return doctor;
+
     }
 
     public void setDoctor(Doctor doctor) {

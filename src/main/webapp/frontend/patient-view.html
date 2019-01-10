@@ -4,10 +4,13 @@
 <link rel="import" href="bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="bower_components/vaadin-grid/src/vaadin-grid.html">
 <link rel="import" href="bower_components/vaadin-grid/src/vaadin-grid-column.html">
-<link rel="import" href="bower_components/vaadin-combo-box/src/vaadin-combo-box.html">
-<link rel="import" href="bower_components/vaadin-date-picker/src/vaadin-date-picker.html">
-<link rel="import" href="bower_components/vaadin-text-field/src/vaadin-text-field.html">
+
 <link rel="import" href="bower_components/vaadin-button/src/vaadin-button.html">
+<link rel="import" href="bower_components/vaadin-ordered-layout/src/vaadin-horizontal-layout.html">
+<link rel="import" href="../bower_components/vaadin-combo-box/src/vaadin-combo-box.html">
+<link rel="import" href="../bower_components/vaadin-date-picker/src/vaadin-date-picker.html">
+<link rel="import" href="../bower_components/vaadin-text-field/src/vaadin-text-field.html">
+
 
 <dom-module id="patient-view">
     <template>
@@ -20,12 +23,13 @@
                 position: absolute;
                 float: left;
                 height: 100%;
-                width: 15%;
+                width: 20%;
                 background-color: #f0f0f0;
             }
             #pages{
                 position: relative;
-                margin-left: 15%;
+                margin-left: 20%;
+
             }
             #gridpage1
             {
@@ -34,9 +38,25 @@
             #gridpage2{
                 width: 30%;
             }
+            #gridinfo{
+                margin: 10%;
+            }
         </style>
-<div id="menu-div">
- <label id="nameLabel">Label</label>
+<div id="menu-div" style="align-items: center">
+ <vaadin-horizontal-layout theme="margin">
+  <label id="peselLabel"></label>
+ </vaadin-horizontal-layout>
+ <vaadin-horizontal-layout theme="margin">
+  <label id="nameLabel"></label>
+ </vaadin-horizontal-layout>
+ <vaadin-horizontal-layout theme="margin">
+  <label id="addresLabel"></label>
+ </vaadin-horizontal-layout>
+ <vaadin-horizontal-layout theme="margin">
+  <vaadin-button theme="tertiary" id="logout">
+    Wyloguj 
+  </vaadin-button>
+ </vaadin-horizontal-layout>
 </div>
 <div id="pages">
  <vaadin-tabs selected="{{page}}">
@@ -53,13 +73,16 @@
  <iron-pages selected="[[page]]">
   <page>
    <h4>Wizyty </h4>
-   <vaadin-combo-box id="patients"></vaadin-combo-box>
-   <vaadin-combo-box id="doctors"></vaadin-combo-box>
-   <vaadin-date-picker id="visitdate"></vaadin-date-picker>
+
+   <vaadin-combo-box id="patients">
+       <template>[[item.patientName]]</template>
+   </vaadin-combo-box>
+   <vaadin-combo-box id="doctors">
+       <template>[[item.doctorName]]</template>
+   </vaadin-combo-box>
+   <vaadin-date-picker id="visitDate"></vaadin-date-picker>
    <vaadin-text-field id="summary"></vaadin-text-field>
-   <vaadin-button theme="primary" id="addVisit" on-click="saveVisit">
-     Primary 
-   </vaadin-button>
+
    <vaadin-grid items="[[items]]" id="gridinfo">
     <vaadin-grid-column width="50px" flex-grow="0">
      <template class="header">
@@ -115,7 +138,7 @@
   </page>
  </iron-pages>
 </div>
-</template>
+</template>https://github.com/WMP-INF-Ist-S-2017-18-L2/project-krajnik-gwizdala/pull/7/conflict?name=src%252Fmain%252Fwebapp%252Ffrontend%252Fpatient-view.html&ancestor_oid=a9b02efab0d666ece16454c9e6e860e735f1a6ad&base_oid=f1d2faa6e08c3445968a283cac204357aa34ccfe&head_oid=8a19b3109393525e01d34d81d4baadf300fa0ec6
 
     <script>
         class PatientView extends Polymer.Element {
