@@ -4,6 +4,10 @@
 <link rel="import" href="bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="bower_components/vaadin-grid/src/vaadin-grid.html">
 <link rel="import" href="bower_components/vaadin-grid/src/vaadin-grid-column.html">
+<link rel="import" href="bower_components/vaadin-combo-box/src/vaadin-combo-box.html">
+<link rel="import" href="bower_components/vaadin-date-picker/src/vaadin-date-picker.html">
+<link rel="import" href="bower_components/vaadin-text-field/src/vaadin-text-field.html">
+<link rel="import" href="bower_components/vaadin-button/src/vaadin-button.html">
 
 <dom-module id="patient-view">
     <template>
@@ -49,7 +53,14 @@
  <iron-pages selected="[[page]]">
   <page>
    <h4>Wizyty </h4>
-   <vaadin-grid items="[[items]]">
+   <vaadin-combo-box id="patients"></vaadin-combo-box>
+   <vaadin-combo-box id="doctors"></vaadin-combo-box>
+   <vaadin-date-picker id="visitdate"></vaadin-date-picker>
+   <vaadin-text-field id="summary"></vaadin-text-field>
+   <vaadin-button theme="primary" id="addVisit" on-click="saveVisit">
+     Primary 
+   </vaadin-button>
+   <vaadin-grid items="[[items]]" id="gridinfo">
     <vaadin-grid-column width="50px" flex-grow="0">
      <template class="header">
        Lp. 

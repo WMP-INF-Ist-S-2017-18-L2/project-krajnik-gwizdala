@@ -1,6 +1,7 @@
 package pik.clinic.clinicproject.View;
 
 import com.vaadin.flow.component.Tag;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dependency.HtmlImport;
@@ -23,6 +24,11 @@ import pik.clinic.clinicproject.Repositories.PatientRepository;
 import pik.clinic.clinicproject.Repositories.VisitRepository;
 
 import javax.annotation.PostConstruct;
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import java.util.Date;
+import java.util.Properties;
 
 /**
  * A Designer generated component for the patient-view.html template.
@@ -34,6 +40,19 @@ import javax.annotation.PostConstruct;
 @Tag("patient-view")
 @HtmlImport("patient-view.html")
 public class PatientView extends PolymerTemplate<PatientView.PatientViewModel> {
+
+    private static final String HOST = "smtp.gmail.com";
+    private static final int PORT = 465;
+    // Adres email osby która wysyła maila
+    private static final String FROM = "patro10@interia.pl";
+    // Hasło do konta osoby która wysyła maila
+    private static final String PASSWORD = "patryk";
+    // Adres email osoby do której wysyłany jest mail
+    private static final String TO = "stefekx9@gmail.com";
+    // Temat wiadomości
+    private static final String SUBJECT = "Hello World";
+    // Treść wiadomości
+    private static final String CONTENT = "To mój pierwszy mail wysłany za pomocą JavaMailAPI.";
 
     TemplateRenderer<Patient> renderer = TemplateRenderer.<Patient>of("");
     TemplateRenderer<Doctor> rendererDoc = TemplateRenderer.<Doctor>of("");
@@ -54,14 +73,16 @@ public class PatientView extends PolymerTemplate<PatientView.PatientViewModel> {
     private ComboBox<Patient> patients;
     @Id("doctors")
     private ComboBox<Doctor> doctors;
-    @Id("visitDate")
-    private DatePicker visitDate;
+    @Id("visitdate")
+    private DatePicker visitdate;
     @Id("summary")
     private TextField summary;
-    @Id("peselLabel")
+    @Id("addVisit")
+    private Button addVisit;
+    /*@Id("peselLabel")
     private Label peselLabel;
     @Id("addresLabel")
-    private Label addresLabel;
+    private Label addresLabel;*/
 
     /**
      * Creates a new PatientView.
@@ -84,20 +105,59 @@ public class PatientView extends PolymerTemplate<PatientView.PatientViewModel> {
 
     @EventHandler
     public void saveVisit() {
-        Notification.show("TEKST");
-        Visit v = new Visit();
-        v.setPatient(patients.getValue());
-        v.setDoctor(doctors.getValue()); //combobox doktora
-        v.setDateOfVisit(visitDate.getValue()); //wybor daty wizyty
-        v.setSummary(summary.getValue()); //pole na informacje dodatkowa
         try {
-            if (doctors.getValue() != null && patients.getValue() != null && visitDate.getValue() != null) {
+            Notification.show("TEKST");
+            Visit v = new Visit();
+            v.setPatient(patients.getValue());
+            v.setDoctor(doctors.getValue()); //combobox doktora
+            v.setDateOfVisit(visitdate.getValue()); //wybor daty wizyty
+            v.setSummary(summary.getValue()); //pole na informacje dodatkowa
+            if (doctors.getValue() != null && patients.getValue() != null && visitdate.getValue() != null && summary.getValue() != null) {
                 visitRepository.save(v);
-                gridinfo.setItems(visitRepository.findAll());
+                Properties props = System.getProperties();
+                props.put("mail.smtp.host", "poczta.interia.pl");
+                props.put("mail.smtp.auth", "true");
+
+                Session session = Session.getDefaultInstance(props, new Authenticator() {
+                    public PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication("patro10", "patryk");
+                    }
+                });
+                Provider[] providers = session.getProviders();
+
+                try {
+                    session.setProvider(providers[0]);
+                } catch (NoSuchProviderException e) {
+                    e.printStackTrace();
+                }
+
+                try {
+
+                    MimeMessage msg = new MimeMessage(session);
+
+                    msg.setFrom(new InternetAddress("patro10@interia.pl"));
+                    msg.setRecipients(Message.RecipientType.TO, "stefekx9@interia.pl");
+                    msg.setSubject("Tetowy mail");
+                    msg.setSentDate(new Date());
+                    msg.setText("Wizyta pacjenta " + patients.getValue() +
+                            " u doktora " + doctors.getValue() + " odbędzie się dnia " +
+                            visitdate.getValue());
+
+                    Transport.send(msg);
+
+                } catch (MessagingException mex) {
+                    System.out.println("send failed, exception: " + mex);
+                }
             }
         } catch (Exception e) {
             Notification.show("Wypełnij wszystkie pola!", 5000, Notification.Position.MIDDLE);
         }
+        /*try {
+            new SendMail().send();
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }*/
+
 
     }
 
