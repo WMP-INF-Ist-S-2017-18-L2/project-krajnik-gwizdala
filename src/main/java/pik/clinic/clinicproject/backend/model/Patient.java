@@ -8,11 +8,11 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Entity
-public class Patient extends AbstarctUser implements JsonSerializable {
+public class Patient implements JsonSerializable {
 
     @Id
     @GeneratedValue
-    private int id;
+    private Long id;
     private String firstName;
     private String lastName;
     private String password;
@@ -26,8 +26,8 @@ public class Patient extends AbstarctUser implements JsonSerializable {
     @OneToMany(mappedBy = "patient")
     private List<Visit> visits;
 
-    public Patient() {
-    }
+
+    public Patient(){}
 
     public String getRole() {
         return role;
@@ -37,11 +37,11 @@ public class Patient extends AbstarctUser implements JsonSerializable {
         this.role = role;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

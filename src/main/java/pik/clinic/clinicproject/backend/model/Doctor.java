@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-public class Doctor extends AbstarctUser {
+public class Doctor {
     @Id
     @GeneratedValue
     private int id;
@@ -32,22 +32,22 @@ public class Doctor extends AbstarctUser {
         this.password = password;
     }
 
-    @Override
+
     public int getId() {
         return id;
     }
 
-    @Override
+
     public void setId(int id) {
         this.id = id;
     }
 
-    @Override
+
     public String getEmail() {
         return email;
     }
 
-    @Override
+
     public void setEmail(String email) {
         this.email = email;
     }

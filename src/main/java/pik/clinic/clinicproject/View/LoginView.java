@@ -64,7 +64,7 @@ public class LoginView extends PolymerTemplate<LoginView.LoginViewModel> {
             p.setPhoneNumber(rPhoneField.getValue());
             p.setPesel(rpeselField.getValue());
             p.setAddress(rAdressField.getValue());
-            p.setRole("patient");
+            p.setRole("admin");
             patientRepository.save(p);
             Notification.show("Pomślnie zarejestrowano!");
         });

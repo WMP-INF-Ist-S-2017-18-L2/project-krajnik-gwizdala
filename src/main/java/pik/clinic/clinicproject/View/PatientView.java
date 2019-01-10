@@ -1,6 +1,8 @@
 package pik.clinic.clinicproject.View;
 
 import com.vaadin.flow.component.Tag;
+import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dependency.HtmlImport;
@@ -14,15 +16,24 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.renderer.TemplateRenderer;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.templatemodel.TemplateModel;
+import javassist.bytecode.stackmap.BasicBlock;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import pik.clinic.clinicproject.backend.model.Doctor;
 import pik.clinic.clinicproject.backend.model.Patient;
 import pik.clinic.clinicproject.backend.model.Visit;
 import pik.clinic.clinicproject.backend.repositories.DoctorRepository;
 import pik.clinic.clinicproject.backend.repositories.PatientRepository;
 import pik.clinic.clinicproject.backend.repositories.VisitRepository;
+import pik.clinic.clinicproject.backend.security.CurrentPatient;
+import pik.clinic.clinicproject.backend.security.SecurityUtils;
+import sun.plugin.liveconnect.SecurityContextHelper;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.ServletException;
+import java.io.IOException;
 
 /**
  * A Designer generated component for the patient-view.html template.
@@ -46,6 +57,7 @@ public class PatientView extends PolymerTemplate<PatientView.PatientViewModel> {
     @Autowired
     DoctorRepository doctorRepository;
 
+
     @Id("nameLabel")
     private Label nameLabel;
     @Id("gridinfo")
@@ -62,18 +74,27 @@ public class PatientView extends PolymerTemplate<PatientView.PatientViewModel> {
     private Label peselLabel;
     @Id("addresLabel")
     private Label addresLabel;
+    @Id("logout")
+    private Button logout;
 
     /**
      * Creates a new PatientView.
      */
-    public PatientView() throws Exception {
-     /*   // You can initialise any data required for the connected UI components here.
-        patients.setItemLabelGenerator(Patient::getFirstName);
-        patients.setItems(patientRepository.findAll());
-        patients.setRenderer(renderer.withProperty("patientName", Patient::toString));
-        doctors.setItemLabelGenerator(Doctor::getFirstName);
-        doctors.setItems(doctorRepository.findAll());
-        doctors.setRenderer(rendererDoc.withProperty("doctorName", Doctor::toString));*/
+    public PatientView()  throws UsernameNotFoundException, NullPointerException {
+
+        Patient p = patientRepository.findByEmailIgnoreCase("admin@admin.com");
+        peselLabel.setText(p.getFirstName());
+
+
+
+
+
+
+
+
+    logout.addClickListener(buttonClickEvent -> {
+        UI.getCurrent().getPage().executeJavaScript("location.assign('login?logout')");
+    });
     }
 
     @PostConstruct

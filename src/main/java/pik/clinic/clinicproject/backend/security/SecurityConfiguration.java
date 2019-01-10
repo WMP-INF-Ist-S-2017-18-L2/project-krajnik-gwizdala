@@ -58,9 +58,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Bean
 	@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 	public CurrentPatient currentUser(PatientRepository patientRepository) {
-		final String pesel = SecurityUtils.getUsername();
+		final String email = SecurityUtils.getUsername();
 		Patient user =
-				pesel != null ? patientRepository.findBypesel(pesel) :
+				email != null ? patientRepository.findByEmailIgnoreCase(email) :
 				null;
 		return () -> user;
 	}
@@ -94,6 +94,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 				// Allow all requests by logged in users.
 				.anyRequest().hasAnyAuthority(Role.getAllRoles())
+
 
 				// Configure the login page.
 				.and().formLogin().loginPage(LOGIN_URL).permitAll().loginProcessingUrl(LOGIN_PROCESSING_URL)

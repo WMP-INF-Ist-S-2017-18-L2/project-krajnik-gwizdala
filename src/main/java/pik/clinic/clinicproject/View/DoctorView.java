@@ -6,7 +6,10 @@ import com.vaadin.flow.templatemodel.TemplateModel;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import pik.clinic.clinicproject.backend.model.Patient;
+import pik.clinic.clinicproject.backend.repositories.PatientRepository;
 
 /**
  * A Designer generated component for the doctor-view.html template.
@@ -19,11 +22,14 @@ import pik.clinic.clinicproject.backend.model.Patient;
 @HtmlImport("doctor-view.html")
 public class DoctorView extends PolymerTemplate<DoctorView.DoctorViewModel> {
 
+
+
     /**
      * Creates a new DoctorView.
      */
     public DoctorView() {
         // You can initialise any data required for the connected UI components here.
+
     }
 
     /**

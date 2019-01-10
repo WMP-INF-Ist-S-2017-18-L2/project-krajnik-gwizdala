@@ -48,13 +48,13 @@
   <iron-pages selected="[[page]]">
    <page>
     <vaadin-vertical-layout theme="margin" style="align-items: center;">
-     <iron-form id="form" class="login" allow-redirect>
-      <form method="post" action="/login" style="align-items: center;">
+     <iron-form id="ironForm" allow-redirect>
+      <form method="POST" action="login" style="align-items: center;">
        <vaadin-vertical-layout theme="margin">
-        <vaadin-text-field id="username" name="username" label="E-mail" autofocus required invalid></vaadin-text-field>
-        <vaadin-password-field label="Hasło" id="password" name="password" required></vaadin-password-field>
-        <vaadin-button theme="primary" class="login_button" on-tap="login">
-          Zaloguj 
+        <vaadin-text-field id="username" name="username" label="E-mail" autofocus required></vaadin-text-field>
+        <vaadin-password-field label="Hasło" name="password" required on-keydown="_onPasswordKeydown"></vaadin-password-field>
+        <vaadin-button theme="primary" on-click="_submit">
+          Zaloguj
         </vaadin-button>
        </vaadin-vertical-layout>
       </form>
@@ -81,7 +81,7 @@
 </template>
 
     <script>
-        class LoginView extends Polymer.GestureEventListeners(Polymer.Element) {
+        class LoginView extends Polymer.Element {
             static get is() {
                 return 'login-view';
             }
@@ -91,11 +91,14 @@
                     // Declare your properties here.
                 };
             }
-            login() {
-                if (!this.$.username.invalid && !this.$.password.invalid) {
-                    this.$.form.submit();
-                }
-            }
+         _submit() {
+          this.$.ironForm.submit();
+         }
+         _onPasswordKeydown(event) {
+          if (event.key === 'Enter' || event.keyCode == 13) {
+           this._submit();
+          }
+         }
         }
         customElements.define(LoginView.is, LoginView);
     </script>

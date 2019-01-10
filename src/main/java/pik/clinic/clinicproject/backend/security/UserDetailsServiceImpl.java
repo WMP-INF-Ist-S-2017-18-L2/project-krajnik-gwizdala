@@ -36,17 +36,17 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	 * in the login screen. If the user is found, returns a
 	 * {@link org.springframework.security.core.userdetails.User}.
 	 *
-	 * @param pesel Patient pesel
+	 * @param email Patient
 	 * 
 	 */
 	@Override
-	public UserDetails loadUserByUsername(String pesel) throws UsernameNotFoundException {
-		Patient patient = patientRepository.findBypesel(pesel);
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+		Patient patient = patientRepository.findByEmailIgnoreCase(email);
 		if (null == patient) {
-			throw new UsernameNotFoundException("No user present with username: " + pesel);
+			throw new UsernameNotFoundException("No user present with username: " + email);
 
 		} else {
-			return new org.springframework.security.core.userdetails.User(patient.getPesel(), patient.getPassword(),
+			return new org.springframework.security.core.userdetails.User(patient.getEmail(), patient.getPassword(),
 					Collections.singletonList(new SimpleGrantedAuthority(patient.getRole())));
 		}
 	}
