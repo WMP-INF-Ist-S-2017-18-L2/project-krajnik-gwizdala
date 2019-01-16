@@ -76,6 +76,8 @@ public class PatientView extends PolymerTemplate<PatientView.PatientViewModel> {
     private Label addresLabel;
     @Id("logout")
     private Button logout;
+    @Id("addVisit")
+    private Button addVisit;
 
 
     /**

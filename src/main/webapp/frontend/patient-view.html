@@ -1,3 +1,4 @@
+<link rel="import" href="../scheduler-component/scheduler-component.html">
 <link rel="import" href="bower_components/polymer/polymer.html">
 <link rel="import" href="bower_components/vaadin-tabs/src/vaadin-tabs.html">
 <link rel="import" href="bower_components/vaadin-tabs/src/vaadin-tab.html">
@@ -12,13 +13,16 @@
 <link rel="import" href="../bower_components/vaadin-text-field/src/vaadin-text-field.html">
 
 
+
+
 <dom-module id="patient-view">
     <template>
 <style include="shared-styles">
             :host {
                 display: block;
             }
-            #menu-div{
+
+            #menu-div {
                 margin-left: 0;
                 position: absolute;
                 float: left;
@@ -26,19 +30,22 @@
                 width: 20%;
                 background-color: #f0f0f0;
             }
-            #pages{
+
+            #pages {
                 position: relative;
                 margin-left: 20%;
 
             }
-            #gridpage1
-            {
+
+            #gridpage1 {
                 width: 60%;
             }
-            #gridpage2{
+
+            #gridpage2 {
                 width: 30%;
             }
-            #gridinfo{
+
+            #gridinfo {
                 margin: 10%;
             }
         </style>
@@ -73,16 +80,21 @@
  <iron-pages selected="[[page]]">
   <page>
    <h4>Wizyty </h4>
-
    <vaadin-combo-box id="patients">
-       <template>[[item.patientName]]</template>
+    <template>
+      [[item.patientName]] 
+    </template>
    </vaadin-combo-box>
    <vaadin-combo-box id="doctors">
-       <template>[[item.doctorName]]</template>
+    <template>
+      [[item.doctorName]] 
+    </template>
    </vaadin-combo-box>
    <vaadin-date-picker id="visitDate"></vaadin-date-picker>
    <vaadin-text-field id="summary"></vaadin-text-field>
-
+   <vaadin-button theme="primary" id="addVisit" on-click="saveVisit">
+     Primary 
+   </vaadin-button>
    <vaadin-grid items="[[items]]" id="gridinfo">
     <vaadin-grid-column width="50px" flex-grow="0">
      <template class="header">
@@ -132,13 +144,15 @@
   </page>
   <page>
    <h3>Page 2</h3>Hi All 
+   <scheduler-component></scheduler-component>
   </page>
   <page>
    <h3>Page 3</h3>Good Morning 
   </page>
  </iron-pages>
 </div>
-</template>https://github.com/WMP-INF-Ist-S-2017-18-L2/project-krajnik-gwizdala/pull/7/conflict?name=src%252Fmain%252Fwebapp%252Ffrontend%252Fpatient-view.html&ancestor_oid=a9b02efab0d666ece16454c9e6e860e735f1a6ad&base_oid=f1d2faa6e08c3445968a283cac204357aa34ccfe&head_oid=8a19b3109393525e01d34d81d4baadf300fa0ec6
+</template>
+
 
     <script>
         class PatientView extends Polymer.Element {
@@ -152,6 +166,7 @@
                 };
             }
         }
+
         customElements.define(PatientView.is, PatientView);
     </script>
 </dom-module>
