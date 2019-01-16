@@ -2,7 +2,6 @@ package pik.clinic.clinicproject.View;
 
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.polymertemplate.Id;
@@ -10,14 +9,18 @@ import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.renderer.TemplateRenderer;
-import com.vaadin.flow.router.Route;
+import com.vaadin.flow.router.*;
+import com.vaadin.flow.router.internal.AfterNavigationHandler;
 import com.vaadin.flow.templatemodel.TemplateModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import pik.clinic.clinicproject.backend.model.Admin;
 import pik.clinic.clinicproject.backend.model.Patient;
 import pik.clinic.clinicproject.backend.model.Visit;
+import pik.clinic.clinicproject.backend.repositories.AdminRepository;
 import pik.clinic.clinicproject.backend.repositories.PatientRepository;
 import pik.clinic.clinicproject.backend.repositories.VisitRepository;
+import pik.clinic.clinicproject.backend.security.SecurityUtils;
 
 
 /**
@@ -29,10 +32,12 @@ import pik.clinic.clinicproject.backend.repositories.VisitRepository;
 @Route("login")
 @Tag("login-view")
 @HtmlImport("login-view.html")
-public class LoginView extends PolymerTemplate<LoginView.LoginViewModel> {
+public class LoginView extends PolymerTemplate<LoginView.LoginViewModel>  {
 
     @Autowired
     PatientRepository patientRepository;
+    @Autowired
+    AdminRepository adminRepository;
     @Autowired
     PasswordEncoder passwordEncoder;
     @Autowired
@@ -67,6 +72,7 @@ public class LoginView extends PolymerTemplate<LoginView.LoginViewModel> {
     public LoginView() {
         // You can initialise any data required for the connected UI components here.
 
+        rpeselField.setMaxLength(11);
         registerButton.addClickListener(buttonClickEvent -> {
             Patient p = new Patient();
             p.setEmail(remailField.getValue());
@@ -76,11 +82,25 @@ public class LoginView extends PolymerTemplate<LoginView.LoginViewModel> {
             p.setPhoneNumber(rPhoneField.getValue());
             p.setPesel(rpeselField.getValue());
             p.setAddress(rAdressField.getValue());
-            p.setRole("admin");
+            p.setRole("patient");
             patientRepository.save(p);
             Notification.show("Pomślnie zarejestrowano!");
+
+            Admin a = new Admin();
+            a.setEmail("admin@admin.com");
+            a.setPassword(passwordEncoder.encode("admin"));
+            a.setRole("admin");
+            adminRepository.save(a);
+
         });
+
+
+
+
+
     }
+
+
 
 
     /**

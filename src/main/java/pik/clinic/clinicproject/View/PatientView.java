@@ -16,6 +16,7 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.renderer.TemplateRenderer;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.templatemodel.TemplateModel;
+import org.atmosphere.util.analytics.GoogleAnalytics_v1_URLBuildingStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import pik.clinic.clinicproject.backend.model.Doctor;
@@ -24,6 +25,8 @@ import pik.clinic.clinicproject.backend.model.Visit;
 import pik.clinic.clinicproject.backend.repositories.DoctorRepository;
 import pik.clinic.clinicproject.backend.repositories.PatientRepository;
 import pik.clinic.clinicproject.backend.repositories.VisitRepository;
+import pik.clinic.clinicproject.backend.security.SecurityUtils;
+import sun.util.resources.cldr.ar.CalendarData_ar_YE;
 
 import javax.annotation.PostConstruct;
 import javax.mail.*;
@@ -42,7 +45,7 @@ import java.util.Properties;
 @Route("patient-view")
 @Tag("patient-view")
 @HtmlImport("patient-view.html")
-public class PatientView extends PolymerTemplate<PatientView.PatientViewModel> {
+public class PatientView extends PolymerTemplate<PatientView.PatientViewModel>  {
 
 
     TemplateRenderer<Patient> renderer = TemplateRenderer.<Patient>of("");
@@ -55,6 +58,7 @@ public class PatientView extends PolymerTemplate<PatientView.PatientViewModel> {
     PatientRepository patientRepository;
     @Autowired
     DoctorRepository doctorRepository;
+
 
 
     @Id("nameLabel")
@@ -78,20 +82,26 @@ public class PatientView extends PolymerTemplate<PatientView.PatientViewModel> {
     private Button logout;
 
 
+
     /**
      * Creates a new PatientView.
      */
+
+
     public PatientView() throws UsernameNotFoundException, NullPointerException {
-
-
-
         logout.addClickListener(buttonClickEvent -> {
             UI.getCurrent().getPage().executeJavaScript("location.assign('login?logout')");
         });
     }
 
     @PostConstruct
+    public Patient actualPatient() {
+        return patientRepository.findByEmailIgnoreCase(SecurityUtils.getUsername());
+    }
+
+    @PostConstruct
     public void combo() {
+
         patients.setItemLabelGenerator(Patient::getFirstName);
         patients.setItems(patientRepository.findAll());
         patients.setRenderer(renderer.withProperty("patientName", Patient::toString));
@@ -99,6 +109,7 @@ public class PatientView extends PolymerTemplate<PatientView.PatientViewModel> {
         doctors.setItems(doctorRepository.findAll());
         doctors.setRenderer(rendererDoc.withProperty("doctorName", Doctor::toString));
         //vaadinButton.setEnabled(false);
+
     }
 
 
@@ -119,7 +130,7 @@ public class PatientView extends PolymerTemplate<PatientView.PatientViewModel> {
 
                 Session session = Session.getDefaultInstance(props, new Authenticator() {
                     public PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication("patro10", "patryk");
+                        return new PasswordAuthentication("", "");
                     }
                 });
                 Provider[] providers = session.getProviders();

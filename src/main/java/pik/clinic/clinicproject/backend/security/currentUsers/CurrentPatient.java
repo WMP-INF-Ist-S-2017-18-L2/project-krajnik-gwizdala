@@ -1,4 +1,4 @@
-package pik.clinic.clinicproject.backend.security;
+package pik.clinic.clinicproject.backend.security.currentUsers;
 
 
 import pik.clinic.clinicproject.backend.model.Patient;

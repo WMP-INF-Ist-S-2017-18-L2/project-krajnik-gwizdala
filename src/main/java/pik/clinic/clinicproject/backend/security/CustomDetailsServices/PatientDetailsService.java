@@ -1,4 +1,4 @@
-package pik.clinic.clinicproject.backend.security;
+package pik.clinic.clinicproject.backend.security.CustomDetailsServices;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,14 +21,12 @@ import java.util.Collections;
  */
 @Service
 @Primary
-public class UserDetailsServiceImpl implements UserDetailsService {
-
-	private final PatientRepository patientRepository;
+public class PatientDetailsService implements UserDetailsService {
 
 	@Autowired
-	public UserDetailsServiceImpl(PatientRepository patientRepository) {
-		this.patientRepository = patientRepository;
-	}
+	private PatientRepository patientRepository;
+
+
 
 	/**
 	 *

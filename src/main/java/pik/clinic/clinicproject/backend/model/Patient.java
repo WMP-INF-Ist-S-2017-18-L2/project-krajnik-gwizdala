@@ -13,6 +13,7 @@ import javax.persistence.OneToMany;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Entity
 public class Patient implements JsonSerializable {
@@ -20,16 +21,17 @@ public class Patient implements JsonSerializable {
     @Id
     @GeneratedValue
     private Long id;
+    private String email;
+    private String password;
+    private String role;
     private String firstName;
     private String lastName;
-    private String password;
     private String pesel;
     private String phoneNumber;
     private String address;
-    private String email;
     private LocalDate birthDate;
 
-    private String role;
+
 
 
     @OneToMany(mappedBy = "patient")
@@ -38,6 +40,7 @@ public class Patient implements JsonSerializable {
 
     public Patient() {
     }
+
 
     public Long getId() {
         return id;
