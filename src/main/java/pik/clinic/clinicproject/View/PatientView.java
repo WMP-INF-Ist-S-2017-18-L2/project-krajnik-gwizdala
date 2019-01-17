@@ -175,10 +175,6 @@ public class PatientView extends PolymerTemplate<PatientView.PatientViewModel>  
         }
     }
 
-    @PostConstruct
-    public Patient actualPatient() {
-        return patientRepository.findByEmailIgnoreCase(SecurityUtils.getUsername());
-    }
 
     @PostConstruct
     public void gridinfo() {
