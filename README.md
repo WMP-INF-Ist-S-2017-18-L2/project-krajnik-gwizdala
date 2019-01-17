@@ -3,13 +3,13 @@ project-krajnik-gwizdala created by GitHub Classroom
 MedClinic – internetowa obsługa przychodni
 
 Spis treści: 
-    1. Autorzy
-    2. Opis działania oraz zastosowane technologie
-    3. Wymagania
-    4. Konfiguracja
-    5. Sposób użytkowania
-    6. Struktura bazy danych
-    7. Możliwe do wystąpienia błędy/problemy
+1.Autorzy
+2.Opis działania oraz zastosowane technologie
+3.Wymagania
+4.Konfiguracja
+5.Sposób użytkowania
+6.Struktura bazy danych
+7.Możliwe do wystąpienia błędy/problemy
 
 1.	Autorzy
 Autorami projektu są: Gwizdała Patryk oraz Krajnik Mateusz.
