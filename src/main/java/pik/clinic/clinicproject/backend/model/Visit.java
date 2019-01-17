@@ -22,6 +22,13 @@ public class Visit {
     public Visit() {
     }
 
+    public Visit(LocalDate dateOfVisit, String summary, Patient patient, Doctor doctor) {
+        this.dateOfVisit = dateOfVisit;
+        this.summary = summary;
+        this.patient = patient;
+        this.doctor = doctor;
+    }
+
     public Long getId() {
         return id;
     }
@@ -30,8 +37,8 @@ public class Visit {
         this.id = id;
     }
 
-    public LocalDate getDateOfVisit() {
-        return dateOfVisit;
+    public String getDateOfVisit() {
+        return String.valueOf(dateOfVisit);
     }
 
     public void setDateOfVisit(LocalDate dateOfVisit) {
@@ -55,8 +62,8 @@ public class Visit {
         this.patient = patient;
     }
 
-    public Doctor getDoctor() {
-        return doctor;
+    public String getDoctor() {
+        return String.valueOf(doctor);
 
     }
 

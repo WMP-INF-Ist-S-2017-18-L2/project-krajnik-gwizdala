@@ -115,8 +115,6 @@
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
         </dependency>
-
-
     </dependencies>
 <repositories>
     <repository>
@@ -124,8 +122,6 @@
         <url>http://maven.vaadin.com/vaadin-addons</url>
     </repository>
 </repositories>
-
-
 
     <dependencyManagement>
         <dependencies>

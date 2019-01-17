@@ -7,9 +7,13 @@
 
 <link rel="import" href="bower_components/vaadin-button/src/vaadin-button.html">
 <link rel="import" href="bower_components/vaadin-ordered-layout/src/vaadin-horizontal-layout.html">
-<link rel="import" href="../bower_components/vaadin-combo-box/src/vaadin-combo-box.html">
-<link rel="import" href="../bower_components/vaadin-date-picker/src/vaadin-date-picker.html">
-<link rel="import" href="../bower_components/vaadin-text-field/src/vaadin-text-field.html">
+<link rel="import" href="bower_components/vaadin-combo-box/src/vaadin-combo-box.html">
+<link rel="import" href="bower_components/vaadin-date-picker/src/vaadin-date-picker.html">
+<link rel="import" href="bower_components/vaadin-text-field/src/vaadin-text-field.html">
+<link rel="import" href="bower_components/vaadin-form-layout/src/vaadin-form-layout.html">
+<link rel="import" href="bower_components/vaadin-form-layout/src/vaadin-form-item.html">
+<link rel="import" href="bower_components/vaadin-list-box/src/vaadin-list-box.html">
+<link rel="import" href="bower_components/vaadin-item/src/vaadin-item.html">
 
 
 <dom-module id="patient-view">
@@ -18,7 +22,8 @@
             :host {
                 display: block;
             }
-            #menu-div{
+
+            #menu-div {
                 margin-left: 0;
                 position: absolute;
                 float: left;
@@ -26,115 +31,148 @@
                 width: 20%;
                 background-color: #f0f0f0;
             }
-            #pages{
+
+            #pages {
                 position: relative;
                 margin-left: 20%;
-
             }
-            #gridpage1
-            {
+
+            #gridpage1 {
                 width: 60%;
             }
-            #gridpage2{
+
+            #gridpage2 {
                 width: 30%;
             }
-            #gridinfo{
-                margin: 10%;
+
+            #gridinfo {
+                margin: 5%;
+                width: 800px;
             }
+
+            #logout {
+                margin: 0 auto;
+            }
+
+            #visitRegister {
+                margin: 5%;
+            }
+
+            #displayUser {
+                margin-left: 10px;
+            }
+
+            #avatarDiv {
+                position: relative;
+            }
+            #gridInfoDiv {
+                width: 500px;
+            }
+
         </style>
 <div id="menu-div" style="align-items: center">
+ <div id="avatarDiv">
+  <img src="Images/userPlaceholder.jpg" id="avatarPlaceholder" width="150px" height="150px">
+ </div>
+ <vaadin-form-layout id="displayUser">
+  <vaadin-form-item>
+   <label slot="label">First Name</label>
+   <vaadin-text-field class="full-width" value="Jane" id="currUserFirstName" readonly="1"></vaadin-text-field>
+  </vaadin-form-item>
+  <vaadin-form-item>
+   <label slot="label">Last Name</label>
+   <vaadin-text-field class="full-width" value="Doe" id="currUserLastName" readonly="1"></vaadin-text-field>
+  </vaadin-form-item>
+  <vaadin-form-item>
+   <label slot="label">PESEL </label>
+   <vaadin-text-field class="full-width" value="98765432109" id="currUserPesel" readonly="1"></vaadin-text-field>
+  </vaadin-form-item>
+ </vaadin-form-layout>
  <vaadin-horizontal-layout theme="margin">
-  <label id="peselLabel"></label>
- </vaadin-horizontal-layout>
- <vaadin-horizontal-layout theme="margin">
-  <label id="nameLabel"></label>
- </vaadin-horizontal-layout>
- <vaadin-horizontal-layout theme="margin">
-  <label id="addresLabel"></label>
- </vaadin-horizontal-layout>
- <vaadin-horizontal-layout theme="margin">
-  <vaadin-button theme="tertiary" id="logout">
+  <vaadin-button theme="tertiary" id="logout" class="center">
     Wyloguj 
   </vaadin-button>
  </vaadin-horizontal-layout>
 </div>
 <div id="pages">
- <vaadin-tabs selected="{{page}}">
-  <vaadin-tab>
+ <vaadin-tabs selected="{{page}}" theme="equal-width-tabs">
+  <vaadin-tab selected>
     Informacje 
   </vaadin-tab>
-  <vaadin-tab>
-    Umów wizytę 
-  </vaadin-tab>
-  <vaadin-tab>
+  <vaadin-tab disabled theme="equal-width-tabs">
     Zrealizuj receptę 
   </vaadin-tab>
  </vaadin-tabs>
  <iron-pages selected="[[page]]">
   <page>
    <h4>Wizyty </h4>
-   <vaadin-combo-box id="patients">
-    <template>
-     [[item.patientName]]
-    </template>
-   </vaadin-combo-box>
-   <vaadin-combo-box id="doctors">
-    <template>
-     [[item.doctorName]]
-    </template>
-   </vaadin-combo-box>
-   <vaadin-date-picker id="visitDate"></vaadin-date-picker>
-   <vaadin-text-field id="summary"></vaadin-text-field>
-   <vaadin-grid items="[[items]]" id="gridinfo">
-    <vaadin-grid-column width="50px" flex-grow="0">
-     <template class="header">
-       Lp. 
-     </template>
+
+   <div id="visitRegister">
+    <vaadin-combo-box id="departments">
+
      <template>
-       [[index]] 
+       [[item.departmentName]] 
      </template>
-     <template class="footer">
-       Lp. 
-     </template>
-    </vaadin-grid-column>
-    <vaadin-grid-column>
-     <template class="header">
-       Data 
-     </template>
+    </vaadin-combo-box>
+    <vaadin-combo-box id="doctors">
      <template>
-       [[item.data]] 
+       [[item.doctorName]] 
      </template>
-     <template class="footer">
-       Data 
-     </template>
-    </vaadin-grid-column>
-    <vaadin-grid-column>
-     <template class="header">
-       Lekarz 
-     </template>
-     <template>
-       [[item.lekarz]] 
-     </template>
-     <template class="footer">
-       Lekarz 
-     </template>
-    </vaadin-grid-column>
-    <vaadin-grid-column>
-     <template class="header">
-       Opis 
-     </template>
-     <template>
-       [[item.opis]] 
-     </template>
-     <template class="footer">
-       Opis 
-     </template>
-    </vaadin-grid-column>
-   </vaadin-grid>
-  </page>
-  <page>
-   <h3>Page 2</h3>Hi All 
-   <div>
+
+    </vaadin-combo-box>
+    <vaadin-date-picker id="visitDate"></vaadin-date-picker>
+    <vaadin-text-field label="Opis" placeholder="Placeholder" id="summary"></vaadin-text-field>
+    <vaadin-button theme="primary" id="addVisit" on-click="saveVisit">
+      Primary 
+    </vaadin-button>
+   </div>
+   <div id="gridInfoDiv">
+    <vaadin-grid items="[[items]]" id="gridinfo" width="800px">
+     <vaadin-grid-column width="200px" flex-grow="0">
+      <template class="header">
+        Lp. 
+      </template>
+      <template>
+        [[index]] 
+      </template>
+      <template class="footer">
+        Lp. 
+      </template>
+     </vaadin-grid-column>
+     <vaadin-grid-column width="200px">
+      <template class="header">
+        Data 
+      </template>
+      <template>
+        [[item.data]] 
+      </template>
+      <template class="footer">
+        Data 
+      </template>
+     </vaadin-grid-column>
+     <vaadin-grid-column width="200px">
+      <template class="header">
+        Lekarz 
+      </template>
+      <template>
+        [[item.lekarz]] 
+      </template>
+      <template class="footer">
+        Lekarz 
+      </template>
+     </vaadin-grid-column>
+     <vaadin-grid-column width="200px">
+      <template class="header">
+        Opis 
+      </template>
+      <template>
+        [[item.opis]] 
+      </template>
+      <template class="footer">
+        Opis 
+      </template>
+     </vaadin-grid-column>
+    </vaadin-grid>
 
    </div>
   </page>
@@ -144,6 +182,7 @@
  </iron-pages>
 </div>
 </template>
+
 
     <script>
         class PatientView extends Polymer.Element {
@@ -157,6 +196,7 @@
                 };
             }
         }
+
         customElements.define(PatientView.is, PatientView);
     </script>
 

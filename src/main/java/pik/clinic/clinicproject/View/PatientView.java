@@ -7,7 +7,6 @@ import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.polymertemplate.EventHandler;
 import com.vaadin.flow.component.polymertemplate.Id;
@@ -20,10 +19,15 @@ import org.atmosphere.util.analytics.GoogleAnalytics_v1_URLBuildingStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
 import pik.clinic.clinicproject.backend.Role;
+
+import pik.clinic.clinicproject.backend.model.Department;
+
 import pik.clinic.clinicproject.backend.model.Doctor;
 import pik.clinic.clinicproject.backend.model.Patient;
 import pik.clinic.clinicproject.backend.model.Visit;
+import pik.clinic.clinicproject.backend.repositories.DepartmentRepository;
 import pik.clinic.clinicproject.backend.repositories.DoctorRepository;
 import pik.clinic.clinicproject.backend.repositories.PatientRepository;
 import pik.clinic.clinicproject.backend.repositories.VisitRepository;
@@ -49,10 +53,10 @@ import java.util.Properties;
 
 public class PatientView extends PolymerTemplate<PatientView.PatientViewModel>  {
 
-
     TemplateRenderer<Patient> renderer = TemplateRenderer.<Patient>of("");
     TemplateRenderer<Doctor> rendererDoc = TemplateRenderer.<Doctor>of("");
     TemplateRenderer<Visit> rendererVisit = TemplateRenderer.<Visit>of("");
+    TemplateRenderer<Department> rendererDepartment  = TemplateRenderer.<Department>of("");
 
     @Autowired
     VisitRepository visitRepository;
@@ -60,28 +64,30 @@ public class PatientView extends PolymerTemplate<PatientView.PatientViewModel>  
     PatientRepository patientRepository;
     @Autowired
     DoctorRepository doctorRepository;
+    @Autowired
+    DepartmentRepository departmentRepository;
 
 
-
-    @Id("nameLabel")
-    private Label nameLabel;
     @Id("gridinfo")
     private Grid<Visit> gridinfo;
-    @Id("patients")
-    private ComboBox<Patient> patients;
     @Id("doctors")
     private ComboBox<Doctor> doctors;
-
     @Id("visitDate")
     private DatePicker visitDate;
     @Id("summary")
     private TextField summary;
-    @Id("peselLabel")
-    private Label peselLabel;
-    @Id("addresLabel")
-    private Label addresLabel;
     @Id("logout")
     private Button logout;
+    @Id("addVisit")
+    private Button addVisit;
+    @Id("currUserPesel")
+    private TextField currUserPesel;
+    @Id("currUserLastName")
+    private TextField currUserLastName;
+    @Id("currUserFirstName")
+    private TextField currUserFirstName;
+    @Id("departments")
+    private ComboBox<Department> departments;
 
 
 
@@ -89,11 +95,13 @@ public class PatientView extends PolymerTemplate<PatientView.PatientViewModel>  
      * Creates a new PatientView.
      */
 
-
     public PatientView() throws UsernameNotFoundException, NullPointerException {
         logout.addClickListener(buttonClickEvent -> {
             UI.getCurrent().getPage().executeJavaScript("location.assign('login?logout')");
         });
+
+
+
     }
 
     @PostConstruct
@@ -104,28 +112,34 @@ public class PatientView extends PolymerTemplate<PatientView.PatientViewModel>  
     @PostConstruct
     public void combo() {
 
-        patients.setItemLabelGenerator(Patient::getFirstName);
-        patients.setItems(patientRepository.findAll());
-        patients.setRenderer(renderer.withProperty("patientName", Patient::toString));
+        departments.setItemLabelGenerator(Department::getName);
+        departments.setItems(departmentRepository.findAll());
+        departments.setRenderer(rendererDepartment.withProperty("departmentName", Department::getName));
+        Department department = departments.getValue();
         doctors.setItemLabelGenerator(Doctor::getFirstName);
-        doctors.setItems(doctorRepository.findAll());
+        doctors.setItems(doctorRepository.findByDepartment(department));
         doctors.setRenderer(rendererDoc.withProperty("doctorName", Doctor::toString));
-        //vaadinButton.setEnabled(false);
-
     }
 
+    @PostConstruct
+    public void userLabels() {
+        currUserFirstName.setValue(actualPatient().getFirstName());
+        currUserLastName.setValue(actualPatient().getLastName());
+        currUserPesel.setValue(actualPatient().getPesel());
+    }
 
     @EventHandler
     public void saveVisit() {
         try {
-            Notification.show("TEKST");
-            Visit v = new Visit();
-            v.setPatient(patients.getValue());
+            Visit v = new Visit(visitDate.getValue(), summary.getValue(), actualPatient(), doctors.getValue());
+            /*v.setPatient(actualPatient());
             v.setDoctor(doctors.getValue()); //combobox doktora
             v.setDateOfVisit(visitDate.getValue()); //wybor daty wizyty
-            v.setSummary(summary.getValue()); //pole na informacje dodatkowa
-            if (doctors.getValue() != null && patients.getValue() != null && visitDate.getValue() != null && summary.getValue() != null) {
+            v.setSummary(summary.getValue()); //pole na informacje dodatkowa*/
+
+            if (doctors.getValue() != null && visitDate.getValue() != null && summary.getValue() != null) {
                 visitRepository.save(v);
+                gridinfo.setItems(visitRepository.findByPatient(actualPatient()));
                 Properties props = System.getProperties();
                 props.put("mail.smtp.host", "poczta.interia.pl");
                 props.put("mail.smtp.auth", "true");
@@ -146,11 +160,11 @@ public class PatientView extends PolymerTemplate<PatientView.PatientViewModel>  
                     MimeMessage msg = new MimeMessage(session);
                     msg.setFrom(new InternetAddress("patro10@interia.pl"));
                     msg.setRecipients(Message.RecipientType.TO, "stefekx9@interia.pl");
-                    msg.setSubject("Tetowy mail");
+                    msg.setSubject("Zarejestrowano nową wizytę w E-Przychodni!");
                     msg.setSentDate(new Date());
-                    msg.setText("Wizyta pacjenta " + patients.getValue() +
+                    msg.setText("Wizyta pacjenta " + actualPatient().toString() +
                             " u doktora " + doctors.getValue() + " odbędzie się dnia " +
-                            visitDate.getValue());
+                            visitDate.getValue() + ". \nDodatkowy opis : " + summary.getValue() + ".\n E-PRZYCHODNIA MediClinic");
                     Transport.send(msg);
                 } catch (MessagingException mex) {
                     System.out.println("send failed, exception: " + mex);
@@ -159,8 +173,20 @@ public class PatientView extends PolymerTemplate<PatientView.PatientViewModel>  
         } catch (Exception e) {
             Notification.show("Wypełnij wszystkie pola!", 5000, Notification.Position.MIDDLE);
         }
+    }
 
+    @PostConstruct
+    public Patient actualPatient() {
+        return patientRepository.findByEmailIgnoreCase(SecurityUtils.getUsername());
+    }
 
+    @PostConstruct
+    public void gridinfo() {
+        Patient act = actualPatient();
+        gridinfo.setItems(visitRepository.findByPatient(act));
+        gridinfo.addColumn(rendererVisit.withProperty("data", Visit::getDateOfVisit));
+        gridinfo.addColumn(rendererVisit.withProperty("lekarz", Visit::getDoctor));
+        gridinfo.addColumn(rendererVisit.withProperty("opis", Visit::getSummary));
     }
 
     /**
