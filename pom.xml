@@ -101,6 +101,12 @@
             <artifactId>fullcalendar-scheduler</artifactId>
             <version>1.2.1</version>
         </dependency>
+        <dependency>
+            <groupId>org.webjars.bowergithub.vaadin</groupId>
+            <artifactId>vaadin-time-picker</artifactId>
+            <version>1.1.1</version>
+        </dependency>
+
         <!--<dependency>
             <groupId>org.webjars.bowergithub.haithemmosbahi</groupId>
             <artifactId>scheduler-component</artifactId>

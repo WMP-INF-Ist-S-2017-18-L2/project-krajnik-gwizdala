@@ -3,14 +3,10 @@ package pik.clinic.clinicproject.backend.model;
 import com.vaadin.flow.component.JsonSerializable;
 import elemental.json.JsonObject;
 
-
-import javax.persistence.*;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-
 import java.time.LocalDate;
 import java.util.List;
 
@@ -37,6 +33,9 @@ public class Patient implements JsonSerializable {
 
 
     public Patient() {
+    }
+
+    public Patient(Patient actualPatient) {
     }
 
     public Long getId() {
@@ -140,5 +139,9 @@ public class Patient implements JsonSerializable {
     @Override
     public JsonSerializable readJson(JsonObject jsonObject) {
         return null;
+    }
+
+    public String getFirstName(Patient patient) {
+        return firstName;
     }
 }

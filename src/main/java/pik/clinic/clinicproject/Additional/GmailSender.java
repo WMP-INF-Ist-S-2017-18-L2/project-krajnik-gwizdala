@@ -7,8 +7,7 @@ import javax.mail.*;
 import javax.mail.internet.*;
 import java.util.Properties;
 
-public class GmailSender
-{
+public class GmailSender {
     private static String protocol = "poczta.interia.pl";
 
     private String username;
@@ -18,13 +17,11 @@ public class GmailSender
     private Message message;
     private Multipart multipart;
 
-    public GmailSender()
-    {
+    public GmailSender() {
         this.multipart = new MimeMultipart();
     }
 
-    public void setSender(String username, String password)
-    {
+    public void setSender(String username, String password) {
         this.username = username;
         this.password = password;
 
@@ -32,18 +29,15 @@ public class GmailSender
         this.message = new MimeMessage(session);
     }
 
-    public void addRecipient(String recipient) throws AddressException, MessagingException
-    {
+    public void addRecipient(String recipient) throws AddressException, MessagingException {
         message.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
     }
 
-    public void setSubject(String subject) throws MessagingException
-    {
+    public void setSubject(String subject) throws MessagingException {
         message.setSubject(subject);
     }
 
-    public void setBody(String body) throws MessagingException
-    {
+    public void setBody(String body) throws MessagingException {
         BodyPart messageBodyPart = new MimeBodyPart();
         messageBodyPart.setText(body);
         multipart.addBodyPart(messageBodyPart);
@@ -51,8 +45,7 @@ public class GmailSender
         message.setContent(multipart);
     }
 
-    public void send() throws MessagingException
-    {
+    public void send() throws MessagingException {
         Transport transport = session.getTransport(protocol);
         transport.connect(username, password);
         transport.sendMessage(message, message.getAllRecipients());
@@ -60,16 +53,14 @@ public class GmailSender
         transport.close();
     }
 
-    public void addAttachment(String filePath) throws MessagingException
-    {
+    public void addAttachment(String filePath) throws MessagingException {
         BodyPart messageBodyPart = getFileBodyPart(filePath);
         multipart.addBodyPart(messageBodyPart);
 
         message.setContent(multipart);
     }
 
-    private BodyPart getFileBodyPart(String filePath) throws MessagingException
-    {
+    private BodyPart getFileBodyPart(String filePath) throws MessagingException {
         BodyPart messageBodyPart = new MimeBodyPart();
         DataSource dataSource = new FileDataSource(filePath);
         messageBodyPart.setDataHandler(new DataHandler(dataSource));
@@ -78,16 +69,14 @@ public class GmailSender
         return messageBodyPart;
     }
 
-    private Session getSession()
-    {
+    private Session getSession() {
         Properties properties = getMailServerProperties();
         Session session = Session.getDefaultInstance(properties);
 
         return session;
     }
 
-    private Properties getMailServerProperties()
-    {
+    private Properties getMailServerProperties() {
         Properties properties = System.getProperties();
         properties.put("mail.smtp.starttls.enable", "true");
         properties.put("mail.smtp.host", protocol);
