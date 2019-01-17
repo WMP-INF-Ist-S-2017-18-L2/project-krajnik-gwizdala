@@ -3,13 +3,13 @@ project-krajnik-gwizdala created by GitHub Classroom
 MedClinic – internetowa obsługa przychodni
 
 Spis treści: 
-1.	Autorzy
-2.	Opis działania oraz zastosowane technologie
-3.	Wymagania aplikacji 
-4.	Konfiguracja
-5.	Sposób użytkowania
-6.	Struktura bazy danych
-7.	Możliwe do wystąpienia błędy/problemy
+    1.	Autorzy
+    2.	Opis działania oraz zastosowane technologie
+    3.	Wymagania aplikacji 
+    4.	Konfiguracja
+    5.	Sposób użytkowania
+    6.	Struktura bazy danych
+    7.	Możliwe do wystąpienia błędy/problemy
 
 
 
@@ -21,26 +21,15 @@ Aplikacja symuluje działanie wirtualnej przychodni, gdzie pacjenci mogą rejest
 3.	Wymagania:
 a.	Środowisko uruchomieniowe Java w wersji 8.
 4.	Konfiguracja
-Konfiguracja aplikacji (ustawienie dostępu do bazy danych) jest możliwa do dokonania w pliku applicationproperties w katalogu src/main/resources.
- 
+Konfiguracja aplikacji (ustawienie dostępu do bazy danych) jest możliwa do dokonania w pliku applicationproperties w katalogu src/main/resources. 
 
 5.	Sposób użytkowania
 Aplikacja wymaga utworzenia konta pacjenta (konto doktora jest dodawane przez administratora). Po zalogowaniu się właściwym adresem email oraz poprawnym dla tego adresu hasłem następuje przekierowanie do panelu pacjenta.
 
- 
- 
-
- W niżej pokazanym panelu aktualnie zalogowany użytkownik po lewej stronie może zobaczyć swoje dane, w panelu głównym (na środku) istnieje widok zarejestrowanych wizyt oraz elementy umożliwiające zarejestrowanie nowej wizyty.
+ W panelu pacjenta aktualnie zalogowany użytkownik po lewej stronie może zobaczyć swoje dane, w panelu głównym (na środku) istnieje widok zarejestrowanych wizyt oraz elementy umożliwiające zarejestrowanie nowej wizyty.
 Po zarejestrowaniu nowej wizyty pojawi się ona w tabeli w panelu pacjenta a także zostanie wysłane powiadomienie na adres e-mail.
 
-
-
-
-
-
-
 Dostępny jest także panel administratora do zarządzania wizytami, kontami pacjentów, lekarzy oraz oddziałami przychodni.
-
 
 6.	Baza danych połączona jest pomiędzy tabelami relacjami  
 
