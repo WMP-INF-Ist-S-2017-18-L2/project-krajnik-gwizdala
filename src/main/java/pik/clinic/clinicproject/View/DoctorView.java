@@ -6,8 +6,10 @@ import com.vaadin.flow.templatemodel.TemplateModel;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import pik.clinic.clinicproject.backend.Role;
 import pik.clinic.clinicproject.backend.model.Patient;
 import pik.clinic.clinicproject.backend.repositories.PatientRepository;
 
@@ -17,7 +19,7 @@ import pik.clinic.clinicproject.backend.repositories.PatientRepository;
  * Designer will add and remove fields with @Id mappings but
  * does not overwrite or otherwise change this file.
  */
-@Route("doctor-view")
+@Route(value = "doctor-view")
 @Tag("doctor-view")
 @HtmlImport("doctor-view.html")
 public class DoctorView extends PolymerTemplate<DoctorView.DoctorViewModel> {

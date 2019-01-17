@@ -14,9 +14,14 @@ import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.renderer.TemplateRenderer;
+import com.vaadin.flow.router.BeforeEnterEvent;
+import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.templatemodel.TemplateModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import pik.clinic.clinicproject.backend.Role;
 import pik.clinic.clinicproject.backend.model.Doctor;
 import pik.clinic.clinicproject.backend.model.Patient;
 import pik.clinic.clinicproject.backend.model.Visit;
@@ -33,10 +38,11 @@ import java.util.List;
  * Designer will add and remove fields with @Id mappings but
  * does not overwrite or otherwise change this file.
  */
-@Route("adminview")
+@Route(value = "adminview")
 @Tag("admin-view")
+@Secured(Role.ADMIN)
 @HtmlImport("admin-view.html")
-public class AdminView extends PolymerTemplate<AdminView.AdminViewModel> {
+public class AdminView extends PolymerTemplate<AdminView.AdminViewModel> implements BeforeEnterObserver {
 
     @Autowired
     PatientRepository patientRepository;
@@ -171,6 +177,10 @@ public class AdminView extends PolymerTemplate<AdminView.AdminViewModel> {
         visitGrid.addColumn(rendererVisit.withProperty("pacjent", Visit::getPatient));
     }
 
+    @Override
+    public void beforeEnter(BeforeEnterEvent beforeEnterEvent) {
+
+    }
 
 
     /**

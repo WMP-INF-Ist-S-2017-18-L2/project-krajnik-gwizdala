@@ -17,7 +17,7 @@ import java.util.Collections;
 /**
  * Implements the {@link UserDetailsService}.
  *
- * This implementation searches for {@link Doctor} entities by the pesel
+ * This implementation searches for {@link Doctor} entities by the email
  * supplied in the login screen.
  */
 
@@ -34,11 +34,11 @@ public class DoctorDetailsService implements UserDetailsService {
 
     /**
      *
-     * Recovers the {@link Doctor} from the database using the pesel supplied
+     * Recovers the {@link Doctor} from the database using the email supplied
      * in the login screen. If the user is found, returns a
      * {@link org.springframework.security.core.userdetails.User}.
      *
-     * @param email Patient
+     * @param email Doctor
      *
      */
     @Override

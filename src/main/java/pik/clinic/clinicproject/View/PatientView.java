@@ -18,7 +18,9 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.templatemodel.TemplateModel;
 import org.atmosphere.util.analytics.GoogleAnalytics_v1_URLBuildingStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import pik.clinic.clinicproject.backend.Role;
 import pik.clinic.clinicproject.backend.model.Doctor;
 import pik.clinic.clinicproject.backend.model.Patient;
 import pik.clinic.clinicproject.backend.model.Visit;
@@ -26,7 +28,6 @@ import pik.clinic.clinicproject.backend.repositories.DoctorRepository;
 import pik.clinic.clinicproject.backend.repositories.PatientRepository;
 import pik.clinic.clinicproject.backend.repositories.VisitRepository;
 import pik.clinic.clinicproject.backend.security.SecurityUtils;
-import sun.util.resources.cldr.ar.CalendarData_ar_YE;
 
 import javax.annotation.PostConstruct;
 import javax.mail.*;
@@ -42,9 +43,10 @@ import java.util.Properties;
  * Designer will add and remove fields with @Id mappings but
  * does not overwrite or otherwise change this file.
  */
-@Route("patient-view")
+@Route(value = "patient-view")
 @Tag("patient-view")
 @HtmlImport("patient-view.html")
+
 public class PatientView extends PolymerTemplate<PatientView.PatientViewModel>  {
 
 
