@@ -15,9 +15,15 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.renderer.TemplateRenderer;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.templatemodel.TemplateModel;
+import org.atmosphere.util.analytics.GoogleAnalytics_v1_URLBuildingStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
+import pik.clinic.clinicproject.backend.Role;
+
 import pik.clinic.clinicproject.backend.model.Department;
+
 import pik.clinic.clinicproject.backend.model.Doctor;
 import pik.clinic.clinicproject.backend.model.Patient;
 import pik.clinic.clinicproject.backend.model.Visit;
@@ -41,10 +47,11 @@ import java.util.Properties;
  * Designer will add and remove fields with @Id mappings but
  * does not overwrite or otherwise change this file.
  */
-@Route("patient-view")
+@Route(value = "patient-view")
 @Tag("patient-view")
 @HtmlImport("patient-view.html")
-public class PatientView extends PolymerTemplate<PatientView.PatientViewModel> {
+
+public class PatientView extends PolymerTemplate<PatientView.PatientViewModel>  {
 
     TemplateRenderer<Patient> renderer = TemplateRenderer.<Patient>of("");
     TemplateRenderer<Doctor> rendererDoc = TemplateRenderer.<Doctor>of("");
@@ -59,6 +66,7 @@ public class PatientView extends PolymerTemplate<PatientView.PatientViewModel> {
     DoctorRepository doctorRepository;
     @Autowired
     DepartmentRepository departmentRepository;
+
 
     @Id("gridinfo")
     private Grid<Visit> gridinfo;
@@ -82,11 +90,12 @@ public class PatientView extends PolymerTemplate<PatientView.PatientViewModel> {
     private ComboBox<Department> departments;
 
 
+
     /**
      * Creates a new PatientView.
      */
-    public PatientView() throws UsernameNotFoundException, NullPointerException {
 
+    public PatientView() throws UsernameNotFoundException, NullPointerException {
         logout.addClickListener(buttonClickEvent -> {
             UI.getCurrent().getPage().executeJavaScript("location.assign('login?logout')");
         });
@@ -96,7 +105,13 @@ public class PatientView extends PolymerTemplate<PatientView.PatientViewModel> {
     }
 
     @PostConstruct
+    public Patient actualPatient() {
+        return patientRepository.findByEmailIgnoreCase(SecurityUtils.getUsername());
+    }
+
+    @PostConstruct
     public void combo() {
+
         departments.setItemLabelGenerator(Department::getName);
         departments.setItems(departmentRepository.findAll());
         departments.setRenderer(rendererDepartment.withProperty("departmentName", Department::getName));
@@ -131,7 +146,7 @@ public class PatientView extends PolymerTemplate<PatientView.PatientViewModel> {
 
                 Session session = Session.getDefaultInstance(props, new Authenticator() {
                     public PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication("patro10", "patryk");
+                        return new PasswordAuthentication("", "");
                     }
                 });
                 Provider[] providers = session.getProviders();

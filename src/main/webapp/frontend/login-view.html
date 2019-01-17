@@ -1,4 +1,4 @@
-<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="bower_components/polymer/polymer.html">
 <link rel="import" href="bower_components/vaadin-ordered-layout/src/vaadin-vertical-layout.html">
 <link rel="import" href="bower_components/vaadin-tabs/src/vaadin-tabs.html">
 <link rel="import" href="bower_components/vaadin-tabs/src/vaadin-tab.html">
@@ -10,37 +10,36 @@
 
 <dom-module id="login-view">
     <template>
-
 <style include="shared-styles">
- :host {
-  display: flex;
-  flex-flow: column nowrap;
-  align-items: center;
- }
- #container
- {
-  width: 400px;
-  background-color: #f0f0f0;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
- }
- .tab{
-  width: 50%;
-  background-color: white;
-  border-right: 1px #f0f0f0 solid;
- }
- .tab-last{
-  width: 50%;
-  background-color: white;
- }
+    :host {
+        display: flex;
+        flex-flow: column nowrap;
+        align-items: center;
+    }
+    #container
+    {
+        width: 400px;
+        background-color: #f0f0f0;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+    .tab{
+        width: 50%;
+        background-color: white;
+        border-right: 1px #f0f0f0 solid;
+    }
+    .tab-last{
+        width: 50%;
+        background-color: white;
+    }
         </style>
-<vaadin-vertical-layout theme="margin">
- <h1>MedClinic</h1>
-</vaadin-vertical-layout>
-<div id="container">
- <div>
+<div>
+ <vaadin-vertical-layout theme="margin">
+  <h1>MedClinic</h1>
+ </vaadin-vertical-layout>
+ <div id="container">
   <vaadin-tabs selected="{{page}}">
    <vaadin-tab selected class="tab">
-     Zaloguj 
+     Logowanie 
    </vaadin-tab>
    <vaadin-tab class="tab-last">
      Rejestracja 
@@ -55,7 +54,7 @@
         <vaadin-text-field id="username" name="username" label="E-mail" autofocus required></vaadin-text-field>
         <vaadin-password-field label="Hasło" name="password" required on-keydown="_onPasswordKeydown"></vaadin-password-field>
         <vaadin-button theme="primary" on-click="_submit">
-          Zaloguj
+          Zaloguj 
         </vaadin-button>
        </vaadin-vertical-layout>
       </form>
@@ -72,7 +71,7 @@
      <vaadin-text-field label="Pesel" placeholder="" id="rpeselField"></vaadin-text-field>
      <vaadin-text-field label="Adres zamieszkania" placeholder="" id="rAdressField"></vaadin-text-field>
      <vaadin-button theme="primary" id="registerButton">
-      Zarejestruj
+       Zarejestruj 
      </vaadin-button>
     </vaadin-vertical-layout>
    </page>
@@ -80,7 +79,6 @@
  </div>
 </div>
 </template>
-
 
     <script>
         class LoginView extends Polymer.Element {
@@ -93,16 +91,15 @@
                     // Declare your properties here.
                 };
             }
-         _submit() {
-          this.$.ironForm.submit();
-         }
-         _onPasswordKeydown(event) {
-          if (event.key === 'Enter' || event.keyCode == 13) {
-           this._submit();
-          }
-         }
+            _submit() {
+                this.$.ironForm.submit();
+            }
+            _onPasswordKeydown(event) {
+                if (event.key === 'Enter' || event.keyCode == 13) {
+                    this._submit();
+                }
+            }
         }
-
         customElements.define(LoginView.is, LoginView);
     </script>
 </dom-module>

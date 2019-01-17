@@ -106,8 +106,10 @@
  <iron-pages selected="[[page]]">
   <page>
    <h4>Wizyty </h4>
+
    <div id="visitRegister">
     <vaadin-combo-box id="departments">
+
      <template>
        [[item.departmentName]] 
      </template>
@@ -116,6 +118,7 @@
      <template>
        [[item.doctorName]] 
      </template>
+
     </vaadin-combo-box>
     <vaadin-date-picker id="visitDate"></vaadin-date-picker>
     <vaadin-text-field label="Opis" placeholder="Placeholder" id="summary"></vaadin-text-field>
@@ -170,6 +173,7 @@
       </template>
      </vaadin-grid-column>
     </vaadin-grid>
+
    </div>
   </page>
   <page>
@@ -178,7 +182,7 @@
  </iron-pages>
 </div>
 </template>
-    https://github.com/WMP-INF-Ist-S-2017-18-L2/project-krajnik-gwizdala/pull/7/conflict?name=src%252Fmain%252Fwebapp%252Ffrontend%252Fpatient-view.html&ancestor_oid=a9b02efab0d666ece16454c9e6e860e735f1a6ad&base_oid=f1d2faa6e08c3445968a283cac204357aa34ccfe&head_oid=8a19b3109393525e01d34d81d4baadf300fa0ec6
+
 
     <script>
         class PatientView extends Polymer.Element {
@@ -195,4 +199,6 @@
 
         customElements.define(PatientView.is, PatientView);
     </script>
+
+
 </dom-module>
