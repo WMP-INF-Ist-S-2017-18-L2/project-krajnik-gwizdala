@@ -1,0 +1,20 @@
+{
+  "name": "project-krajnik-gwizdala",
+  "homepage": "https://github.com/WMP-INF-Ist-S-2017-18-L2/project-krajnik-gwizdala",
+  "authors": [
+    "exzhibit97 <exzhibit97@gmail.com>"
+  ],
+  "description": "online clinic project",
+  "main": "ClinicprojectApplication.java",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "scheduler-component": "HaithemMosbahi/scheduler-component#^1.6.0"
+  }
+}
