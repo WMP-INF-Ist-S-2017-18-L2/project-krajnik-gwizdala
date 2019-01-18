@@ -1,5 +1,6 @@
 # project-krajnik-gwizdala
 project-krajnik-gwizdala created by GitHub Classroom
+Pełna dokumentacja dostępna w pliku: MedClinic dokumentacja.docx, <a href="https://github.com/WMP-INF-Ist-S-2017-18-L2/project-krajnik-gwizdala/blob/master/MedClinic%20dokumentacja.docx">link</a>
 <h1>MedClinic – internetowa obsługa przychodni</h1>
 
 <h3>Spis treści:</h3>
