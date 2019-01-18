@@ -46,7 +46,7 @@ Po zarejestrowaniu nowej wizyty pojawi się ona w tabeli w panelu pacjenta a tak
 </ul>
 
 <h2> Wprowadzone poprawki</h2>
-Branch: Gadzialff
+Branch: gadzialf
 <p><b>18.01.2019 update 1</b></p>
  <ul>
   <li>Poprawnie działające wylogowanie,</li>
