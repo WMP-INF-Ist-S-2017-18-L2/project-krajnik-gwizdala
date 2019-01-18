@@ -40,7 +40,7 @@ import java.util.Properties;
  * Designer will add and remove fields with @Id mappings but
  * does not overwrite or otherwise change this file.
  */
-@Route(value = "adminview")
+@Route(value = "admin-view")
 @Tag("admin-view")
 @Secured(Role.ADMIN)
 @HtmlImport("admin-view.html")

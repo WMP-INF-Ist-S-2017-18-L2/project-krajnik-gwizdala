@@ -66,7 +66,7 @@ public class MySimpleUrlAuthenticationSuccessHandler implements AuthenticationSu
         if (isPatient) {
             return "/patient-view";
         } else if (isAdmin) {
-            return "/adminview";
+            return "/admin-view";
         }else if (isDoctor) {
             return "/doctor-view";
         }
