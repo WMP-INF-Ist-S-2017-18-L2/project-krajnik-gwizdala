@@ -1,4 +1,17 @@
 <link rel="import" href="bower_components/polymer/polymer.html">
+<link rel="import" href="bower_components/vaadin-tabs/src/vaadin-tabs.html">
+<link rel="import" href="bower_components/vaadin-tabs/src/vaadin-tab.html">
+<link rel="import" href="bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="bower_components/vaadin-grid/src/vaadin-grid.html">
+<link rel="import" href="bower_components/vaadin-grid/src/vaadin-grid-column.html">
+
+<link rel="import" href="bower_components/vaadin-button/src/vaadin-button.html">
+<link rel="import" href="bower_components/vaadin-ordered-layout/src/vaadin-horizontal-layout.html">
+<link rel="import" href="bower_components/vaadin-text-field/src/vaadin-text-field.html">
+<link rel="import" href="bower_components/vaadin-form-layout/src/vaadin-form-layout.html">
+<link rel="import" href="bower_components/vaadin-form-layout/src/vaadin-form-item.html">
+<link rel="import" href="bower_components/vaadin-list-box/src/vaadin-list-box.html">
+<link rel="import" href="bower_components/vaadin-item/src/vaadin-item.html">
 
 <dom-module id="doctor-view">
     <template>
@@ -6,8 +19,159 @@
             :host {
                 display: block;
             }
+
+            #menu-div {
+                margin-left: 0;
+                display: flex;
+                flex-flow: column nowrap;
+                align-items: center;
+                position: absolute;
+                float: left;
+                height: 100%;
+                width: 15%;
+                background-color: #f0f0f0;
+            }
+
+            #pages {
+                position: relative;
+                margin-left: 15%;
+            }
+
+            #gridpage1 {
+                width: 60%;
+            }
+
+            #gridpage2 {
+                width: 30%;
+            }
+
+            #gridinfo {
+
+                width: 800px;
+            }
+
+            #logout {
+                margin: 0 auto;
+            }
+
+            #visitRegister {
+                margin: 5%;
+            }
+
+            #displayUser {
+                margin-left: 10px;
+            }
+
+            #avatarDiv {
+                position: relative;
+            }
+
+            #page1 {
+                display: flex;
+                flex-flow: column nowrap;
+                align-items: center;
+            }
+
+            .full-width {
+                width: 90%;
+            }
+
         </style>
-<h1>Panel Doktora</h1>
+<div id="menu-div" style="align-items: center">
+ <div id="avatarDiv">
+  <img src="../frontend/Images/doctorPlaceholder.jpg" id="avatarPlaceholder" width="150px" height="150px">
+ </div>
+ <vaadin-form-layout id="displayUser">
+  <vaadin-form-item>
+   <label slot="label">First Name</label>
+   <vaadin-text-field class="full-width" id="currDoctorFirstName" readonly="1"></vaadin-text-field>
+  </vaadin-form-item>
+  <vaadin-form-item>
+   <label slot="label">Last Name</label>
+   <vaadin-text-field class="full-width" id="currDoctorLastName" readonly="1"></vaadin-text-field>
+  </vaadin-form-item>
+  <vaadin-form-item>
+   <label slot="label">PESEL </label>
+   <vaadin-text-field class="full-width" id="currDoctorPesel" readonly="1"></vaadin-text-field>
+  </vaadin-form-item>
+  <vaadin-form-item>
+   <label slot="label">Oddział </label>
+   <vaadin-text-field class="full-width" id="currDoctorDepartment" readonly="1"></vaadin-text-field>
+  </vaadin-form-item>
+ </vaadin-form-layout>
+ <vaadin-horizontal-layout theme="margin">
+  <vaadin-button theme="tertiary" id="logout" class="center">
+    Wyloguj 
+  </vaadin-button>
+ </vaadin-horizontal-layout>
+</div>
+<div id="pages">
+ <vaadin-tabs selected="{{page}}" theme="equal-width-tabs">
+  <vaadin-tab selected>
+    Informacje 
+  </vaadin-tab>
+  <vaadin-tab disabled theme="equal-width-tabs">
+    Raporty
+  </vaadin-tab>
+ </vaadin-tabs>
+ <iron-pages selected="[[page]]">
+  <page id="page1">
+   <h4>Wizyty </h4>
+   <div id="visitRegister"></div>
+   <div id="gridInfoDiv">
+    <vaadin-grid items="[[items]]" id="gridinfo" width="800px">
+     <vaadin-grid-column width="200px" flex-grow="0">
+      <template class="header">
+        Lp. 
+      </template>
+      <template>
+        [[index]] 
+      </template>
+      <template class="footer">
+        Lp. 
+      </template>
+     </vaadin-grid-column>
+     <vaadin-grid-column width="200px">
+      <template class="header">
+        Data 
+      </template>
+      <template>
+        [[item.data]] 
+      </template>
+      <template class="footer">
+        Data 
+      </template>
+     </vaadin-grid-column>
+     <vaadin-grid-column width="200px">
+      <template class="header">
+        Pacjent 
+      </template>
+      <template>
+        [[item.pacjent]] 
+      </template>
+      <template class="footer">
+        Lekarz 
+      </template>
+     </vaadin-grid-column>
+     <vaadin-grid-column width="200px">
+      <template class="header">
+        Opis 
+      </template>
+      <template>
+        [[item.opis]] 
+      </template>
+      <template class="footer">
+        Opis 
+      </template>
+     </vaadin-grid-column>
+    </vaadin-grid>
+   </div>
+  </page>
+  <page>
+   <h3>Page 3</h3>Good Morning 
+  </page>
+ </iron-pages>
+</div>
 </template>
 
     <script>
@@ -22,6 +186,7 @@
                 };
             }
         }
+
         customElements.define(DoctorView.is, DoctorView);
     </script>
 </dom-module>

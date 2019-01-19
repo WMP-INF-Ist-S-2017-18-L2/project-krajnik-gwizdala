@@ -8,7 +8,7 @@ import javax.mail.internet.*;
 import java.util.Properties;
 
 public class GmailSender {
-    private static String protocol = "poczta.interia.pl";
+    private static String protocol = "poczta.wp.pl";
 
     private String username;
     private String password;

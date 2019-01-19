@@ -27,6 +27,7 @@ import pik.clinic.clinicproject.backend.repositories.DoctorRepository;
 import pik.clinic.clinicproject.backend.repositories.PatientRepository;
 import pik.clinic.clinicproject.backend.repositories.VisitRepository;
 import pik.clinic.clinicproject.backend.security.SecurityUtils;
+
 import javax.annotation.PostConstruct;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -45,12 +46,12 @@ import java.util.Properties;
 @Tag("patient-view")
 @HtmlImport("patient-view.html")
 
-public class PatientView extends PolymerTemplate<PatientView.PatientViewModel>  {
+public class PatientView extends PolymerTemplate<PatientView.PatientViewModel> {
 
     TemplateRenderer<Patient> renderer = TemplateRenderer.<Patient>of("");
     TemplateRenderer<Doctor> rendererDoc = TemplateRenderer.<Doctor>of("");
     TemplateRenderer<Visit> rendererVisit = TemplateRenderer.<Visit>of("");
-    TemplateRenderer<Department> rendererDepartment  = TemplateRenderer.<Department>of("");
+    TemplateRenderer<Department> rendererDepartment = TemplateRenderer.<Department>of("");
 
     @Autowired
     VisitRepository visitRepository;
@@ -92,9 +93,6 @@ public class PatientView extends PolymerTemplate<PatientView.PatientViewModel>  
             SecurityContextHolder.clearContext();
 
         });
-
-
-
     }
 
     @PostConstruct
@@ -132,7 +130,11 @@ public class PatientView extends PolymerTemplate<PatientView.PatientViewModel>  
             v.setSummary(summary.getValue()); //pole na informacje dodatkowa*/
 
             if (doctors.getValue() != null && visitDate.getValue() != null && summary.getValue() != null) {
-                visitRepository.save(v);
+                if (visitRepository.countVisitByDateOfVisitAndDoctor(visitDate.getValue(), doctors.getValue()) >= 10) {
+                    Notification.show("Lekarz " + doctors.getValue() + " nie ma już wolnych miejsc w dniu: " + visitDate.getValue() + ". Przepraszamy za niedogodności, prosimy wybrać inny termin lub innego lekarza.");
+                } else {
+                    visitRepository.save(v);
+                }
                 gridinfo.setItems(visitRepository.findByPatient(actualPatient()));
                 Properties props = System.getProperties();
                 props.put("mail.smtp.host", "poczta.interia.pl");
@@ -140,7 +142,7 @@ public class PatientView extends PolymerTemplate<PatientView.PatientViewModel>  
 
                 Session session = Session.getDefaultInstance(props, new Authenticator() {
                     public PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication("", "");
+                        return new PasswordAuthentication("patro10", "patryk    ");
                     }
                 });
                 Provider[] providers = session.getProviders();
