@@ -18,7 +18,6 @@ public class Doctor implements JsonSerializable {
     private String lastName;
     private String specialization;
     private String PESEL;
-    private String email;
     private String address;
     private String phoneNumber;
     private String password;
@@ -40,14 +39,6 @@ public class Doctor implements JsonSerializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getRole() {

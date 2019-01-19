@@ -25,16 +25,19 @@
 
             #menu-div {
                 margin-left: 0;
+                display: flex;
+                flex-flow: column nowrap;
+                align-items: center;
                 position: absolute;
                 float: left;
                 height: 100%;
-                width: 20%;
+                width: 15%;
                 background-color: #f0f0f0;
             }
 
             #pages {
                 position: relative;
-                margin-left: 20%;
+                margin-left: 15%;
             }
 
             #gridpage1 {
@@ -46,7 +49,7 @@
             }
 
             #gridinfo {
-                margin: 5%;
+
                 width: 800px;
             }
 
@@ -65,27 +68,33 @@
             #avatarDiv {
                 position: relative;
             }
-            #gridInfoDiv {
-                width: 500px;
+
+            #page1{
+                display: flex;
+                flex-flow: column nowrap;
+                align-items: center;
+            }
+            .full-width{
+                width: 90%;
             }
 
         </style>
 <div id="menu-div" style="align-items: center">
  <div id="avatarDiv">
-  <img src="Images/userPlaceholder.jpg" id="avatarPlaceholder" width="150px" height="150px">
+  <img src="../frontend/Images/userPlaceholder.jpg" id="avatarPlaceholder" width="150px" height="150px">
  </div>
  <vaadin-form-layout id="displayUser">
   <vaadin-form-item>
    <label slot="label">First Name</label>
-   <vaadin-text-field class="full-width" value="Jane" id="currUserFirstName" readonly="1"></vaadin-text-field>
+   <vaadin-text-field class="full-width" id="currUserFirstName" readonly="1"></vaadin-text-field>
   </vaadin-form-item>
   <vaadin-form-item>
    <label slot="label">Last Name</label>
-   <vaadin-text-field class="full-width" value="Doe" id="currUserLastName" readonly="1"></vaadin-text-field>
+   <vaadin-text-field class="full-width"id="currUserLastName" readonly="1"></vaadin-text-field>
   </vaadin-form-item>
   <vaadin-form-item>
    <label slot="label">PESEL </label>
-   <vaadin-text-field class="full-width" value="98765432109" id="currUserPesel" readonly="1"></vaadin-text-field>
+   <vaadin-text-field class="full-width" id="currUserPesel"  readonly="1"></vaadin-text-field>
   </vaadin-form-item>
  </vaadin-form-layout>
  <vaadin-horizontal-layout theme="margin">
@@ -104,21 +113,13 @@
   </vaadin-tab>
  </vaadin-tabs>
  <iron-pages selected="[[page]]">
-  <page>
+  <page id = "page1">
    <h4>Wizyty </h4>
-
    <div id="visitRegister">
-    <vaadin-combo-box id="departments">
-
-     <template>
-       [[item.departmentName]] 
-     </template>
-    </vaadin-combo-box>
     <vaadin-combo-box id="doctors">
      <template>
        [[item.doctorName]] 
      </template>
-
     </vaadin-combo-box>
     <vaadin-date-picker id="visitDate"></vaadin-date-picker>
     <vaadin-text-field label="Opis" placeholder="Placeholder" id="summary"></vaadin-text-field>
@@ -173,11 +174,10 @@
       </template>
      </vaadin-grid-column>
     </vaadin-grid>
-
    </div>
   </page>
   <page>
-   <h3>Page 3</h3>Good Morning 
+   <h3>Page 3</h3>Good Morning
   </page>
  </iron-pages>
 </div>
