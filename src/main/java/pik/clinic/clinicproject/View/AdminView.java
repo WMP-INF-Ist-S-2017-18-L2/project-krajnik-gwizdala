@@ -32,13 +32,9 @@ import pik.clinic.clinicproject.backend.repositories.DoctorRepository;
 import pik.clinic.clinicproject.backend.repositories.PatientRepository;
 import pik.clinic.clinicproject.backend.repositories.VisitRepository;
 import pik.clinic.clinicproject.backend.security.SecurityUtils;
+
 import javax.annotation.PostConstruct;
-import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-import java.util.Date;
 import java.util.List;
-import java.util.Properties;
 
 /**
  * A Designer generated component for the admin-view.html template.
@@ -280,7 +276,7 @@ public class AdminView extends PolymerTemplate<AdminView.AdminViewModel> impleme
         doctorGrid.addColumn(rendererDoc.withProperty("telefon", Doctor::getPhoneNumber));
         doctorGrid.addColumn(rendererDoc.withProperty("adres", Doctor::getAddress));
         doctorGrid.addColumn(rendererDoc.withProperty("doctorSpecialization", Doctor::getSpecialization));
-        doctorGrid.addColumn(rendererDoc.withProperty("doctorDepartment",Doctor::getDepartment));
+        doctorGrid.addColumn(rendererDoc.withProperty("doctorDepartment",Doctor::getDepartmentName));
 
         doctorDeleteButton.setEnabled(false);
 
