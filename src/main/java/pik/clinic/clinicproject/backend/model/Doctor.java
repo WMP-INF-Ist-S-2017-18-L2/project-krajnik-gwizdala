@@ -176,4 +176,6 @@ public class Doctor implements JsonSerializable {
         return null;
     }
 
+    public String getDepartmentName() { return department.getName(); }
+
 }
