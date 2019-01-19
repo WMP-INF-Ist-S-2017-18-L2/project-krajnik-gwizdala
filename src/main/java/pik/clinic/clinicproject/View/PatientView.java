@@ -125,7 +125,7 @@ public class PatientView extends PolymerTemplate<PatientView.PatientViewModel>  
     @EventHandler
     public void saveVisit() {
         try {
-            Visit v = new Visit(visitDate.getValue(), summary.getValue(), actualPatient(), doctors.getValue());
+            Visit v = new Visit();
             /*v.setPatient(actualPatient());
             v.setDoctor(doctors.getValue()); //combobox doktora
             v.setDateOfVisit(visitDate.getValue()); //wybor daty wizyty

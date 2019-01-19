@@ -1,5 +1,8 @@
 package pik.clinic.clinicproject.backend.model;
 
+import com.vaadin.flow.component.JsonSerializable;
+import elemental.json.JsonObject;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -7,7 +10,7 @@ import javax.persistence.OneToMany;
 import java.util.List;
 
 @Entity
-public class Department {
+public class Department implements JsonSerializable {
     @Id
     @GeneratedValue
     private Long id;
@@ -19,6 +22,12 @@ public class Department {
     private List<Doctor> doctors;
 
     public Department() {
+    }
+
+    public Department(String name, String registrationPhone, String registrationEmail) {
+        this.name = name;
+        this.registrationPhone = registrationPhone;
+        this.registrationEmail = registrationEmail;
     }
 
     public Long getId() {
@@ -59,5 +68,21 @@ public class Department {
 
     public void setDoctors(List<Doctor> doctors) {
         this.doctors = doctors;
+    }
+
+    @Override
+    public String toString() {
+        return name;
+
+    }
+
+    @Override
+    public JsonObject toJson() {
+        return null;
+    }
+
+    @Override
+    public JsonSerializable readJson(JsonObject jsonObject) {
+        return null;
     }
 }

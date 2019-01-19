@@ -3,8 +3,11 @@ package pik.clinic.clinicproject.backend.model;
 
 import com.vaadin.flow.component.JsonSerializable;
 import elemental.json.JsonObject;
+import pik.clinic.clinicproject.backend.Role;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -13,24 +16,45 @@ public class Doctor implements JsonSerializable {
     @Id
     @GeneratedValue
     private Long id;
+    @NotNull
     private String email;
+    @NotNull
+    private String password;
     private String firstName;
     private String lastName;
-    private String specialization;
     private String PESEL;
+    private LocalDate birthDate;
     private String address;
     private String phoneNumber;
-    private String password;
+    private String specialization;
+    @ManyToOne
+    @JoinColumn(name = "department_id")
+    private Department department;
+
     private String role;
 
     @OneToMany
     private List<Visit> visits;
 
-    @ManyToOne
-    @JoinColumn(name = "department_id")
-    private Department department;
+
 
     public Doctor() {
+    }
+
+    public Doctor(@NotNull String email, @NotNull String password, String firstName, String lastName, String PESEL, LocalDate birthDate,
+                  String address, String phoneNumber,
+                  String specialization, Department department) {
+        this.email = email;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.PESEL = PESEL;
+        this.birthDate = birthDate;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        this.specialization = specialization;
+        this.department = department;
+        this.role = Role.DOCTOR;
     }
 
     public Long getId() {
@@ -95,6 +119,14 @@ public class Doctor implements JsonSerializable {
 
     public void setPESEL(String PESEL) {
         this.PESEL = PESEL;
+    }
+
+    public LocalDate getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
     }
 
     public String getAddress() {

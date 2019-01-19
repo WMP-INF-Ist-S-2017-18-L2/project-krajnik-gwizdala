@@ -1,17 +1,11 @@
 package pik.clinic.clinicproject.View;
 
-import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.templatemodel.TemplateModel;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import pik.clinic.clinicproject.backend.Role;
-import pik.clinic.clinicproject.backend.model.Patient;
-import pik.clinic.clinicproject.backend.repositories.PatientRepository;
+
 
 /**
  * A Designer generated component for the doctor-view.html template.

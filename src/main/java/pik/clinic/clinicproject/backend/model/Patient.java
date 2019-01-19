@@ -2,11 +2,13 @@ package pik.clinic.clinicproject.backend.model;
 
 import com.vaadin.flow.component.JsonSerializable;
 import elemental.json.JsonObject;
+import pik.clinic.clinicproject.backend.Role;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -17,15 +19,17 @@ public class Patient implements JsonSerializable {
     @Id
     @GeneratedValue
     private Long id;
+    @NotNull
     private String email;
+    @NotNull
     private String password;
-    private String role;
     private String firstName;
     private String lastName;
     private String pesel;
-    private String phoneNumber;
-    private String address;
     private LocalDate birthDate;
+    private String address;
+    private String phoneNumber;
+    private String role;
 
 
 
@@ -37,7 +41,17 @@ public class Patient implements JsonSerializable {
     public Patient() {
     }
 
-
+    public Patient(@NotNull String email, @NotNull String password, String firstName, String lastName, String pesel, LocalDate birthDate, String address, String phoneNumber) {
+        this.email = email;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.pesel = pesel;
+        this.birthDate = birthDate;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        this.role = Role.PATIENT;
+    }
 
     public Long getId() {
         return id;
