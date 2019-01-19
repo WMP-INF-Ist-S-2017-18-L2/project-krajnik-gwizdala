@@ -8,360 +8,453 @@
 <link rel="import" href="bower_components/vaadin-button/src/vaadin-button.html">
 <link rel="import" href="bower_components/vaadin-date-picker/src/vaadin-date-picker.html">
 <link rel="import" href="bower_components/vaadin-text-field/src/vaadin-password-field.html">
+<link rel="import" href="bower_components/vaadin-ordered-layout/src/vaadin-horizontal-layout.html">
+<link rel="import" href="bower_components/vaadin-grid/src/vaadin-grid.html">
+<link rel="import" href="bower_components/vaadin-grid/src/vaadin-grid-column.html">
+<link rel="import" href="bower_components/vaadin-ordered-layout/src/vaadin-vertical-layout.html">
+<link rel="import" href="bower_components/vaadin-combo-box/src/vaadin-combo-box.html">
 
 <dom-module id="admin-view">
-    <template>
+ <template>
 <style include="shared-styles">
             :host {
-                display: block;
+             display: flex;
+             flex-flow: column nowrap;
             }
 
             #patGrid {
-                display: block;
-                width: auto;
-                position: relative;
+            }
+             h3,h4{
+              text-align: center;
+             }
             }
         </style>
-<div style="width: 100%; height: 100%;">
- <vaadin-tabs theme="equal-width-tabs" selected="{{page}}">
-  <vaadin-tab selected>
+<div style="align-items: center;">
+ <h4 style="float: left;">MedClinic - Panel Administraotra</h4>
+ <vaadin-button theme="tertiary" id="logoutButton">
+   Wyloguj 
+ </vaadin-button>
+</div>
+<vaadin-horizontal-layout theme="" style="width: 100%">
+ <vaadin-tabs theme="" selected="{{page}}" style="width: 100%;">
+  <vaadin-tab selected style="width: 25%">
     Pacjent 
   </vaadin-tab>
-  <vaadin-tab>
+  <vaadin-tab style="width: 25%">
     Lekarz 
   </vaadin-tab>
-  <vaadin-tab>
+  <vaadin-tab style="width: 25%">
     Poradnia 
   </vaadin-tab>
-  <vaadin-tab>
+  <vaadin-tab style="width:25%">
     Wizyta 
   </vaadin-tab>
  </vaadin-tabs>
- <iron-pages selected="[[page]]">
+</vaadin-horizontal-layout>
+<vaadin-horizontal-layout theme="" style="width: 100%;">
+ <iron-pages selected="[[page]]" style="width: 100%">
   <page>
-   <h3>Zarzadzaj pacjentami </h3>
-   <vaadin-form-layout style="width: 100%; height: 100%;">
-    <vaadin-form-item id="vaadinFormItem6">
-     <label slot="label">PESEL </label>
-     <vaadin-text-field class="full-width" value="98020345632" required id="registerPeselField"></vaadin-text-field>
-    </vaadin-form-item>
-    <vaadin-form-item id="vaadinFormItem5">
-     <label slot="label">First Name</label>
-     <vaadin-text-field class="full-width" value="Jane" id="registerNameField"></vaadin-text-field>
-    </vaadin-form-item>
-    <vaadin-form-item id="vaadinFormItem4">
-     <label slot="label">Last Name</label>
-     <vaadin-text-field class="full-width" value="Doe" id="registerLastNameField"></vaadin-text-field>
-    </vaadin-form-item>
-    <vaadin-form-item id="vaadinFormItem3">
-     <label slot="label">Email</label>
-     <vaadin-text-field class="full-width" value="jane.doe@example.com" id="registerEmailField"></vaadin-text-field>
-    </vaadin-form-item>
-    <vaadin-form-item id="vaadinFormItem2">
-     <label slot="label">Phone number </label>
-     <vaadin-text-field class="full-width" value="555 666 777" id="registerPhoneField"></vaadin-text-field>
-    </vaadin-form-item>
-    <vaadin-form-item id="vaadinFormItem1">
-     <label slot="label">Address</label>
-     <vaadin-text-field class="full-width" value="Some Street 123" id="registerAddressField"></vaadin-text-field>
-    </vaadin-form-item>
-    <vaadin-form-item id="vaadinFormItem">
-     <vaadin-button theme="primary" id="registerButton" on-click="addPatient">
-       Add patient 
-     </vaadin-button>
-    </vaadin-form-item>
-    <vaadin-form-item id="vaadinFormItem6">
-     <label slot="label">Password </label>
-     <vaadin-password-field id="registerPassField"></vaadin-password-field>
-    </vaadin-form-item>
-   </vaadin-form-layout>
-   <vaadin-horizontal-layout style="width: 100%; height: 100%;">
-    <vaadin-grid items="[[items]]" id="patGrid" width="auto" style="align: center">
-     <vaadin-grid-column width="100px" flex-grow="0">
-      <template class="header">
-        Id 
-      </template>
-      <template>
-        [[item.id]] 
-      </template>
-      <template class="footer"></template>
-     </vaadin-grid-column>
-     <vaadin-grid-column width="200px" flex-grow="0">
-      <template class="header">
-        Imię 
-      </template>
-      <template>
-        [[item.imie]] 
-      </template>
-      <template class="footer"></template>
-     </vaadin-grid-column>
-     <vaadin-grid-column width="200px" flex-grow="0">
-      <template class="header">
-        Nazwisko 
-      </template>
-      <template>
-        [[item.nazwisko]] 
-      </template>
-      <template class="footer"></template>
-     </vaadin-grid-column>
-     <vaadin-grid-column width="250px" flex-grow="0">
-      <template class="header">
-        E-Mail 
-      </template>
-      <template>
-        [[item.email]] 
-      </template>
-      <template class="footer"></template>
-     </vaadin-grid-column>
-     <vaadin-grid-column width="200px" flex-grow="0">
-      <template class="header">
-        PESEL 
-      </template>
-      <template>
-        [[item.pesel]] 
-      </template>
-      <template class="footer"></template>
-     </vaadin-grid-column>
-     <vaadin-grid-column width="200px" flex-grow="0">
-      <template class="header">
-        Adres 
-      </template>
-      <template>
-        [[item.adres]] 
-      </template>
-      <template class="footer"></template>
-     </vaadin-grid-column>
-     <vaadin-grid-column width="175px" flex-grow="0">
-      <template class="header">
-        Telefon 
-      </template>
-      <template>
-        [[item.telefon]] 
-      </template>
-      <template class="footer"></template>
-     </vaadin-grid-column>
-    </vaadin-grid>
-    <vaadin-button theme="primary" id="deletePatientButton">
-      Usun pacjenta 
-    </vaadin-button>
+   <h3>Zarządzaj pacjentami</h3>
+   <h4>Dodaj pacjenta</h4>
+   <vaadin-horizontal-layout theme="margin">
+    <vaadin-form-layout>
+     <vaadin-form-item>
+      <label slot="label">Email</label>
+      <vaadin-text-field class="full-width" required id="patientEmailField"></vaadin-text-field>
+     </vaadin-form-item>
+     <vaadin-form-item>
+      <label slot="label">Hasło</label>
+      <vaadin-password-field class="full-width" required id="patientPasswordField"></vaadin-password-field>
+     </vaadin-form-item>
+     <vaadin-form-item>
+      <label slot="label">Imię</label>
+      <vaadin-text-field class="full-width" required id="passwordNameField"></vaadin-text-field>
+     </vaadin-form-item>
+     <vaadin-form-item>
+      <label slot="label">Nazwisko</label>
+      <vaadin-text-field class="full-width" required id="patientLastNameField"></vaadin-text-field>
+     </vaadin-form-item>
+     <vaadin-form-item>
+      <label slot="label">PESEL</label>
+      <vaadin-text-field class="full-width" required id="patientPESELField"></vaadin-text-field>
+     </vaadin-form-item>
+     <vaadin-form-item>
+      <label slot="label">Data urodzenia</label>
+      <vaadin-date-picker class="full-width" required id="patientDatePicker"></vaadin-date-picker>
+     </vaadin-form-item>
+     <vaadin-form-item>
+      <label slot="label">Adres</label>
+      <vaadin-text-field class="full-width" required id="patientAddressField"></vaadin-text-field>
+     </vaadin-form-item>
+     <vaadin-form-item>
+      <label slot="label">Telefon</label>
+      <vaadin-text-field class="full-width" required id="patientPhoneField"></vaadin-text-field>
+     </vaadin-form-item>
+     <vaadin-form-item>
+      <vaadin-button theme="primary" id="patientAddButton" on-click="addPatient">
+        Dodaj pacjenta 
+      </vaadin-button>
+     </vaadin-form-item>
+    </vaadin-form-layout>
+   </vaadin-horizontal-layout>
+   <h4>Lista pacjentów</h4>
+   <vaadin-horizontal-layout style="width: 100%; align-items: center;">
+    <div style="margin: 0 auto; width: 70%">
+     <vaadin-vertical-layout>
+      <vaadin-grid items="[[items]]" id="patGrid">
+       <vaadin-grid-column flex-grow="0">
+        <template class="header">
+          # 
+        </template>
+        <template>
+          [[item.id]] 
+        </template>
+       </vaadin-grid-column>
+       <vaadin-grid-column>
+        <template class="header">
+          PESEL 
+        </template>
+        <template>
+          [[item.pesel]] 
+        </template>
+       </vaadin-grid-column>
+       <vaadin-grid-column>
+        <template class="header">
+          Imię 
+        </template>
+        <template>
+          [[item.imie]] 
+        </template>
+       </vaadin-grid-column>
+       <vaadin-grid-column>
+        <template class="header">
+          Nazwisko 
+        </template>
+        <template>
+          [[item.nazwisko]] 
+        </template>
+       </vaadin-grid-column>
+       <vaadin-grid-column>
+        <template class="header">
+          Email 
+        </template>
+        <template>
+          [[item.email]] 
+        </template>
+       </vaadin-grid-column>
+       <vaadin-grid-column>
+        <template class="header">
+          Telefon 
+        </template>
+        <template>
+          [[item.telefon]] 
+        </template>
+       </vaadin-grid-column>
+       <vaadin-grid-column>
+        <template class="header">
+          Adres 
+        </template>
+        <template>
+          [[item.adres]] 
+        </template>
+       </vaadin-grid-column>
+      </vaadin-grid>
+      <vaadin-button theme="primary" id="patientDeleteButton">
+        Usun zaznaczonego pacjenta 
+      </vaadin-button>
+     </vaadin-vertical-layout>
+    </div>
    </vaadin-horizontal-layout>
   </page>
   <page>
-   <h3>Zarzadzaj lekarzami </h3>
-   <vaadin-form-layout style="width: 100%; height: 100%;">
-    <vaadin-form-item id="vaadinFormItem6">
-     <label slot="label">PESEL </label>
-     <vaadin-text-field class="full-width" value="98020345632" required id="docRegisterPESEL"></vaadin-text-field>
-    </vaadin-form-item>
-    <vaadin-form-item id="vaadinFormItem5">
-     <label slot="label">First Name</label>
-     <vaadin-text-field class="full-width" value="Jane" id="docRegisterFirstName"></vaadin-text-field>
-    </vaadin-form-item>
-    <vaadin-form-item id="vaadinFormItem4">
-     <label slot="label">Last Name</label>
-     <vaadin-text-field class="full-width" value="Doe" id="docRegisterLastName"></vaadin-text-field>
-    </vaadin-form-item>
-    <vaadin-form-item id="vaadinFormItem3">
-     <label slot="label">Email</label>
-     <vaadin-text-field class="full-width" value="jane.doe@example.com" id="docRegisterEmail"></vaadin-text-field>
-    </vaadin-form-item>
-    <vaadin-form-item id="vaadinFormItem2">
-     <label slot="label">Phone number </label>
-     <vaadin-text-field class="full-width" value="555 666 777" id="docRegisterPhoneNumber"></vaadin-text-field>
-    </vaadin-form-item>
-    <vaadin-form-item id="vaadinFormItem1">
-     <label slot="label">Address</label>
-     <vaadin-text-field class="full-width" value="Some Street 123" id="docRegisterAddress"></vaadin-text-field>
-    </vaadin-form-item>
-    <vaadin-form-item id="vaadinFormItem1">
-     <label slot="label">Address</label>
-     <vaadin-password-field label="Password" placeholder="Enter password" value="secret1" id="docRegisterPassword"></vaadin-password-field>
-    </vaadin-form-item>
-    <vaadin-form-item id="vaadinFormItem">
-     <vaadin-button theme="primary" id="add" on-click="addDoctor">
-       Add doctor 
-     </vaadin-button>
-    </vaadin-form-item>
-   </vaadin-form-layout>
-   <vaadin-horizontal-layout style="width: 100%; height: 100%;">
-    <vaadin-grid items="[[items]]" id="docGrid" width="auto" style="align: center">
-     <vaadin-grid-column width="100px" flex-grow="0">
-      <template class="header">
-        Id 
-      </template>
-      <template>
-        [[item.id]] 
-      </template>
-      <template class="footer"></template>
-     </vaadin-grid-column>
-     <vaadin-grid-column width="200px" flex-grow="0">
-      <template class="header">
-        Imię 
-      </template>
-      <template>
-        [[item.imie]] 
-      </template>
-      <template class="footer"></template>
-     </vaadin-grid-column>
-     <vaadin-grid-column width="200px" flex-grow="0">
-      <template class="header">
-        Nazwisko 
-      </template>
-      <template>
-        [[item.nazwisko]] 
-      </template>
-      <template class="footer"></template>
-     </vaadin-grid-column>
-     <vaadin-grid-column width="250px" flex-grow="0">
-      <template class="header">
-        E-Mail 
-      </template>
-      <template>
-        [[item.email]] 
-      </template>
-      <template class="footer"></template>
-     </vaadin-grid-column>
-     <vaadin-grid-column width="200px" flex-grow="0">
-      <template class="header">
-        PESEL 
-      </template>
-      <template>
-        [[item.pesel]] 
-      </template>
-      <template class="footer"></template>
-     </vaadin-grid-column>
-     <vaadin-grid-column width="200px" flex-grow="0">
-      <template class="header">
-        Adres 
-      </template>
-      <template>
-        [[item.adres]] 
-      </template>
-      <template class="footer"></template>
-     </vaadin-grid-column>
-     <vaadin-grid-column width="175px" flex-grow="0">
-      <template class="header">
-        Telefon 
-      </template>
-      <template>
-        [[item.telefon]] 
-      </template>
-      <template class="footer"></template>
-     </vaadin-grid-column>
-    </vaadin-grid>
-    <vaadin-button theme="primary" id="deleteDoctorButton">
-      Usun doktora 
-    </vaadin-button>
+   <h3>Zarządzaj lekarzami</h3>
+   <h4>Dodaj lekarza</h4>
+   <vaadin-horizontal-layout theme="margin">
+    <vaadin-form-layout>
+     <vaadin-form-item>
+      <label slot="label">Email</label>
+      <vaadin-text-field class="full-width" id="doctorEmailField" required></vaadin-text-field>
+     </vaadin-form-item>
+     <vaadin-form-item>
+      <label slot="label">Hasło</label>
+      <vaadin-password-field class="full-width" id="doctorPasswordField" required></vaadin-password-field>
+     </vaadin-form-item>
+     <vaadin-form-item>
+      <label slot="label">Imię</label>
+      <vaadin-text-field class="full-width" id="doctorNameField" required></vaadin-text-field>
+     </vaadin-form-item>
+     <vaadin-form-item>
+      <label slot="label">Nazwisko</label>
+      <vaadin-text-field class="full-width" id="doctorLastNameField" required></vaadin-text-field>
+     </vaadin-form-item>
+     <vaadin-form-item>
+      <label slot="label">PESEL</label>
+      <vaadin-text-field class="full-width" id="doctorPESELField" required></vaadin-text-field>
+     </vaadin-form-item>
+     <vaadin-form-item>
+      <label slot="label">Data Urodzenia</label>
+      <vaadin-date-picker class="full-width" id="doctorDatePicker" required></vaadin-date-picker>
+     </vaadin-form-item>
+     <vaadin-form-item>
+      <label slot="label">Adres</label>
+      <vaadin-text-field class="full-width" id="doctorAddressield" required></vaadin-text-field>
+     </vaadin-form-item>
+     <vaadin-form-item>
+      <label slot="label">Telefon</label>
+      <vaadin-text-field class="full-width" id="doctorPhoneField" required></vaadin-text-field>
+     </vaadin-form-item>
+     <vaadin-form-item>
+      <label slot="label">Specjalizacja</label>
+      <vaadin-text-field class="full-width" id="doctorSpecializationField" required></vaadin-text-field>
+     </vaadin-form-item>
+     <vaadin-form-item>
+      <label slot="label">Przychodnia</label>
+      <vaadin-combo-box class="full-width" id="doctorDepartmentComboBox" required>
+       <template>
+         [[item.departmentName]] 
+       </template>
+      </vaadin-combo-box>
+     </vaadin-form-item>
+     <vaadin-form-item>
+      <vaadin-button theme="primary" id="doctorAddButton" on-click="addDoctor">
+        Dodaj lekarza 
+      </vaadin-button>
+     </vaadin-form-item>
+    </vaadin-form-layout>
+   </vaadin-horizontal-layout>
+   <h4>Lista lekarzy</h4>
+   <vaadin-horizontal-layout theme="margin">
+    <div style="margin: 0 auto; width: 70%;">
+     <vaadin-vertical-layout theme="margin">
+      <vaadin-grid items="[[items]]" id="doctorGrid">
+       <vaadin-grid-column flex-grow="0" style="width: 50px">
+        <template class="header">
+          # 
+        </template>
+        <template>
+          [[item.id]] 
+        </template>
+       </vaadin-grid-column>
+       <vaadin-grid-column style="width: 50px">
+        <template class="header">
+          PESEL 
+        </template>
+        <template>
+          [[item.pesel]] 
+        </template>
+       </vaadin-grid-column>
+       <vaadin-grid-column style="width: 50px">
+        <template class="header">
+          Imię 
+        </template>
+        <template>
+          [[item.imie]] 
+        </template>
+       </vaadin-grid-column>
+       <vaadin-grid-column style="width: 50px">
+        <template class="header">
+          Nazwisko 
+        </template>
+        <template>
+          [[item.nazwisko]] 
+        </template>
+       </vaadin-grid-column>
+       <vaadin-grid-column style="width: 50px">
+        <template class="header">
+          Email 
+        </template>
+        <template>
+          [[item.email]] 
+        </template>
+       </vaadin-grid-column>
+       <vaadin-grid-column style="width: 50px">
+        <template class="header">
+          Telefon 
+        </template>
+        <template>
+          [[item.telefon]] 
+        </template>
+       </vaadin-grid-column>
+       <vaadin-grid-column style="width: 50px">
+        <template class="header">
+          Adres 
+        </template>
+        <template>
+          [[item.adres]] 
+        </template>
+       </vaadin-grid-column>
+       <vaadin-grid-column style="width: 50px">
+        <template class="header">
+          Specjalizacja 
+        </template>
+        <template>
+          [[item.doctorSpecialization]] 
+        </template>
+       </vaadin-grid-column>
+       <vaadin-grid-column style="width: 50px">
+        <template class="header">
+          Przychodnia 
+        </template>
+        <template>
+          [[item.doctorDepartment]] 
+        </template>
+       </vaadin-grid-column>
+      </vaadin-grid>
+      <vaadin-button theme="primary" id="doctorDeleteButton" on-click="">
+        Usun zaznaczonego lekarza 
+      </vaadin-button>
+     </vaadin-vertical-layout>
+    </div>
    </vaadin-horizontal-layout>
   </page>
   <page>
    <h3>Zarzadzaj poradniami </h3>
-   <vaadin-form-layout style="width: 100%; height: 100%;">
-    <vaadin-form-item id="vaadinFormItem6">
-     <label slot="label">PESEL </label>
-     <vaadin-text-field class="full-width" value="98020345632" required id="pesel1"></vaadin-text-field>
-    </vaadin-form-item>
-    <vaadin-form-item id="vaadinFormItem5">
-     <label slot="label">First Name</label>
-     <vaadin-text-field class="full-width" value="Jane" id="firstName1"></vaadin-text-field>
-    </vaadin-form-item>
-    <vaadin-form-item id="vaadinFormItem4">
-     <label slot="label">Last Name</label>
-     <vaadin-text-field class="full-width" value="Doe" id="lastName1"></vaadin-text-field>
-    </vaadin-form-item>
-    <vaadin-form-item id="vaadinFormItem3">
-     <label slot="label">Email</label>
-     <vaadin-text-field class="full-width" value="jane.doe@example.com" id="email1"></vaadin-text-field>
-    </vaadin-form-item>
-    <vaadin-form-item id="vaadinFormItem2">
-     <label slot="label">Phone number </label>
-     <vaadin-text-field class="full-width" value="555 666 777" id="phoneNumber1"></vaadin-text-field>
-    </vaadin-form-item>
-    <vaadin-form-item id="vaadinFormItem1">
-     <label slot="label">Address</label>
-     <vaadin-text-field class="full-width" value="Some Street 123" id="address1"></vaadin-text-field>
-    </vaadin-form-item>
-    <vaadin-form-item id="vaadinFormItem">
-     <vaadin-button theme="primary" id="registerButton" on-click="addPatient">
-       Add patient 
-     </vaadin-button>
-    </vaadin-form-item>
-   </vaadin-form-layout>
+   <h4>Dodaj poradnię</h4>
+   <vaadin-horizontal-layout theme="margin">
+    <vaadin-form-layout style="margin: 0 auto;">
+     <vaadin-form-item>
+      <label slot="label">Nazwa</label>
+      <vaadin-text-field class="full-width" id="departmentNameField" required></vaadin-text-field>
+     </vaadin-form-item>
+     <vaadin-form-item>
+      <label slot="label">Telefon</label>
+      <vaadin-text-field class="full-width" id="departmentPhoneField" required></vaadin-text-field>
+     </vaadin-form-item>
+     <vaadin-form-item>
+      <label slot="label">Email</label>
+      <vaadin-text-field class="full-width" id="departmentEmailField"></vaadin-text-field>
+     </vaadin-form-item>
+     <vaadin-form-item>
+      <vaadin-button theme="primary" id="departmentAddButton" on-click="addDepartment">
+        Dodaj poradnię 
+      </vaadin-button>
+     </vaadin-form-item>
+    </vaadin-form-layout>
+   </vaadin-horizontal-layout>
+   <h4>Lista poradni</h4>
+   <vaadin-vertical-layout theme="margin">
+    <div style="margin: 0 auto; width: 70%;">
+     <vaadin-vertical-layout theme="margin">
+      <vaadin-grid items="[[items]]" id="departmentGrid">
+       <vaadin-grid-column width="50px" flex-grow="0">
+        <template class="header">
+          # 
+        </template>
+        <template>
+          [[item.id]] 
+        </template>
+       </vaadin-grid-column>
+       <vaadin-grid-column>
+        <template class="header">
+          Nazwa 
+        </template>
+        <template>
+          [[item.departmentNameGrid]] 
+        </template>
+       </vaadin-grid-column>
+       <vaadin-grid-column>
+        <template class="header">
+          Telefon 
+        </template>
+        <template>
+          [[item.departmentPhone]] 
+        </template>
+       </vaadin-grid-column>
+       <vaadin-grid-column>
+        <template class="header">
+          Email 
+        </template>
+        <template>
+          [[item.departmentEmail]] 
+        </template>
+       </vaadin-grid-column>
+      </vaadin-grid>
+      <vaadin-button theme="primary" id="departmentDeleteButton">
+        Usuń zaznaczoną poradnię 
+      </vaadin-button>
+     </vaadin-vertical-layout>
+    </div>
+   </vaadin-vertical-layout>
   </page>
   <page>
    <h3>Zarzadzaj wizytami </h3>
-   <vaadin-horizontal-layout style="width: 100%; height: 100%;">
-    <vaadin-combo-box label="Patients" id="patients" required width="auto">
-     <template>
-       [[item.patientName]] 
-     </template>
-    </vaadin-combo-box>
-    <vaadin-combo-box label="Doctors" id="doctors" required>
-     <template>
-       [[item.doctorName]] 
-     </template>
-    </vaadin-combo-box>
-    <vaadin-text-field label="Label" placeholder="Placeholder" id="summary"></vaadin-text-field>
-    <vaadin-date-picker label="Visit date" placeholder="Pick a date" required id="visitDate"></vaadin-date-picker>
+   <h4>Dodaj wizytę</h4>
+   <vaadin-horizontal-layout style="width: 100%;">
+    <div style="margin: 0 auto">
+     <vaadin-date-picker label="Data wizyty" required id="visitDatePicker"></vaadin-date-picker>
+     <vaadin-combo-box label="Patients" id="visitPatientComboBox" required width="auto">
+      <template>
+        [[item.patientName]] 
+      </template>
+     </vaadin-combo-box>
+     <vaadin-combo-box label="Doctors" id="visitDoctorComboBox" required>
+      <template>
+        [[item.doctorName]] 
+      </template>
+     </vaadin-combo-box>
+     <vaadin-text-field label="Opis" placeholder="" id="visitSummaryField"></vaadin-text-field>
+    </div>
    </vaadin-horizontal-layout>
-   <vaadin-button theme="primary" id="saveVisit" on-click="saveVisit">
-     Primary 
-   </vaadin-button>
-   <vaadin-horizontal-layout style="width: 100%; height: 100%;">
-    <vaadin-grid items="[[items]]" id="visitGrid" width="500px" style="align: center">
-     <vaadin-grid-column width="250px" flex-grow="0">
-      <template class="header">
-        Id 
-      </template>
-      <template>
-        [[item.id]] 
-      </template>
-      <template class="footer"></template>
-     </vaadin-grid-column>
-     <vaadin-grid-column width="250px" flex-grow="0">
-      <template class="header">
-        Opis 
-      </template>
-      <template>
-        [[item.opis]] 
-      </template>
-      <template class="footer"></template>
-     </vaadin-grid-column>
-     <vaadin-grid-column width="250px" flex-grow="0">
-      <template class="header">
-        Data 
-      </template>
-      <template>
-        [[item.data]] 
-      </template>
-      <template class="footer"></template>
-     </vaadin-grid-column>
-     <vaadin-grid-column width="250px" flex-grow="0">
-      <template class="header">
-        Lekarz 
-      </template>
-      <template>
-        [[item.lekarz]] 
-      </template>
-      <template class="footer"></template>
-     </vaadin-grid-column>
-     <vaadin-grid-column width="250px" flex-grow="0">
-      <template class="header">
-        Pacjent 
-      </template>
-      <template>
-        [[item.pacjent]] 
-      </template>
-      <template class="footer"></template>
-     </vaadin-grid-column>
-    </vaadin-grid>
-   </vaadin-horizontal-layout>
-   <vaadin-button theme="primary" id="deleteVisitButton">
-     Delete visit 
-   </vaadin-button>
+   <vaadin-vertical-layout theme="margin" style="align-items: center;">
+    <vaadin-button theme="primary" id="addVisiButton" on-click="addVisit">
+      Dodaj wizytę 
+    </vaadin-button>
+   </vaadin-vertical-layout>
+   <h4>Lista wizyt </h4>
+   <vaadin-vertical-layout theme="margin">
+    <div style="margin: 0 auto; width: 50%">
+     <vaadin-vertical-layout theme="margin">
+      <vaadin-grid items="[[items]]" id="visitGrid" width="500px" style="align: center">
+       <vaadin-grid-column>
+        <template class="header">
+          Id 
+        </template>
+        <template>
+          [[item.visitIdGrid]] 
+        </template>
+       </vaadin-grid-column>
+       <vaadin-grid-column>
+        <template class="header">
+          Data 
+        </template>
+        <template>
+          [[item.visitDataGrid]] 
+        </template>
+       </vaadin-grid-column>
+       <vaadin-grid-column>
+        <template class="header">
+          Pacjent 
+        </template>
+        <template>
+          [[item.visitPatientGird]] 
+        </template>
+       </vaadin-grid-column>
+       <vaadin-grid-column>
+        <template class="header">
+          Lekarz 
+        </template>
+        <template>
+          [[item.visitDoctorGrid]] 
+        </template>
+       </vaadin-grid-column>
+       <vaadin-grid-column>
+        <template class="header">
+          Opis 
+        </template>
+        <template>
+          [[item.visitSumaryGrid]] 
+        </template>
+       </vaadin-grid-column>
+      </vaadin-grid>
+      <vaadin-button theme="primary" id="visitDeleteButton">
+        Usuń zaznaczoną wizytę 
+      </vaadin-button>
+     </vaadin-vertical-layout>
+    </div>
+   </vaadin-vertical-layout>
   </page>
  </iron-pages>
-</div>
+</vaadin-horizontal-layout>
 </template>
 
     <script>

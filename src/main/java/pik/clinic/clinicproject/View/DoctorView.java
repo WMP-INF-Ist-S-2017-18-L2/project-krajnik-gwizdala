@@ -1,5 +1,4 @@
 package pik.clinic.clinicproject.View;
-
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
@@ -18,8 +17,8 @@ import pik.clinic.clinicproject.backend.model.Visit;
 import pik.clinic.clinicproject.backend.repositories.DoctorRepository;
 import pik.clinic.clinicproject.backend.repositories.VisitRepository;
 import pik.clinic.clinicproject.backend.security.SecurityUtils;
-
 import javax.annotation.PostConstruct;
+
 
 /**
  * A Designer generated component for the doctor-view.html template.

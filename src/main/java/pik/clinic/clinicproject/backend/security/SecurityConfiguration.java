@@ -167,8 +167,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 				// Allow all requests by logged in users.
 				.anyRequest().hasAnyAuthority(Role.getAllRoles())
-
-
 				// Configure the login page.
 				.and().formLogin().loginPage("/login").permitAll().loginProcessingUrl("/login")
 				.failureUrl("/login?error")

@@ -22,11 +22,11 @@ public class Visit {
     public Visit() {
     }
 
-    public Visit(LocalDate dateOfVisit, String summary, Patient patient, Doctor doctor) {
+    public Visit(LocalDate dateOfVisit, Patient patient, Doctor doctor, String summary) {
         this.dateOfVisit = dateOfVisit;
-        this.summary = summary;
         this.patient = patient;
         this.doctor = doctor;
+        this.summary = summary;
     }
 
     public Long getId() {
