@@ -134,37 +134,39 @@ public class PatientView extends PolymerTemplate<PatientView.PatientViewModel> {
                     Notification.show("Lekarz " + doctors.getValue() + " nie ma już wolnych miejsc w dniu: " + visitDate.getValue() + ". Przepraszamy za niedogodności, prosimy wybrać inny termin lub innego lekarza.");
                 } else {
                     visitRepository.save(v);
+                    Properties props = System.getProperties();
+                    props.put("mail.smtp.host", "poczta.interia.pl");
+                    props.put("mail.smtp.auth", "true");
+
+                    Session session = Session.getDefaultInstance(props, new Authenticator() {
+                        public PasswordAuthentication getPasswordAuthentication() {
+                            return new PasswordAuthentication("medicclinic", "mediclinic#11955917");
+                        }
+                    });
+                    Provider[] providers = session.getProviders();
+
+                    try {
+                        session.setProvider(providers[0]);
+                    } catch (NoSuchProviderException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        MimeMessage msg = new MimeMessage(session);
+                        msg.setFrom(new InternetAddress("medicclinic@interia.pl"));
+                        msg.setRecipients(Message.RecipientType.TO, actualPatient().getEmail());
+                        msg.setSubject("Zarejestrowano nową wizytę w E-Przychodni!");
+                        msg.setSentDate(new Date());
+                        msg.setText("Wizyta pacjenta " + actualPatient().toString() +
+                                " u doktora " + doctors.getValue() + " odbędzie się dnia " +
+                                visitDate.getValue() + ". \nDodatkowy opis : " + summary.getValue() + ".\nE-PRZYCHODNIA MediClinic");
+                        Transport.send(msg);
+                    } catch (MessagingException mex) {
+                        System.out.println("send failed, exception: " + mex);
+                    }
+
                 }
                 gridinfo.setItems(visitRepository.findByPatient(actualPatient()));
-                Properties props = System.getProperties();
-                props.put("mail.smtp.host", "poczta.interia.pl");
-                props.put("mail.smtp.auth", "true");
 
-                Session session = Session.getDefaultInstance(props, new Authenticator() {
-                    public PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication("patro10", "patryk    ");
-                    }
-                });
-                Provider[] providers = session.getProviders();
-
-                try {
-                    session.setProvider(providers[0]);
-                } catch (NoSuchProviderException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    MimeMessage msg = new MimeMessage(session);
-                    msg.setFrom(new InternetAddress("patro10@interia.pl"));
-                    msg.setRecipients(Message.RecipientType.TO, "stefekx9@interia.pl");
-                    msg.setSubject("Zarejestrowano nową wizytę w E-Przychodni!");
-                    msg.setSentDate(new Date());
-                    msg.setText("Wizyta pacjenta " + actualPatient().toString() +
-                            " u doktora " + doctors.getValue() + " odbędzie się dnia " +
-                            visitDate.getValue() + ". \nDodatkowy opis : " + summary.getValue() + ".\n E-PRZYCHODNIA MediClinic");
-                    Transport.send(msg);
-                } catch (MessagingException mex) {
-                    System.out.println("send failed, exception: " + mex);
-                }
             }
         } catch (Exception e) {
             Notification.show("Wypełnij wszystkie pola!", 5000, Notification.Position.MIDDLE);
