@@ -171,7 +171,7 @@ public class Doctor implements JsonSerializable {
 
     @Override
     public String toString() {
-        return firstName + " " + lastName;
+        return firstName + " " + lastName + " " + getDepart();
     }
 
     @Override

@@ -15,6 +15,12 @@ public class Admin {
     public Admin() {
     }
 
+    public Admin(String email, String password, String role) {
+        this.email = email;
+        this.password = password;
+        this.role = role;
+    }
+
     public Long getId() {
         return id;
     }

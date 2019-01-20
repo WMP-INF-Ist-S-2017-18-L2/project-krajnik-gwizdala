@@ -13,8 +13,6 @@ import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.renderer.TemplateRenderer;
-import com.vaadin.flow.router.BeforeEnterEvent;
-import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.templatemodel.TemplateModel;
@@ -25,14 +23,16 @@ import pik.clinic.clinicproject.backend.model.Department;
 import pik.clinic.clinicproject.backend.model.Doctor;
 import pik.clinic.clinicproject.backend.model.Patient;
 import pik.clinic.clinicproject.backend.model.Visit;
-import pik.clinic.clinicproject.backend.repositories.*;
+import pik.clinic.clinicproject.backend.repositories.DepartmentRepository;
+import pik.clinic.clinicproject.backend.repositories.DoctorRepository;
+import pik.clinic.clinicproject.backend.repositories.PatientRepository;
+import pik.clinic.clinicproject.backend.repositories.VisitRepository;
 import pik.clinic.clinicproject.backend.security.SecurityUtils;
 
 import javax.annotation.PostConstruct;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.Properties;
 
@@ -60,7 +60,6 @@ public class PatientView extends PolymerTemplate<PatientView.PatientViewModel> {
     PatientRepository patientRepository;
     @Autowired
     DoctorRepository doctorRepository;
-    AdminRepository adminRepository;
     @Autowired
     DepartmentRepository departmentRepository;
 
@@ -99,6 +98,7 @@ public class PatientView extends PolymerTemplate<PatientView.PatientViewModel> {
     private TextField profileTelefon;
 
 
+
     /**
      * Creates a new PatientView.
      */
@@ -109,6 +109,7 @@ public class PatientView extends PolymerTemplate<PatientView.PatientViewModel> {
             SecurityContextHolder.clearContext();
 
         });
+
     }
 
     @PostConstruct
@@ -122,6 +123,7 @@ public class PatientView extends PolymerTemplate<PatientView.PatientViewModel> {
         doctors.setItemLabelGenerator(Doctor::getFirstName);
         doctors.setItems(doctorRepository.findAll());
         doctors.setRenderer(rendererDoc.withProperty("doctorName", Doctor::toString));
+
     }
 
     @PostConstruct
@@ -139,6 +141,14 @@ public class PatientView extends PolymerTemplate<PatientView.PatientViewModel> {
         profileTelefon.setValue(actualPatient().getPhoneNumber());
     }
 
+    @PostConstruct
+    public void gridinfo() {
+        Patient act = actualPatient();
+        gridinfo.setItems(visitRepository.findByPatient(act));
+        gridinfo.addColumn(rendererVisit.withProperty("data", Visit::getDateOfVisit)).setVisible(false);
+        gridinfo.addColumn(rendererVisit.withProperty("lekarz", Visit::getDoctor)).setVisible(false);
+        gridinfo.addColumn(rendererVisit.withProperty("opis", Visit::getSummary)).setVisible(false);
+    }
 
     @EventHandler
     public void saveVisit() {
@@ -192,17 +202,6 @@ public class PatientView extends PolymerTemplate<PatientView.PatientViewModel> {
             Notification.show("Wypełnij wszystkie pola!", 5000, Notification.Position.MIDDLE);
         }
     }
-
-
-    @PostConstruct
-    public void gridinfo() {
-        Patient act = actualPatient();
-        gridinfo.setItems(visitRepository.findByPatient(act));
-        gridinfo.addColumn(rendererVisit.withProperty("data", Visit::getDateOfVisit)).setVisible(false);
-        gridinfo.addColumn(rendererVisit.withProperty("lekarz", Visit::getDoctor)).setVisible(false);
-        gridinfo.addColumn(rendererVisit.withProperty("opis", Visit::getSummary)).setVisible(false);
-    }
-
 
 
     /**
