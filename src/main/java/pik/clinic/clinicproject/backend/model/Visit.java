@@ -1,5 +1,6 @@
 package pik.clinic.clinicproject.backend.model;
 
+
 import javax.persistence.*;
 import java.time.LocalDate;
 
@@ -53,8 +54,8 @@ public class Visit {
         this.summary = summary;
     }
 
-    public Patient getPatient() {
-        return patient;
+    public String getPatient() {
+        return String.valueOf(patient);
 
     }
 

@@ -141,6 +141,9 @@ public class Patient implements JsonSerializable {
         this.visits = visits;
     }
 
+    public String getDateBirth(){
+        return String.valueOf(birthDate);
+    }
     @Override
     public String toString() {
         return firstName + " " + lastName;

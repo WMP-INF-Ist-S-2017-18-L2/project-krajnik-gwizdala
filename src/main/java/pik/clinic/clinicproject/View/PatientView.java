@@ -13,6 +13,9 @@ import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.renderer.TemplateRenderer;
+import com.vaadin.flow.router.BeforeEnterEvent;
+import com.vaadin.flow.router.BeforeEnterObserver;
+import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.templatemodel.TemplateModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,16 +25,14 @@ import pik.clinic.clinicproject.backend.model.Department;
 import pik.clinic.clinicproject.backend.model.Doctor;
 import pik.clinic.clinicproject.backend.model.Patient;
 import pik.clinic.clinicproject.backend.model.Visit;
-import pik.clinic.clinicproject.backend.repositories.DepartmentRepository;
-import pik.clinic.clinicproject.backend.repositories.DoctorRepository;
-import pik.clinic.clinicproject.backend.repositories.PatientRepository;
-import pik.clinic.clinicproject.backend.repositories.VisitRepository;
+import pik.clinic.clinicproject.backend.repositories.*;
 import pik.clinic.clinicproject.backend.security.SecurityUtils;
 
 import javax.annotation.PostConstruct;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Properties;
 
@@ -45,7 +46,7 @@ import java.util.Properties;
 @Route(value = "patient-view")
 @Tag("patient-view")
 @HtmlImport("patient-view.html")
-
+@PageTitle("MedClinic - Panel pacjenta")
 public class PatientView extends PolymerTemplate<PatientView.PatientViewModel> {
 
     TemplateRenderer<Patient> renderer = TemplateRenderer.<Patient>of("");
@@ -59,6 +60,7 @@ public class PatientView extends PolymerTemplate<PatientView.PatientViewModel> {
     PatientRepository patientRepository;
     @Autowired
     DoctorRepository doctorRepository;
+    AdminRepository adminRepository;
     @Autowired
     DepartmentRepository departmentRepository;
 
@@ -81,6 +83,20 @@ public class PatientView extends PolymerTemplate<PatientView.PatientViewModel> {
     private TextField currUserLastName;
     @Id("currUserFirstName")
     private TextField currUserFirstName;
+    @Id("profileEmail")
+    private TextField profileEmail;
+    @Id("profileFirstName")
+    private TextField profileFirstName;
+    @Id("profileLastName")
+    private TextField profileLastName;
+    @Id("profilePesel")
+    private TextField profilePesel;
+    @Id("profileAdres")
+    private TextField profileAdres;
+    @Id("profileData")
+    private TextField profileData;
+    @Id("profileTelefon")
+    private TextField profileTelefon;
 
 
     /**
@@ -103,10 +119,6 @@ public class PatientView extends PolymerTemplate<PatientView.PatientViewModel> {
     @PostConstruct
     public void combo() {
 
-        /*departments.setItemLabelGenerator(Department::getName);
-        departments.setItems(departmentRepository.findAll());
-        departments.setRenderer(rendererDepartment.withProperty("departmentName", Department::getName));
-        Department department = departments.getValue();*/
         doctors.setItemLabelGenerator(Doctor::getFirstName);
         doctors.setItems(doctorRepository.findAll());
         doctors.setRenderer(rendererDoc.withProperty("doctorName", Doctor::toString));
@@ -117,6 +129,14 @@ public class PatientView extends PolymerTemplate<PatientView.PatientViewModel> {
         currUserFirstName.setValue(actualPatient().getFirstName());
         currUserLastName.setValue(actualPatient().getLastName());
         currUserPesel.setValue(actualPatient().getPesel());
+
+        profileEmail.setValue(actualPatient().getEmail());
+        profileFirstName.setValue(actualPatient().getFirstName());
+        profileLastName.setValue(actualPatient().getLastName());
+        profilePesel.setValue(actualPatient().getPesel());
+        profileAdres.setValue(actualPatient().getAddress());
+        profileData.setValue(actualPatient().getDateBirth());
+        profileTelefon.setValue(actualPatient().getPhoneNumber());
     }
 
 
@@ -124,10 +144,10 @@ public class PatientView extends PolymerTemplate<PatientView.PatientViewModel> {
     public void saveVisit() {
         try {
             Visit v = new Visit();
-            /*v.setPatient(actualPatient());
+            v.setPatient(actualPatient());
             v.setDoctor(doctors.getValue()); //combobox doktora
             v.setDateOfVisit(visitDate.getValue()); //wybor daty wizyty
-            v.setSummary(summary.getValue()); //pole na informacje dodatkowa*/
+            v.setSummary(summary.getValue()); //pole na informacje dodatkowa
 
             if (doctors.getValue() != null && visitDate.getValue() != null && summary.getValue() != null) {
                 if (visitRepository.countVisitByDateOfVisitAndDoctor(visitDate.getValue(), doctors.getValue()) >= 10) {
@@ -178,10 +198,12 @@ public class PatientView extends PolymerTemplate<PatientView.PatientViewModel> {
     public void gridinfo() {
         Patient act = actualPatient();
         gridinfo.setItems(visitRepository.findByPatient(act));
-        gridinfo.addColumn(rendererVisit.withProperty("data", Visit::getDateOfVisit));
-        gridinfo.addColumn(rendererVisit.withProperty("lekarz", Visit::getDoctor));
-        gridinfo.addColumn(rendererVisit.withProperty("opis", Visit::getSummary));
+        gridinfo.addColumn(rendererVisit.withProperty("data", Visit::getDateOfVisit)).setVisible(false);
+        gridinfo.addColumn(rendererVisit.withProperty("lekarz", Visit::getDoctor)).setVisible(false);
+        gridinfo.addColumn(rendererVisit.withProperty("opis", Visit::getSummary)).setVisible(false);
     }
+
+
 
     /**
      * This model binds properties between PatientView and patient-view.html

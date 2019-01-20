@@ -18,6 +18,7 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.renderer.TemplateRenderer;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.BeforeEnterObserver;
+import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.templatemodel.TemplateModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,14 +28,14 @@ import pik.clinic.clinicproject.backend.model.Department;
 import pik.clinic.clinicproject.backend.model.Doctor;
 import pik.clinic.clinicproject.backend.model.Patient;
 import pik.clinic.clinicproject.backend.model.Visit;
-import pik.clinic.clinicproject.backend.repositories.DepartmentRepository;
-import pik.clinic.clinicproject.backend.repositories.DoctorRepository;
-import pik.clinic.clinicproject.backend.repositories.PatientRepository;
-import pik.clinic.clinicproject.backend.repositories.VisitRepository;
+import pik.clinic.clinicproject.backend.repositories.*;
 import pik.clinic.clinicproject.backend.security.SecurityUtils;
 
 import javax.annotation.PostConstruct;
+import javax.validation.ConstraintViolationException;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  * A Designer generated component for the admin-view.html template.
@@ -46,6 +47,7 @@ import java.util.List;
 @Tag("admin-view")
 @HtmlImport("admin-view.html")
 @Viewport("width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes")
+@PageTitle("MedClinic - Panel Administracyjny")
 public class AdminView extends PolymerTemplate<AdminView.AdminViewModel> implements BeforeEnterObserver {
 
     @Autowired
@@ -58,10 +60,13 @@ public class AdminView extends PolymerTemplate<AdminView.AdminViewModel> impleme
     DepartmentRepository departmentRepository;
     @Autowired
     PasswordEncoder passwordEncoder;
+    @Autowired
+    AdminRepository adminRepository;
 
     Visit currentSelectedVisit;
     Patient currentSelectedPatient;
     Doctor currentSelectedDoctor;
+    Department currentSelectedDepartment;
 
     private TemplateRenderer<Patient> renderer = TemplateRenderer.<Patient>of("");
     private TemplateRenderer<Doctor> rendererDoc = TemplateRenderer.<Doctor>of("");
@@ -146,10 +151,10 @@ public class AdminView extends PolymerTemplate<AdminView.AdminViewModel> impleme
         private Button addVisiButton;
         @Id("visitDeleteButton")
         private Button visitDeleteButton;
-    @Id("departmentDeleteButton")
-    private Button departmentDeleteButton;
-    @Id("logoutButton")
-    private Button logoutButton;
+        @Id("departmentDeleteButton")
+        private Button departmentDeleteButton;
+        @Id("logoutButton")
+        private Button logoutButton;
 
 
     public AdminView() {
@@ -174,17 +179,18 @@ public class AdminView extends PolymerTemplate<AdminView.AdminViewModel> impleme
                 }
             });
         });
-
         patientDeleteButton.addClickListener(buttonClickEvent -> {
             //vaadinButton.setEnabled(false);
             List<Patient> patientList = patientRepository.findAll();
-
+            try{
             for (Patient patient : patientList) {
                 if (patient.getId() == (patientGrid.getSelectionModel().getFirstSelectedItem().get().getId())) {
                     patientRepository.deleteById(patient.getId());
                 }
             }
-
+            }catch (NoSuchElementException e){
+                Notification.show("Nie wybrano elementu!",5000, Notification.Position.MIDDLE);
+            }
 
             patientGrid.setItems(patientRepository.findAll());
         });
@@ -194,7 +200,6 @@ public class AdminView extends PolymerTemplate<AdminView.AdminViewModel> impleme
         doctorGrid.addSelectionListener(item -> {
             item.getFirstSelectedItem().ifPresent(selectedItem -> {
                 currentSelectedDoctor = selectedItem;
-
                 if (currentSelectedDoctor != null) {
                     doctorDeleteButton.setEnabled(true);
                 } else {
@@ -202,21 +207,65 @@ public class AdminView extends PolymerTemplate<AdminView.AdminViewModel> impleme
                 }
             });
         });
-
         doctorDeleteButton.addClickListener(buttonClickEvent -> {
             //vaadinButton.setEnabled(false);
             List<Doctor> doctorList = doctorRepository.findAll();
-
+            try{
             for (Doctor doctor : doctorList) {
-                if (doctor.getId() == (doctorGrid.getSelectionModel().getFirstSelectedItem().get().getId())) {
-                    doctorRepository.deleteById(doctor.getId());
-                }
-            }
 
+                    if (doctor.getId() == (doctorGrid.getSelectionModel().getFirstSelectedItem().get().getId())) {
+                        try{
+                        doctorRepository.deleteById(doctor.getId());
+                        }catch (Exception e){
+                            Notification.show(" Nie można usunąć! Do podanego lekarza przypisane są wizyty!",5000, Notification.Position.MIDDLE);
+
+                        }
+                    }
+
+                }
+
+            }catch (NoSuchElementException e){
+                Notification.show("Nie wybrano elementu!",5000, Notification.Position.MIDDLE);
+            }
 
             doctorGrid.setItems(doctorRepository.findAll());
         });
 
+
+        //DEPARTMENT, GRID SELECTION AND DELETE LISTENERS
+        departmentGrid.addSelectionListener(item -> {
+            item.getFirstSelectedItem().ifPresent(selectedItem -> {
+                currentSelectedDepartment = selectedItem;
+                if (currentSelectedDepartment != null) {
+                    departmentDeleteButton.setEnabled(true);
+                } else {
+                    departmentDeleteButton.setEnabled(false);
+                }
+            });
+        });
+        departmentDeleteButton.addClickListener(buttonClickEvent -> {
+            //vaadinButton.setEnabled(false);
+            List<Department> departmentList = departmentRepository.findAll();
+            try{
+                for (Department department : departmentList) {
+
+                    if (department.getId() == (departmentGrid.getSelectionModel().getFirstSelectedItem().get().getId())) {
+                        try{
+                            departmentRepository.deleteById(department.getId());
+                        }catch (Exception e){
+                            Notification.show("Nie można usunąc! Do wybranej poradni przypisani są lekarze!",5000, Notification.Position.MIDDLE);
+
+                        }
+                    }
+
+                }
+
+            }catch (NoSuchElementException e){
+                Notification.show("Nie wybrano elementu!");
+            }
+
+            departmentGrid.setItems(departmentRepository.findAll());
+        });
 
 
         //VISIT GRID SELECTION AND DELETE LISTENERS
@@ -231,16 +280,19 @@ public class AdminView extends PolymerTemplate<AdminView.AdminViewModel> impleme
                 }
             });
         });
-
         visitDeleteButton.addClickListener(buttonClickEvent -> {
-            //vaadinButton.setEnabled(false);
             List<Visit> visitList = visitRepository.findAll();
-
-            for (Visit visit : visitList) {
-                if (visit.getId() == (visitGrid.getSelectionModel().getFirstSelectedItem().get().getId())) {
-                    visitRepository.deleteById(visit.getId());
+            try{
+                for (Visit visit : visitList) {
+                    if (visit.getId() == (visitGrid.getSelectionModel().getFirstSelectedItem().get().getId())) {
+                        visitRepository.deleteById(visit.getId());
+                    }
                 }
+            }catch (NoSuchElementException e){
+                Notification.show("Nie wybrano elementu!",5000, Notification.Position.MIDDLE);
             }
+
+
 
 
             visitGrid.setItems(visitRepository.findAll());
@@ -255,37 +307,39 @@ public class AdminView extends PolymerTemplate<AdminView.AdminViewModel> impleme
     public void init(){
         /********* PATIENT ******* */
         patientGrid.setItems(patientRepository.findAll());
-        patientGrid.addColumn(renderer.withProperty("id", Patient::getId));
-        patientGrid.addColumn(renderer.withProperty("imie", Patient::getFirstName));
-        patientGrid.addColumn(renderer.withProperty("nazwisko", Patient::getLastName));
-        patientGrid.addColumn(renderer.withProperty("email", Patient::getEmail));
-        patientGrid.addColumn(renderer.withProperty("pesel", Patient::getPesel));
-        patientGrid.addColumn(renderer.withProperty("telefon", Patient::getPhoneNumber));
-        patientGrid.addColumn(renderer.withProperty("adres", Patient::getAddress));
+        patientGrid.addColumn(renderer.withProperty("patientId", Patient::getId)).setVisible(false);
+        patientGrid.addColumn(renderer.withProperty("patientImie", Patient::getFirstName)).setVisible(false);
+        patientGrid.addColumn(renderer.withProperty("patientNazwisko", Patient::getLastName)).setVisible(false);
+        patientGrid.addColumn(renderer.withProperty("patientDate",Patient::getDateBirth)).setVisible(false);
+        patientGrid.addColumn(renderer.withProperty("patientEmail", Patient::getEmail)).setVisible(false);
+        patientGrid.addColumn(renderer.withProperty("patientPesel", Patient::getPesel)).setVisible(false);
+        patientGrid.addColumn(renderer.withProperty("patientTelefon", Patient::getPhoneNumber)).setVisible(false);
+        patientGrid.addColumn(renderer.withProperty("patientAdres", Patient::getAddress)).setVisible(false);
 
 
         patientDeleteButton.setEnabled(false);
 
         /********* DOCTOR ******* */
         doctorGrid.setItems(doctorRepository.findAll());
-        doctorGrid.addColumn(rendererDoc.withProperty("id", Doctor::getId));
-        doctorGrid.addColumn(rendererDoc.withProperty("pesel", Doctor::getPESEL));
-        doctorGrid.addColumn(rendererDoc.withProperty("imie", Doctor::getFirstName));
-        doctorGrid.addColumn(rendererDoc.withProperty("nazwisko", Doctor::getLastName));
-        doctorGrid.addColumn(rendererDoc.withProperty("email", Doctor::getEmail));
-        doctorGrid.addColumn(rendererDoc.withProperty("telefon", Doctor::getPhoneNumber));
-        doctorGrid.addColumn(rendererDoc.withProperty("adres", Doctor::getAddress));
-        doctorGrid.addColumn(rendererDoc.withProperty("doctorSpecialization", Doctor::getSpecialization));
-        doctorGrid.addColumn(rendererDoc.withProperty("doctorDepartment",Doctor::getDepartmentName));
+        doctorGrid.addColumn(rendererDoc.withProperty("doctorId", Doctor::getId)).setVisible(false);
+        doctorGrid.addColumn(rendererDoc.withProperty("doctorPesel", Doctor::getPESEL)).setVisible(false);
+        doctorGrid.addColumn(rendererDoc.withProperty("doctorImie", Doctor::getFirstName)).setVisible(false);
+        doctorGrid.addColumn(rendererDoc.withProperty("doctorNazwisko", Doctor::getLastName)).setVisible(false);
+        doctorGrid.addColumn(rendererDoc.withProperty("doctorDate", Doctor::getDateBirth)).setVisible(false);
+        doctorGrid.addColumn(rendererDoc.withProperty("doctorEmail", Doctor::getEmail)).setVisible(false);
+        doctorGrid.addColumn(rendererDoc.withProperty("doctorTelefon", Doctor::getPhoneNumber)).setVisible(false);
+        doctorGrid.addColumn(rendererDoc.withProperty("doctorAdres", Doctor::getAddress)).setVisible(false);
+        doctorGrid.addColumn(rendererDoc.withProperty("doctorSpecialization", Doctor::getSpecialization)).setVisible(false);
+        doctorGrid.addColumn(rendererDoc.withProperty("doctorDepartment",Doctor::getDepart)).setVisible(false);
 
         doctorDeleteButton.setEnabled(false);
 
         /********* DEPARTMENT ******* */
         departmentGrid.setItems(departmentRepository.findAll());
-        departmentGrid.addColumn(departmentTemplateRenderer.withProperty("id",Department::getId));
-        departmentGrid.addColumn(departmentTemplateRenderer.withProperty("departmentNameGrid",Department::getName));
-        departmentGrid.addColumn(departmentTemplateRenderer.withProperty("departmentPhone",Department::getRegistrationPhone));
-        departmentGrid.addColumn(departmentTemplateRenderer.withProperty("departmentEmail",Department::getRegistrationEmail));
+        departmentGrid.addColumn(departmentTemplateRenderer.withProperty("departmentId",Department::getId)).setVisible(false);
+        departmentGrid.addColumn(departmentTemplateRenderer.withProperty("departmentNameGrid",Department::getName)).setVisible(false);
+        departmentGrid.addColumn(departmentTemplateRenderer.withProperty("departmentPhone",Department::getRegistrationPhone)).setVisible(false);
+        departmentGrid.addColumn(departmentTemplateRenderer.withProperty("departmentEmail",Department::getRegistrationEmail)).setVisible(false);
 
         doctorDepartmentComboBox.setItemLabelGenerator(Department::getName);
         doctorDepartmentComboBox.setItems(departmentRepository.findAll());
@@ -295,11 +349,11 @@ public class AdminView extends PolymerTemplate<AdminView.AdminViewModel> impleme
 
         /********* VIST ******* */
         visitGrid.setItems(visitRepository.findAll());
-        visitGrid.addColumn(rendererVisit.withProperty("visitIdGrid", Visit::getId));
-        visitGrid.addColumn(rendererVisit.withProperty("visitDataGrid", Visit::getDateOfVisit));
-        visitGrid.addColumn(rendererVisit.withProperty("visitPatientGird", Visit::getPatient));
-        visitGrid.addColumn(rendererVisit.withProperty("visitDoctorGrid", Visit::getDoctor));
-        visitGrid.addColumn(rendererVisit.withProperty("visitSumaryGrid", Visit::getSummary));
+        visitGrid.addColumn(rendererVisit.withProperty("visitIdGrid", Visit::getId)).setVisible(false);
+        visitGrid.addColumn(rendererVisit.withProperty("visitDataGrid", Visit::getDateOfVisit)).setVisible(false);
+        visitGrid.addColumn(rendererVisit.withProperty("visitPatientGird", Visit::getPatient)).setVisible(false);
+        visitGrid.addColumn(rendererVisit.withProperty("visitDoctorGrid", Visit::getDoctor)).setVisible(false);
+        visitGrid.addColumn(rendererVisit.withProperty("visitSumaryGrid", Visit::getSummary)).setVisible(false);
 
         visitPatientComboBox.setItemLabelGenerator(Patient::getFirstName);
         visitPatientComboBox.setItems(patientRepository.findAll());
@@ -321,60 +375,99 @@ public class AdminView extends PolymerTemplate<AdminView.AdminViewModel> impleme
 
     @EventHandler
     public void addPatient() {
-        Patient p = new Patient(
-                patientEmailField.getValue(),
-                passwordEncoder.encode(patientPasswordField.getValue()),
-                passwordNameField.getValue(),
-                patientLastNameField.getValue(),
-                patientPESELField.getValue(),
-                patientDatePicker.getValue(),
-                patientAddressField.getValue(),
-                patientPhoneField.getValue()
-        );
-        patientRepository.save(p);
-        patientGrid.setItems(patientRepository.findAll());
-        visitPatientComboBox.setItems(patientRepository.findAll());
-        Notification.show("Dodano pacjenta");
+        if(patientEmailField.getValue()!= null && patientPasswordField.getValue()!= null &&
+                passwordNameField.getValue()!= null && patientLastNameField.getValue()!= null && patientPESELField.getValue()!= null &&
+                patientDatePicker.getValue()!= null && patientAddressField.getValue()!= null && patientPhoneField.getValue()!= null ){
+            Patient p = new Patient(
+                    patientEmailField.getValue(),
+                    passwordEncoder.encode(patientPasswordField.getValue()),
+                    passwordNameField.getValue(),
+                    patientLastNameField.getValue(),
+                    patientPESELField.getValue(),
+                    patientDatePicker.getValue(),
+                    patientAddressField.getValue(),
+                    patientPhoneField.getValue()
+            );
+            if(patientRepository.findByEmailIgnoreCase(patientEmailField.getValue())== null && adminRepository.findByEmailIgnoreCase(patientEmailField.getValue())== null
+                    && doctorRepository.findByEmailIgnoreCase(patientEmailField.getValue())== null ){
+                patientRepository.save(p);
+                Notification.show("Pomyślnie dodano pacjęta!");
+            }else {
+                Notification.show("Podany email jest zajęty!");
+            }
+            patientGrid.setItems(patientRepository.findAll());
+            visitPatientComboBox.setItems(patientRepository.findAll());
+
+        }else{
+            Notification.show("Wypełnij wszystkie pola!",5000, Notification.Position.MIDDLE);
+        }
+
     }
 
     @EventHandler
     public void addDoctor() {
-        Doctor d = new Doctor(
-                doctorEmailField.getValue(),
-                passwordEncoder.encode(doctorPasswordField.getValue()),
-                doctorNameField.getValue(),
-                doctorLastNameField.getValue(),
-                doctorPESELField.getValue(),
-                doctorDatePicker.getValue(),
-                doctorAddressield.getValue(),
-                doctorPhoneField.getValue(),
-                doctorSpecializationField.getValue(),
-                doctorDepartmentComboBox.getValue()
+        if(doctorEmailField.getValue()!= null && doctorPasswordField.getValue()!= null &&
+                doctorNameField.getValue()!= null && doctorLastNameField.getValue()!= null && doctorPESELField.getValue()!= null &&
+                doctorDatePicker.getValue()!= null && doctorAddressield.getValue()!= null && doctorPhoneField.getValue()!= null && doctorSpecializationField.getValue()!= null &&
+                doctorDepartmentComboBox.getValue()!= null ){
+            Doctor d = new Doctor(
+                    doctorEmailField.getValue(),
+                    passwordEncoder.encode(doctorPasswordField.getValue()),
+                    doctorNameField.getValue(),
+                    doctorLastNameField.getValue(),
+                    doctorPESELField.getValue(),
+                    doctorDatePicker.getValue(),
+                    doctorAddressield.getValue(),
+                    doctorPhoneField.getValue(),
+                    doctorSpecializationField.getValue(),
+                    doctorDepartmentComboBox.getValue()
 
-        );
-        doctorRepository.save(d);
-        doctorGrid.setItems(doctorRepository.findAll());
-        visitDoctorComboBox.setItems(doctorRepository.findAll());
-        Notification.show("Dodano lekarza");
+            );
+            if(patientRepository.findByEmailIgnoreCase(doctorEmailField.getValue())== null && adminRepository.findByEmailIgnoreCase(doctorEmailField.getValue())== null
+                    && doctorRepository.findByEmailIgnoreCase(doctorEmailField.getValue())== null ){
+                doctorRepository.save(d);
+                Notification.show("Pomyślnie dodano !",5000, Notification.Position.MIDDLE);
+            }else {
+                Notification.show("Podany email jest zajęty!",5000, Notification.Position.MIDDLE);
+            }
+            doctorGrid.setItems(doctorRepository.findAll());
+            visitDoctorComboBox.setItems(doctorRepository.findAll());
+
+        }else{
+            Notification.show("Wypełnij wszystkie pola!",5000, Notification.Position.MIDDLE);
+        }
+
+
+
     }
 
     @EventHandler
     public void addDepartment(){
-        Department department = new Department(
-                departmentNameField.getValue(),
-                departmentPhoneField.getValue(),
-                departmentEmailField.getValue()
-        );
-        departmentRepository.save(department);
-        departmentGrid.setItems(departmentRepository.findAll());
-        doctorDepartmentComboBox.setItems(departmentRepository.findAll());
-        Notification.show("Dodano poradnie");
+        if(departmentNameField.getValue() != null && departmentPhoneField.getValue()!= null && departmentEmailField.getValue() != null){
+            if(departmentRepository.findByName(departmentNameField.getValue()) == null){
+                Department department = new Department(
+                        departmentNameField.getValue(),
+                        departmentPhoneField.getValue(),
+                        departmentEmailField.getValue()
+                );
+                departmentRepository.save(department);
+                departmentGrid.setItems(departmentRepository.findAll());
+                doctorDepartmentComboBox.setItems(departmentRepository.findAll());
+                Notification.show("Dodano poradnie" ,5000, Notification.Position.MIDDLE);
+            }else {
+                Notification.show("Istnieje już poradnia o takiej nazwie!",5000, Notification.Position.MIDDLE);
+            }
+
+        }else{
+            Notification.show("Wypełnij wszystkie pola!",5000, Notification.Position.MIDDLE);
+        }
+
     }
 
     @EventHandler
     public void addVisit() {
         try {
-            Notification.show("Dodano wizytę");
+            Notification.show("Dodano wizytę" ,5000, Notification.Position.MIDDLE);
             Visit v = new Visit(
                     visitDatePicker.getValue(),
                     visitPatientComboBox.getValue(),
@@ -383,37 +476,6 @@ public class AdminView extends PolymerTemplate<AdminView.AdminViewModel> impleme
             );
             visitRepository.save(v);
             visitGrid.setItems(visitRepository.findAll());
-           /* if (visitDoctorComboBox.getValue() != null && visitPatientComboBox.getValue() != null && visitDatePicker.getValue() != null && visitSummaryField.getValue() != null) {
-                Properties props = System.getProperties();
-                props.put("mail.smtp.host", "poczta.interia.pl");
-                props.put("mail.smtp.auth", "true");
-
-                Session session = Session.getDefaultInstance(props, new Authenticator() {
-                    public PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication("patro10", "patryk");
-                    }
-                });
-                Provider[] providers = session.getProviders();
-
-                try {
-                    session.setProvider(providers[0]);
-                } catch (NoSuchProviderException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    MimeMessage msg = new MimeMessage(session);
-                    msg.setFrom(new InternetAddress("patro10@interia.pl"));
-                    msg.setRecipients(Message.RecipientType.TO, "stefekx9@interia.pl");
-                    msg.setSubject("Tetowy mail");
-                    msg.setSentDate(new Date());
-                    msg.setText("Wizyta pacjenta " + visitPatientComboBox.getValue() +
-                            " u doktora " + visitDoctorComboBox.getValue() + " odbędzie się dnia " +
-                            visitDatePicker.getValue());
-                    Transport.send(msg);
-                } catch (MessagingException mex) {
-                    System.out.println("send failed, exception: " + mex);
-                }
-            }*/
         } catch (Exception e) {
             Notification.show("Wypełnij wszystkie pola!", 5000, Notification.Position.MIDDLE);
         }

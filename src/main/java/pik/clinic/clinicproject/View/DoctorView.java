@@ -8,13 +8,18 @@ import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.renderer.TemplateRenderer;
+import com.vaadin.flow.router.BeforeEnterEvent;
+import com.vaadin.flow.router.BeforeEnterObserver;
+import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.templatemodel.TemplateModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import pik.clinic.clinicproject.backend.model.Doctor;
 import pik.clinic.clinicproject.backend.model.Visit;
+import pik.clinic.clinicproject.backend.repositories.AdminRepository;
 import pik.clinic.clinicproject.backend.repositories.DoctorRepository;
+import pik.clinic.clinicproject.backend.repositories.PatientRepository;
 import pik.clinic.clinicproject.backend.repositories.VisitRepository;
 import pik.clinic.clinicproject.backend.security.SecurityUtils;
 import javax.annotation.PostConstruct;
@@ -29,10 +34,15 @@ import javax.annotation.PostConstruct;
 @Route(value = "doctor-view")
 @Tag("doctor-view")
 @HtmlImport("doctor-view.html")
+@PageTitle("MedClinic - Panel lekarza")
 public class DoctorView extends PolymerTemplate<DoctorView.DoctorViewModel> {
 
     @Autowired
     DoctorRepository doctorRepository;
+    @Autowired
+    PatientRepository patientRepository;
+    @Autowired
+    AdminRepository adminRepository;
     @Autowired
     VisitRepository visitRepository;
 
@@ -50,6 +60,24 @@ public class DoctorView extends PolymerTemplate<DoctorView.DoctorViewModel> {
     private TextField currDoctorFirstName;
     @Id("currDoctorPesel")
     private TextField currDoctorPesel;
+    @Id("profileEmail")
+    private TextField profileEmail;
+    @Id("profileFirstName")
+    private TextField profileFirstName;
+    @Id("profileLastName")
+    private TextField profileLastName;
+    @Id("profilePesel")
+    private TextField profilePesel;
+    @Id("profileAdres")
+    private TextField profileAdres;
+    @Id("profileData")
+    private TextField profileData;
+    @Id("profileTelefon")
+    private TextField profileTelefon;
+    @Id("profileSpec")
+    private TextField profileSpec;
+    @Id("profileDep")
+    private TextField profileDep;
 
     /**
      * Creates a new DoctorView.
@@ -80,10 +108,22 @@ public class DoctorView extends PolymerTemplate<DoctorView.DoctorViewModel> {
     public void gridinfo() {
         Doctor act = actualDoctor();
         gridinfo.setItems(visitRepository.findByDoctor(act));
-        gridinfo.addColumn(rendererVisit.withProperty("data", Visit::getDateOfVisit));
-        gridinfo.addColumn(rendererVisit.withProperty("pacjent", Visit::getPatient));
-        gridinfo.addColumn(rendererVisit.withProperty("opis", Visit::getSummary));
+        gridinfo.addColumn(rendererVisit.withProperty("data", Visit::getDateOfVisit)).setVisible(false);
+        gridinfo.addColumn(rendererVisit.withProperty("pacjent", Visit::getPatient)).setVisible(false);
+        gridinfo.addColumn(rendererVisit.withProperty("opis", Visit::getSummary)).setVisible(false);
+
+        profileEmail.setValue(actualDoctor().getEmail());
+        profileFirstName.setValue(actualDoctor().getFirstName());
+        profileLastName.setValue(actualDoctor().getLastName());
+        profilePesel.setValue(actualDoctor().getPESEL());
+        profileAdres.setValue(actualDoctor().getAddress());
+        profileData.setValue(actualDoctor().getDateBirth());
+        profileTelefon.setValue(actualDoctor().getPhoneNumber());
+        profileDep.setValue(actualDoctor().getDepart());
+        profileSpec.setValue(actualDoctor().getSpecialization());
     }
+
+
 
     /**
      * This model binds properties between DoctorView and doctor-view.html

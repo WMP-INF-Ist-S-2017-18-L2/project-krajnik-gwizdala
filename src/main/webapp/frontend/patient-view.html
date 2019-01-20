@@ -14,6 +14,7 @@
 <link rel="import" href="bower_components/vaadin-form-layout/src/vaadin-form-item.html">
 <link rel="import" href="bower_components/vaadin-list-box/src/vaadin-list-box.html">
 <link rel="import" href="bower_components/vaadin-item/src/vaadin-item.html">
+<link rel="import" href="bower_components/vaadin-ordered-layout/src/vaadin-vertical-layout.html">
 
 
 <dom-module id="patient-view">
@@ -44,9 +45,6 @@
                 width: 60%;
             }
 
-            #gridpage2 {
-                width: 30%;
-            }
 
             #gridinfo {
 
@@ -69,7 +67,7 @@
                 position: relative;
             }
 
-            #page1{
+            .pages{
                 display: flex;
                 flex-flow: column nowrap;
                 align-items: center;
@@ -90,11 +88,11 @@
   </vaadin-form-item>
   <vaadin-form-item>
    <label slot="label">Last Name</label>
-   <vaadin-text-field class="full-width"id="currUserLastName" readonly="1"></vaadin-text-field>
+   <vaadin-text-field class="full-width" id="currUserLastName" readonly="1"></vaadin-text-field>
   </vaadin-form-item>
   <vaadin-form-item>
    <label slot="label">PESEL </label>
-   <vaadin-text-field class="full-width" id="currUserPesel"  readonly="1"></vaadin-text-field>
+   <vaadin-text-field class="full-width" id="currUserPesel" readonly="1"></vaadin-text-field>
   </vaadin-form-item>
  </vaadin-form-layout>
  <vaadin-horizontal-layout theme="margin">
@@ -108,12 +106,12 @@
   <vaadin-tab selected>
     Informacje 
   </vaadin-tab>
-  <vaadin-tab disabled theme="equal-width-tabs">
-    Zrealizuj receptę 
+  <vaadin-tab theme="equal-width-tabs">
+    Twoje Dane 
   </vaadin-tab>
  </vaadin-tabs>
  <iron-pages selected="[[page]]">
-  <page id = "page1">
+  <page class="pages">
    <h4>Wizyty </h4>
    <div id="visitRegister">
     <vaadin-combo-box id="doctors">
@@ -128,8 +126,8 @@
     </vaadin-button>
    </div>
    <div id="gridInfoDiv">
-    <vaadin-grid items="[[items]]" id="gridinfo" width="800px">
-     <vaadin-grid-column width="200px" flex-grow="0">
+    <vaadin-grid items="[[items]]" id="gridinfo" width="40%">
+     <vaadin-grid-column flex-grow="0">
       <template class="header">
         Lp. 
       </template>
@@ -140,7 +138,7 @@
         Lp. 
       </template>
      </vaadin-grid-column>
-     <vaadin-grid-column width="200px">
+     <vaadin-grid-column>
       <template class="header">
         Data 
       </template>
@@ -151,7 +149,7 @@
         Data 
       </template>
      </vaadin-grid-column>
-     <vaadin-grid-column width="200px">
+     <vaadin-grid-column>
       <template class="header">
         Lekarz 
       </template>
@@ -162,7 +160,7 @@
         Lekarz 
       </template>
      </vaadin-grid-column>
-     <vaadin-grid-column width="200px">
+     <vaadin-grid-column width="400px">
       <template class="header">
         Opis 
       </template>
@@ -176,8 +174,31 @@
     </vaadin-grid>
    </div>
   </page>
-  <page>
-   <h3>Page 3</h3>Good Morning
+  <page class="pages">
+   <h3>Twoje Dane</h3>
+   <vaadin-vertical-layout theme="spacing">
+    <vaadin-horizontal-layout theme="spacing">
+     <vaadin-text-field label="Email" readonly="1" id="profileEmail"></vaadin-text-field>
+    </vaadin-horizontal-layout>
+   </vaadin-vertical-layout>
+   <vaadin-vertical-layout theme="spacing">
+    <vaadin-horizontal-layout theme="spacing">
+     <vaadin-text-field label="Imię" readonly="1" id="profileFirstName"></vaadin-text-field>
+     <vaadin-text-field label="Nazwisko" readonly="1" id="profileLastName"></vaadin-text-field>
+    </vaadin-horizontal-layout>
+   </vaadin-vertical-layout>
+   <vaadin-vertical-layout theme="spacing">
+    <vaadin-horizontal-layout theme="spacing">
+     <vaadin-text-field label="PESEL" readonly="1" id="profilePesel"></vaadin-text-field>
+     <vaadin-text-field label="Adres" readonly="1" id="profileAdres"></vaadin-text-field>
+    </vaadin-horizontal-layout>
+   </vaadin-vertical-layout>
+   <vaadin-vertical-layout theme="spacing">
+    <vaadin-horizontal-layout theme="spacing">
+     <vaadin-text-field label="Data Urodzenia" readonly="1" id="profileData"></vaadin-text-field>
+     <vaadin-text-field label="Telefon" readonly="1" id="profileTelefon"></vaadin-text-field>
+    </vaadin-horizontal-layout>
+   </vaadin-vertical-layout>
   </page>
  </iron-pages>
 </div>

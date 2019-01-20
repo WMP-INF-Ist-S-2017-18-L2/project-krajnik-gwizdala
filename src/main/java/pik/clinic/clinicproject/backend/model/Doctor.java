@@ -161,6 +161,14 @@ public class Doctor implements JsonSerializable {
         this.department = department;
     }
 
+    public String getDepart() {
+        return String.valueOf(department);
+
+    }
+    public String getDateBirth() {
+        return String.valueOf(birthDate);
+    }
+
     @Override
     public String toString() {
         return firstName + " " + lastName;
@@ -176,6 +184,6 @@ public class Doctor implements JsonSerializable {
         return null;
     }
 
-    public String getDepartmentName() { return department.getName(); }
+//    public String getDepartmentName() { return department.getName(); }
 
 }

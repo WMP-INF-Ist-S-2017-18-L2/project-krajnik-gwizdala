@@ -29,7 +29,7 @@
              }
             }
         </style>
-<div style="align-items: center;">
+<div style="align-items: center; margin: 0 auto;">
  <h4 style="float: left;">MedClinic - Panel Administraotra</h4>
  <vaadin-button theme="tertiary" id="logoutButton">
    Wyloguj 
@@ -44,7 +44,7 @@
     Lekarz 
   </vaadin-tab>
   <vaadin-tab style="width: 25%">
-    Poradnia 
+   Oddział
   </vaadin-tab>
   <vaadin-tab style="width:25%">
     Wizyta 
@@ -107,7 +107,7 @@
           # 
         </template>
         <template>
-          [[item.id]] 
+          [[item.patientId]] 
         </template>
        </vaadin-grid-column>
        <vaadin-grid-column>
@@ -115,7 +115,7 @@
           PESEL 
         </template>
         <template>
-          [[item.pesel]] 
+          [[item.patientPesel]] 
         </template>
        </vaadin-grid-column>
        <vaadin-grid-column>
@@ -123,7 +123,7 @@
           Imię 
         </template>
         <template>
-          [[item.imie]] 
+          [[item.patientImie]] 
         </template>
        </vaadin-grid-column>
        <vaadin-grid-column>
@@ -131,7 +131,15 @@
           Nazwisko 
         </template>
         <template>
-          [[item.nazwisko]] 
+          [[item.patientNazwisko]] 
+        </template>
+       </vaadin-grid-column>
+       <vaadin-grid-column>
+        <template class="header">
+          Data urodzenia 
+        </template>
+        <template>
+          [[item.patientDate]] 
         </template>
        </vaadin-grid-column>
        <vaadin-grid-column>
@@ -139,7 +147,7 @@
           Email 
         </template>
         <template>
-          [[item.email]] 
+          [[item.patientEmail]] 
         </template>
        </vaadin-grid-column>
        <vaadin-grid-column>
@@ -147,7 +155,7 @@
           Telefon 
         </template>
         <template>
-          [[item.telefon]] 
+          [[item.patientTelefon]] 
         </template>
        </vaadin-grid-column>
        <vaadin-grid-column>
@@ -155,7 +163,7 @@
           Adres 
         </template>
         <template>
-          [[item.adres]] 
+          [[item.patientAdres]] 
         </template>
        </vaadin-grid-column>
       </vaadin-grid>
@@ -208,7 +216,7 @@
       <vaadin-text-field class="full-width" id="doctorSpecializationField" required></vaadin-text-field>
      </vaadin-form-item>
      <vaadin-form-item>
-      <label slot="label">Przychodnia</label>
+      <label slot="label">Oddział</label>
       <vaadin-combo-box class="full-width" id="doctorDepartmentComboBox" required>
        <template>
          [[item.departmentName]] 
@@ -224,7 +232,7 @@
    </vaadin-horizontal-layout>
    <h4>Lista lekarzy</h4>
    <vaadin-horizontal-layout theme="margin">
-    <div style="margin: 0 auto; width: 70%;">
+    <div style="margin: 0 auto; width: 80%;">
      <vaadin-vertical-layout theme="margin">
       <vaadin-grid items="[[items]]" id="doctorGrid">
        <vaadin-grid-column flex-grow="0" style="width: 50px">
@@ -232,58 +240,66 @@
           # 
         </template>
         <template>
-          [[item.id]] 
+          [[item.doctorId]] 
         </template>
        </vaadin-grid-column>
-       <vaadin-grid-column style="width: 50px">
+       <vaadin-grid-column>
         <template class="header">
           PESEL 
         </template>
         <template>
-          [[item.pesel]] 
+          [[item.doctorPesel]] 
         </template>
        </vaadin-grid-column>
-       <vaadin-grid-column style="width: 50px">
+       <vaadin-grid-column>
         <template class="header">
           Imię 
         </template>
         <template>
-          [[item.imie]] 
+          [[item.doctorImie]] 
         </template>
        </vaadin-grid-column>
-       <vaadin-grid-column style="width: 50px">
+       <vaadin-grid-column>
         <template class="header">
           Nazwisko 
         </template>
         <template>
-          [[item.nazwisko]] 
+          [[item.doctorNazwisko]] 
         </template>
        </vaadin-grid-column>
-       <vaadin-grid-column style="width: 50px">
+       <vaadin-grid-column>
+        <template class="header">
+          Data urodzenia 
+        </template>
+        <template>
+          [[item.doctorDate]] 
+        </template>
+       </vaadin-grid-column>
+       <vaadin-grid-column>
         <template class="header">
           Email 
         </template>
         <template>
-          [[item.email]] 
+          [[item.doctorEmail]] 
         </template>
        </vaadin-grid-column>
-       <vaadin-grid-column style="width: 50px">
+       <vaadin-grid-column>
         <template class="header">
           Telefon 
         </template>
         <template>
-          [[item.telefon]] 
+          [[item.doctorTelefon]] 
         </template>
        </vaadin-grid-column>
-       <vaadin-grid-column style="width: 50px">
+       <vaadin-grid-column>
         <template class="header">
           Adres 
         </template>
         <template>
-          [[item.adres]] 
+          [[item.doctorAdres]] 
         </template>
        </vaadin-grid-column>
-       <vaadin-grid-column style="width: 50px">
+       <vaadin-grid-column>
         <template class="header">
           Specjalizacja 
         </template>
@@ -291,9 +307,9 @@
           [[item.doctorSpecialization]] 
         </template>
        </vaadin-grid-column>
-       <vaadin-grid-column style="width: 50px">
+       <vaadin-grid-column>
         <template class="header">
-          Przychodnia 
+         Oddział
         </template>
         <template>
           [[item.doctorDepartment]] 
@@ -308,8 +324,8 @@
    </vaadin-horizontal-layout>
   </page>
   <page>
-   <h3>Zarzadzaj poradniami </h3>
-   <h4>Dodaj poradnię</h4>
+   <h3>Zarzadzaj oddziałami</h3>
+   <h4>Dodaj oddział</h4>
    <vaadin-horizontal-layout theme="margin">
     <vaadin-form-layout style="margin: 0 auto;">
      <vaadin-form-item>
@@ -322,18 +338,18 @@
      </vaadin-form-item>
      <vaadin-form-item>
       <label slot="label">Email</label>
-      <vaadin-text-field class="full-width" id="departmentEmailField"></vaadin-text-field>
+      <vaadin-text-field class="full-width" id="departmentEmailField" required></vaadin-text-field>
      </vaadin-form-item>
      <vaadin-form-item>
       <vaadin-button theme="primary" id="departmentAddButton" on-click="addDepartment">
-        Dodaj poradnię 
+       Dodaj oddział
       </vaadin-button>
      </vaadin-form-item>
     </vaadin-form-layout>
    </vaadin-horizontal-layout>
-   <h4>Lista poradni</h4>
+   <h4>Lista oddziałów</h4>
    <vaadin-vertical-layout theme="margin">
-    <div style="margin: 0 auto; width: 70%;">
+    <div style="margin: 0 auto; width: 50%;">
      <vaadin-vertical-layout theme="margin">
       <vaadin-grid items="[[items]]" id="departmentGrid">
        <vaadin-grid-column width="50px" flex-grow="0">
@@ -341,7 +357,7 @@
           # 
         </template>
         <template>
-          [[item.id]] 
+          [[item.departmentId]] 
         </template>
        </vaadin-grid-column>
        <vaadin-grid-column>
@@ -370,7 +386,7 @@
        </vaadin-grid-column>
       </vaadin-grid>
       <vaadin-button theme="primary" id="departmentDeleteButton">
-        Usuń zaznaczoną poradnię 
+       Usuń zaznaczony oddział
       </vaadin-button>
      </vaadin-vertical-layout>
     </div>

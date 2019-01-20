@@ -7,6 +7,8 @@
 <link rel="import" href="bower_components/vaadin-text-field/src/vaadin-text-field.html">
 <link rel="import" href="bower_components/vaadin-text-field/src/vaadin-password-field.html">
 <link rel="import" href="bower_components/vaadin-button/src/vaadin-button.html">
+<link rel="import" href="bower_components/vaadin-ordered-layout/src/vaadin-horizontal-layout.html">
+<link rel="import" href="bower_components/vaadin-date-picker/src/vaadin-date-picker.html">
 
 <dom-module id="login-view">
     <template>
@@ -33,7 +35,7 @@
     }
         </style>
 <div>
- <vaadin-vertical-layout theme="margin">
+ <vaadin-vertical-layout theme="margin" style="align-items: center;">
   <h1>MedClinic</h1>
  </vaadin-vertical-layout>
  <div id="container">
@@ -62,17 +64,23 @@
     </vaadin-vertical-layout>
    </page>
    <page>
-    <vaadin-vertical-layout theme="margin">
+    <vaadin-vertical-layout theme="margin" style="align-items: center;">
      <vaadin-text-field label="E-mail" placeholder="" id="remailField"></vaadin-text-field>
      <vaadin-password-field label="Hasło" placeholder="" value="" id="rpasswordFIeld"></vaadin-password-field>
      <vaadin-text-field label="Imię" placeholder="" id="rFirstNameField"></vaadin-text-field>
      <vaadin-text-field label="Nazwisko" placeholder="" id="rLastNameField"></vaadin-text-field>
      <vaadin-text-field label="Numer telefonu" placeholder="" id="rPhoneField"></vaadin-text-field>
+     <vaadin-date-picker label="Data urodzenia" placeholder="" id="rDatePicker"></vaadin-date-picker>
      <vaadin-text-field label="Pesel" placeholder="" id="rpeselField"></vaadin-text-field>
      <vaadin-text-field label="Adres zamieszkania" placeholder="" id="rAdressField"></vaadin-text-field>
-     <vaadin-button theme="primary" id="registerButton">
-       Zarejestruj 
-     </vaadin-button>
+     <vaadin-horizontal-layout theme="spacing">
+      <vaadin-button id="clearFIeldButton">
+        Wyczyść pola 
+      </vaadin-button>
+      <vaadin-button theme="primary" id="registerButton">
+        Zarejestruj 
+      </vaadin-button>
+     </vaadin-horizontal-layout>
     </vaadin-vertical-layout>
    </page>
   </iron-pages>

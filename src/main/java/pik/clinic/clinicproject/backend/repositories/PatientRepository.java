@@ -6,7 +6,11 @@ import pik.clinic.clinicproject.backend.model.Patient;
 
 public interface PatientRepository extends JpaRepository<Patient, Long> {
 
+
     Patient findByEmailIgnoreCase(String email);
+
+
+
 
 
 }
