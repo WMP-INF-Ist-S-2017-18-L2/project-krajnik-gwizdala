@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import pik.clinic.clinicproject.backend.model.Doctor;
 import pik.clinic.clinicproject.backend.repositories.DoctorRepository;
 
-
 import java.util.Collections;
 
 /**

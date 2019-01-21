@@ -32,8 +32,6 @@ import pik.clinic.clinicproject.backend.repositories.*;
 import pik.clinic.clinicproject.backend.security.SecurityUtils;
 
 import javax.annotation.PostConstruct;
-import javax.validation.ConstraintViolationException;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.NoSuchElementException;
 

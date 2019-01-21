@@ -11,7 +11,6 @@ import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @Entity
 public class Patient implements JsonSerializable {

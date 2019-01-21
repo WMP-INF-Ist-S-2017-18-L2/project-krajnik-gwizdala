@@ -54,6 +54,7 @@ public class PatientView extends PolymerTemplate<PatientView.PatientViewModel> {
     TemplateRenderer<Visit> rendererVisit = TemplateRenderer.<Visit>of("");
     TemplateRenderer<Department> rendererDepartment = TemplateRenderer.<Department>of("");
 
+
     @Autowired
     VisitRepository visitRepository;
     @Autowired
@@ -98,7 +99,6 @@ public class PatientView extends PolymerTemplate<PatientView.PatientViewModel> {
     private TextField profileTelefon;
 
 
-
     /**
      * Creates a new PatientView.
      */
@@ -122,7 +122,7 @@ public class PatientView extends PolymerTemplate<PatientView.PatientViewModel> {
 
         doctors.setItemLabelGenerator(Doctor::getFirstName);
         doctors.setItems(doctorRepository.findAll());
-        doctors.setRenderer(rendererDoc.withProperty("doctorName", Doctor::toString));
+        doctors.setRenderer(rendererDoc.withProperty("doctorName", Doctor::returnFullNameWithDepart));
 
     }
 
@@ -152,58 +152,58 @@ public class PatientView extends PolymerTemplate<PatientView.PatientViewModel> {
 
     @EventHandler
     public void saveVisit() {
-        try {
-            Visit v = new Visit();
-            v.setPatient(actualPatient());
-            v.setDoctor(doctors.getValue()); //combobox doktora
-            v.setDateOfVisit(visitDate.getValue()); //wybor daty wizyty
-            v.setSummary(summary.getValue()); //pole na informacje dodatkowa
+        Long visitCount = visitRepository.countVisitByDateOfVisitAndDoctor(visitDate.getValue(), doctors.getValue());
+        int visitIndex = visitCount.intValue();
 
-            if (doctors.getValue() != null && visitDate.getValue() != null && summary.getValue() != null) {
-                if (visitRepository.countVisitByDateOfVisitAndDoctor(visitDate.getValue(), doctors.getValue()) >= 10) {
+
+        try {
+            if (actualPatient() != null && doctors.getValue() != null && visitDate.getValue() != null && summary.getValue() != null) {
+                Visit v = new Visit(visitDate.getValue(), actualPatient(), doctors.getValue(), summary.getValue());
+                if (visitCount == 10) {
                     Notification.show("Lekarz " + doctors.getValue() + " nie ma już wolnych miejsc w dniu: " + visitDate.getValue() + ". Przepraszamy za niedogodności, prosimy wybrać inny termin lub innego lekarza.");
                 } else {
                     visitRepository.save(v);
-                    Properties props = System.getProperties();
-                    props.put("mail.smtp.host", "poczta.interia.pl");
-                    props.put("mail.smtp.auth", "true");
+                    gridinfo.setItems(visitRepository.findByPatient(actualPatient()));
+                    try {
+                        String[] hours = {"9:00", "9:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30"};
+                        Properties props = System.getProperties();
+                        props.put("mail.smtp.host", "poczta.interia.pl");
+                        props.put("mail.smtp.auth", "true");
 
-                    Session session = Session.getDefaultInstance(props, new Authenticator() {
-                        public PasswordAuthentication getPasswordAuthentication() {
-                            return new PasswordAuthentication("medicclinic", "mediclinic#11955917");
+                        Session session = Session.getDefaultInstance(props, new Authenticator() {
+                            public PasswordAuthentication getPasswordAuthentication() {
+                                return new PasswordAuthentication("stefekx9", "asdasdasd123");
+                            }
+                        });
+                        Provider[] providers = session.getProviders();
+
+                        try {
+                            session.setProvider(providers[0]);
+                        } catch (NoSuchProviderException e) {
+                            e.printStackTrace();
                         }
-                    });
-                    Provider[] providers = session.getProviders();
-
-                    try {
-                        session.setProvider(providers[0]);
-                    } catch (NoSuchProviderException e) {
-                        e.printStackTrace();
+                        try {
+                            MimeMessage msg = new MimeMessage(session);
+                            msg.setFrom(new InternetAddress("stefekx9@interia.pl"));
+                            msg.setRecipients(Message.RecipientType.TO, actualPatient().getEmail());
+                            msg.setSubject("Zarejestrowano nową wizytę w E-Przychodni MedClinic!");
+                            msg.setSentDate(new Date());
+                            msg.setText("Wizyta pacjenta " + actualPatient().toString() +
+                                    " u doktora " + doctors.getValue() + " odbędzie się dnia " +
+                                    visitDate.getValue() + " o godzinie: " + hours[visitIndex - 1] + ". \nDodatkowy opis : " + summary.getValue() + ".\nE-PRZYCHODNIA MedClinic");
+                            Transport.send(msg);
+                        } catch (MessagingException mex) {
+                            System.out.println("send failed, exception: " + mex);
+                        }
+                    } catch (Exception e) {
+                        Notification.show("cos nie dziala");
                     }
-                    try {
-                        MimeMessage msg = new MimeMessage(session);
-                        msg.setFrom(new InternetAddress("medicclinic@interia.pl"));
-                        msg.setRecipients(Message.RecipientType.TO, actualPatient().getEmail());
-                        msg.setSubject("Zarejestrowano nową wizytę w E-Przychodni!");
-                        msg.setSentDate(new Date());
-                        msg.setText("Wizyta pacjenta " + actualPatient().toString() +
-                                " u doktora " + doctors.getValue() + " odbędzie się dnia " +
-                                visitDate.getValue() + ". \nDodatkowy opis : " + summary.getValue() + ".\nE-PRZYCHODNIA MediClinic");
-                        Transport.send(msg);
-                    } catch (MessagingException mex) {
-                        System.out.println("send failed, exception: " + mex);
-                    }
-
                 }
-                gridinfo.setItems(visitRepository.findByPatient(actualPatient()));
-
             }
         } catch (Exception e) {
             Notification.show("Wypełnij wszystkie pola!", 5000, Notification.Position.MIDDLE);
         }
     }
-
-
     /**
      * This model binds properties between PatientView and patient-view.html
      */

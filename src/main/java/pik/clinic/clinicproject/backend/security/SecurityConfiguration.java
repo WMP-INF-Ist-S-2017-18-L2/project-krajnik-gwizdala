@@ -1,7 +1,6 @@
 package pik.clinic.clinicproject.backend.security;
 
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Bean;
@@ -16,7 +15,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import pik.clinic.clinicproject.backend.Role;
 import pik.clinic.clinicproject.backend.model.Admin;
 import pik.clinic.clinicproject.backend.model.Doctor;
@@ -30,8 +28,6 @@ import pik.clinic.clinicproject.backend.security.CustomDetailsServices.PatientDe
 import pik.clinic.clinicproject.backend.security.currentUsers.CurrentAdmin;
 import pik.clinic.clinicproject.backend.security.currentUsers.CurrentDoctor;
 import pik.clinic.clinicproject.backend.security.currentUsers.CurrentPatient;
-
-import java.security.Security;
 
 /**
  * Configures spring security, doing the following:

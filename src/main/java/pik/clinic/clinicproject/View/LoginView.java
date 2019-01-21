@@ -139,7 +139,7 @@ public class LoginView extends PolymerTemplate<LoginView.LoginViewModel> impleme
             adminRepository.save(a);
             Notification.show("Succesfully created ADMIN account");
         } else {
-            System.out.println("admin already exists");
+            System.out.println("");
         }
     }
 
