@@ -167,12 +167,12 @@ public class PatientView extends PolymerTemplate<PatientView.PatientViewModel> {
                     try {
                         String[] hours = {"9:00", "9:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30"};
                         Properties props = System.getProperties();
-                        props.put("mail.smtp.host", "poczta.interia.pl");
+                        props.put("mail.smtp.host", "poczta.interia.pl (Any hosting will fir probably, but this one works for sure");
                         props.put("mail.smtp.auth", "true");
 
                         Session session = Session.getDefaultInstance(props, new Authenticator() {
                             public PasswordAuthentication getPasswordAuthentication() {
-                                return new PasswordAuthentication("stefekx9", "asdasdasd123");
+                                return new PasswordAuthentication("Account name without @xxx.xxx", "Sender email password");
                             }
                         });
                         Provider[] providers = session.getProviders();
@@ -184,7 +184,7 @@ public class PatientView extends PolymerTemplate<PatientView.PatientViewModel> {
                         }
                         try {
                             MimeMessage msg = new MimeMessage(session);
-                            msg.setFrom(new InternetAddress("stefekx9@interia.pl"));
+                            msg.setFrom(new InternetAddress("Full sender email address"));
                             msg.setRecipients(Message.RecipientType.TO, actualPatient().getEmail());
                             msg.setSubject("Zarejestrowano nową wizytę w E-Przychodni MedClinic!");
                             msg.setSentDate(new Date());
